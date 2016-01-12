@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker run -t -v /data --rm chekote/php php $@
