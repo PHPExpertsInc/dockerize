@@ -15,3 +15,5 @@ Now whenever you are in your project's directory, you can simply execute
 will execute in the container instead:
 
 `php -r 'phpinfo();'`
+
+Docker Hub : https://hub.docker.com/r/chekote/php/
