@@ -12,6 +12,7 @@ RUN apt-get update && \
 # Install packages
     apt-get update && \
     apt-get install -y php7.0 && \
+    apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
