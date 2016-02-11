@@ -6,6 +6,7 @@ ENV LC_ALL en_US.UTF-8
 # Install packages
 RUN apt-get update && \
     apt-get install -y php7.0 && \
+    apt-get install -y php7.0-mcrypt && \
     apt-get install -y php7.0-mysql && \
     apt-get autoremove -y && \
     apt-get clean && \
