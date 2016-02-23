@@ -15,3 +15,5 @@ RUN apt-get update && \
 
 VOLUME ["/data"]
 WORKDIR /data
+
+ENTRYPOINT ["/bin/bash", "-c"]
