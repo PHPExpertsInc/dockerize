@@ -11,6 +11,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
 
+    # Fix "php-fpm cannot create pid file"
+    mkdir /run/php && \
+
     # Configure PHP-FPM
     sed -i 's!display_startup_errors = Off!display_startup_errors = On!g' /etc/php/7.0/fpm/php.ini && \
     sed -i 's!;error_log = php_errors.log!error_log = /proc/self/fd/2!g' /etc/php/7.0/fpm/php.ini && \
