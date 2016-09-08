@@ -1,6 +1,20 @@
 #!/bin/bash
 
 # Use 'echo pid1' to consume process id 1 so we can send kill signals to php (which will be process id 2)
-COMMAND="echo pid1 > /dev/null && php $@"
+COMMAND="echo pid1 > /dev/null && php"
+
+# Wrap all arguments with whitespace in double quotes so they are passed to the container correctly
+WHITESPACE="[[:space:]]"
+for i in "$@"
+do
+    if [[ $i =~ $WHITESPACE ]]
+    then
+        # arg has whitespace. Wrap it in double quotes, and escape all double quotes in the arg
+        COMMAND="$COMMAND \"${i//\"/\\\"}\""
+    else
+        # arg has no whitespace. Add it as-is
+        COMMAND="$COMMAND $i"
+    fi
+done
 
 docker run -it -v $(pwd):/data --rm chekote/php "${COMMAND}"
