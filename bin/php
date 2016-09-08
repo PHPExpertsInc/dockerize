@@ -17,4 +17,4 @@ do
     fi
 done
 
-docker run -it -v $(pwd):/data --rm chekote/php "${COMMAND}"
+docker run -it -v $(pwd):/data --rm chekote/php:7 "${COMMAND}"
