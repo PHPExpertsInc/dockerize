@@ -24,8 +24,8 @@ RUN apt-get update && \
     sed -i 's!;catch_workers_output = yes!catch_workers_output = yes!g' /etc/php/7.0/fpm/pool.d/www.conf && \
     sed -i 's!listen = /run/php/php7.0-fpm.sock!listen = 0.0.0.0:9000!g' /etc/php/7.0/fpm/pool.d/www.conf
 
-VOLUME ["/data"]
-WORKDIR /data
+VOLUME ["/workdir"]
+WORKDIR /workdir
 
 EXPOSE 9000
 ENTRYPOINT ["/bin/bash", "-c"]
