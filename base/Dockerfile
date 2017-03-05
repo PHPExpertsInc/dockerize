@@ -22,10 +22,15 @@ RUN apt-get update && \
     sed -i 's!error_log = /var/log/php7.0-fpm.log!error_log = /proc/self/fd/2!g' /etc/php/7.0/fpm/php-fpm.conf && \
 
     sed -i 's!;catch_workers_output = yes!catch_workers_output = yes!g' /etc/php/7.0/fpm/pool.d/www.conf && \
-    sed -i 's!listen = /run/php/php7.0-fpm.sock!listen = 0.0.0.0:9000!g' /etc/php/7.0/fpm/pool.d/www.conf
+    sed -i 's!listen = /run/php/php7.0-fpm.sock!listen = 0.0.0.0:9000!g' /etc/php/7.0/fpm/pool.d/www.conf && \
+
+    # Docker for Mac mounts volumes as user id# 1000. We need to match that to allow PHP to read/write these volumes
+    usermod -u 1000 www-data
 
 VOLUME ["/workdir"]
 WORKDIR /workdir
+
+USER www-data
 
 EXPOSE 9000
 ENTRYPOINT ["/bin/bash", "-c"]
