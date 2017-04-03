@@ -1,7 +1,6 @@
 # chekote/php:7
-FROM chekote/ubuntu:zesty
+FROM chekote/ubuntu:zesty.adrastea
 
-ENV DEBIAN_FRONTEND noninteractive
 ENV PHP_VERSION 7.1
 
 RUN apt-get update && \
@@ -31,7 +30,4 @@ RUN apt-get update && \
 VOLUME ["/workdir"]
 WORKDIR /workdir
 
-USER www-data
-
 EXPOSE 9000
-ENTRYPOINT ["/bin/bash", "-c"]

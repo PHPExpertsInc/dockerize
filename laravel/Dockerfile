@@ -1,7 +1,6 @@
 # chekote/php:7-laravel
 FROM chekote/php:7
 
-ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL en_US.UTF-8
 
 # Install packages
