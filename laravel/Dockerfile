@@ -1,8 +1,6 @@
 # chekote/php:7-laravel
 FROM chekote/php:7
 
-ENV LC_ALL en_US.UTF-8
-
 # Install packages
 RUN apt-get update && \
     apt-get install -y php${PHP_VERSION}-curl && \

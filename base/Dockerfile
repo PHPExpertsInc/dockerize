@@ -1,9 +1,19 @@
 # chekote/php:7
-FROM chekote/ubuntu:zesty.adrastea
+FROM chekote/ubuntu:yakkety.adrastea
 
 ENV PHP_VERSION 7.1
 
+# Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
+ENV LC_ALL C.UTF-8
+
 RUN apt-get update && \
+
+    # Configure ondrej PPA
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:ondrej/php && \
+    apt-get update && \
+
+    # Install PHP & curl (for composer)
     apt-get install -y curl && \
     apt-get install -y php${PHP_VERSION}-cli && \
     apt-get install -y php${PHP_VERSION}-fpm && \
