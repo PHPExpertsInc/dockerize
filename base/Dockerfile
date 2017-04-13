@@ -1,5 +1,5 @@
 # chekote/php:7
-FROM chekote/ubuntu:yakkety.adrastea
+FROM chekote/ubuntu:yakkety-b
 
 ENV PHP_VERSION 7.1
 
@@ -32,12 +32,13 @@ RUN apt-get update && \
     sed -i "s!error_log = /var/log/php${PHP_VERSION}-fpm.log!error_log = /proc/self/fd/2!g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
 
     sed -i "s!;catch_workers_output = yes!catch_workers_output = yes!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
-    sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
-
-    # Docker for Mac mounts volumes as user id# 1000. We need to match that to allow PHP to read/write these volumes
-    usermod -u 1000 www-data
+    sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 
 VOLUME ["/workdir"]
 WORKDIR /workdir
 
 EXPOSE 9000
+
+COPY entrypoint.sh /usr/local/bin/entrypoint-php.sh
+
+ENTRYPOINT ["/usr/local/bin/entrypoint-php.sh"]
