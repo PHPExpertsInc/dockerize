@@ -14,6 +14,7 @@ RUN apt-get update && \
         php${PHP_VERSION}-mcrypt \
         php${PHP_VERSION}-xml && \
 
+    # Cleanup
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \

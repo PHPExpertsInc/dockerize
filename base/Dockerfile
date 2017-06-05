@@ -18,12 +18,14 @@ RUN apt-get update && \
         curl \
         php${PHP_VERSION}-cli \
         php${PHP_VERSION}-fpm && \
+
+    # Cleanup
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/apt/* && \
 
-    # Fix "php-fpm cannot create pid file"
+    # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"
     mkdir /run/php && \
 
     ## Configure PHP-FPM
