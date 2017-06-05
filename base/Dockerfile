@@ -21,6 +21,7 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/cache/apt/* && \
 
     # Fix "php-fpm cannot create pid file"
     mkdir /run/php && \

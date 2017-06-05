@@ -9,7 +9,8 @@ RUN apt-get update && \
         php${PHP_VERSION}-mcrypt && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/cache/apt/*
 
 VOLUME ["/data"]
 WORKDIR /data
