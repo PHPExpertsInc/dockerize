@@ -19,8 +19,3 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/apt/*
-
-VOLUME ["/data"]
-WORKDIR /data
-
-ENTRYPOINT ["/bin/bash", "-c"]
