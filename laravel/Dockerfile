@@ -1,12 +1,8 @@
 # chekote/php:7-laravel
-FROM chekote/php:7
+FROM chekote/php:7-composer
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-
-        # Composer requirements. See https://getcomposer.org/doc/00-intro.md#system-requirements
-        git \
-        php${PHP_VERSION}-zip \
 
         # Laravel requirements. See https://laravel.com/docs/5.4/installation#server-requirements
         php${PHP_VERSION}-curl \
