@@ -5,7 +5,10 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
 
         # Behat requirements
-        php${PHP_VERSION}-mbstring && \
+        php${PHP_VERSION}-mbstring \
+
+        # instaclick/php-webdriver requirements
+        php${PHP_VERSION}-curl && \
 
     # Cleanup
     apt-get autoremove -y && \
