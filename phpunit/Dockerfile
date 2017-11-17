@@ -7,6 +7,7 @@ RUN apt-get update && \
         # PHPUnit requirements. See https://phpunit.de/manual/6.4/en/installation.html#installation.requirements
         php${PHP_VERSION}-dom \
         php${PHP_VERSION}-json \
+        php${PHP_VERSION}-mbstring \
         php${PHP_VERSION}-tokenizer \
         php${PHP_VERSION}-xdebug \
         php${PHP_VERSION}-xmlwriter && \
