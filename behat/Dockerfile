@@ -1,5 +1,5 @@
-# chekote/php:7-behat
-FROM chekote/php:7-composer
+# phpexperts/php:7-behat
+FROM phpexperts/php:7-composer
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \

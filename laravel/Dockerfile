@@ -1,5 +1,5 @@
-# chekote/php:7-laravel
-FROM chekote/php:7-composer
+# phpexperts/php:7-laravel
+FROM phpexperts/php:7-composer
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -7,7 +7,7 @@ RUN apt-get update && \
         # Laravel requirements. See https://laravel.com/docs/5.4/installation#server-requirements
         php${PHP_VERSION}-curl \
         php${PHP_VERSION}-mbstring \
-        php${PHP_VERSION}-mcrypt \
+        php${PHP_VERSION}-redis \
         php${PHP_VERSION}-xml && \
 
     # Cleanup
