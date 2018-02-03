@@ -20,4 +20,4 @@ for TYPE in cli fpm; do
     fi
 done
 
-/usr/local/bin/entrypoint.sh "$@"
+/usr/bin/php "$@"
