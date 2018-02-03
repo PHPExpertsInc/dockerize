@@ -34,6 +34,19 @@ To set the UID for the PHP-FPM process, you should set the `PHP_FPM_USER_ID` env
 
     docker run -e PHP_FPM_USER_ID=1000 chekote/php:5.6.30-a php-fpm5.6
 
+# php.ini directives
+
+You can modify certain php.ini directives by setting environmental variables within the container. The following is a list of environmental variables and the php.ini directives that they correspond to:
+
+| environmental variable  | php.ini directives                                                                       |
+|-------------------------|---------------------------------------------------------------------------------------|
+| `PHP_POST_MAX_SIZE`       | [`post_max_size`](http://php.net/manual/en/ini.core.php#ini.post-max-size)              |
+| `PHP_UPLOAD_MAX_FILESIZE` | [`upload_max_filesize`](http://php.net/manual/en/ini.core.php#ini.upload-max-filesize)  |
+
+e.g. the following will start a PHP container with the `post_max_size` to 30 Megabytes:
+
+`docker run -e PHP_POST_MAX_SIZE=30M chekote/php:7`
+
 # Distribution
 
 Docker Hub : https://hub.docker.com/r/chekote/php/

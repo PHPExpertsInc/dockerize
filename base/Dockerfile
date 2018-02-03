@@ -1,7 +1,7 @@
-# chekote/php:7
-FROM chekote/ubuntu:yakkety-b
+# phpexperts/php:7
+FROM ubuntu:xenial
 
-ENV PHP_VERSION 7.1
+ENV PHP_VERSION 7.2
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
@@ -17,7 +17,17 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         curl \
         php${PHP_VERSION}-cli \
-        php${PHP_VERSION}-fpm && \
+        php${PHP_VERSION}-fpm \
+
+        php${PHP_VERSION}-curl \
+        php${PHP_VERSION}-dom \
+        php${PHP_VERSION}-mbstring \
+        php${PHP_VERSION}-mysql \
+        php${PHP_VERSION}-pgsql \
+        php${PHP_VERSION}-sqlite3 \
+        php${PHP_VERSION}-opcache \
+        php${PHP_VERSION}-zip && \
+
 
     # Cleanup
     apt-get autoremove -y && \
@@ -43,6 +53,6 @@ WORKDIR /workdir
 
 EXPOSE 9000
 
-COPY entrypoint.sh /usr/local/bin/entrypoint-php.sh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-ENTRYPOINT ["/usr/local/bin/entrypoint-php.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
