@@ -4,4 +4,4 @@
 echo '127.0.0.1 api.myproject.local' >> /etc/hosts
 
 # call the parent images entry point so it can configure PHP etc
-/usr/local/bin/entrypoint-php.sh supervisord -n
+supervisord -n
