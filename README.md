@@ -9,6 +9,29 @@ Includes:
  * PostgreSQL v9.6.6
  * MariaDB 10.3.4
 
+# Advantages over other dockerized PHP projects
+
+1. **Super fast, completely automated installation.** (Great for testing multiple versions on CIs)
+
+        wget https://github.com/phpexpertsinc/docker-php/releases/download/v1.0%2Bphp-7.2.2/phppro-dockerized_php-v1.0.0.tar.gz
+        tar xzvf phppro-dockerized_php-v1.0.0.tar.gz
+        cp -rvf phppro-dockerized_php-v1.0.0/postgres/* .
+        bin/containers up
+
+2. The **BIG** difference between www.phpdocker.io and DockerPHP is that DockerPHP provides all of the client utilities, where phpdocker.io provides NONE of them.
+
+Out of the box, you have per-project binaries:
+
+* **php**
+* mysql
+* mysqldump
+* psql
+* pg_dump
+* createdb
+* dropdb
+* redis
+* redis-cli
+
 # Installation
 
 * Watch the [**Installation HOWTO video**](https://vimeo.com/254179137).
@@ -18,7 +41,7 @@ In order to dockerize your existing PHP project, do the following:
   1. Copy the contents of the `dist/mariadb` or `dist/postgres` directory into your project's root directory.
   2. Ensure that your profile PATH includes `./bin` and that it takes priority over any other directory that may include a php executable:
 
-        PATH=./bin:$PATH
+         PATH=./bin:$PATH
 
      Now whenever you are in your project's directory, you can simply execute `php` as you would with a typical composer installation, and the command will execute in the container instead:
 
