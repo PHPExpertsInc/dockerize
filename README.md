@@ -2,17 +2,31 @@
 
 A [Docker](https://www.docker.com) image for the [PHP](https://secure.php.net/) Command Line scripting language.
 
-To use the container with a project, do the following:
+# Installation
 
-  * Copy the bin directory into your project.
+In order to dockerize your existing PHP project, do the following:
 
-  * Ensure that your profile PATH includes `./bin` and that it takes priority over any other directory that may include a php executable:
+  1. Copy the contents of the `dist/mysql` or `dist/postgres` directory into your project's root directory.
+  2. Ensure that your profile PATH includes `./bin` and that it takes priority over any other directory that may include a php executable:
 
         PATH=./bin:$PATH
 
-Now whenever you are in your project's directory, you can simply execute `php` as you would with a typical composer installation, and the command will execute in the container instead:
+     Now whenever you are in your project's directory, you can simply execute `php` as you would with a typical composer installation, and the command will execute in the container instead:
 
-    php -r 'phpinfo();'
+         php -r 'phpinfo();'
+  
+  3. To control the containers, use the `containers` docker wrapper.
+  
+         # Downloads the images, creates and launches the containers.
+         containers up -d
+         # View the logs
+         containers logs -ft
+         # Stop the containers
+         containers stop
+
+That's it! You now have the latest LEPP (Linux, Nginx, PostgreSQL, PHP) stack.
+
+For MySQL 
 
 # User ID control
 

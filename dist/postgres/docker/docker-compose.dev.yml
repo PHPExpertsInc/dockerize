@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  web:
+    image: phpexperts/web:nginx-php7.2-debug
+    ports:
+      - 80:80
+
+  db:
+    ports:
+      - 5432:5432
