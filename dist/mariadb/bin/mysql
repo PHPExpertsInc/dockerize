@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+. "${ROOT}"/docker/lib/env.sh
+
+. "${ROOT}"/docker/lib/network.sh
+
+docker run \
+    --net ${PROJECT_NAME}_default \
+    -it \
+    --volume ~/.pgpass:/root/.pgpass \
+    -v $(pwd):/data \
+    mariadb:10.3 \
+    mysql --host=db "$@"
