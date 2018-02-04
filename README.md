@@ -50,13 +50,13 @@ Note: You should _NOT_ try to set the UID using Dockers -u or --user option, as 
 
 To set the UID for the initial process, you should set a `LOCAL_USER_ID` environmental variable on the container. e.g:
 
-    docker run -e LOCAL_USER_ID=1000 chekote/php:5.6.30-a php -v
+    docker run -e LOCAL_USER_ID=1000 phpexperts/php:7 -a php -v
 
 ## PHP-FPM process UID
 
 To set the UID for the PHP-FPM process, you should set the `PHP_FPM_USER_ID` environmental variable on the container. e.g:
 
-    docker run -e PHP_FPM_USER_ID=1000 chekote/php:5.6.30-a php-fpm5.6
+    docker run -e PHP_FPM_USER_ID=1000 phpexperts/php:7 php-fpm5.6
 
 # php.ini directives
 
@@ -69,7 +69,7 @@ You can modify certain php.ini directives by setting environmental variables wit
 
 e.g. the following will start a PHP container with the `post_max_size` to 30 Megabytes:
 
-`docker run -e PHP_POST_MAX_SIZE=30M chekote/php:7`
+`docker run -e PHP_POST_MAX_SIZE=30M phpexperts/php:7`
 
 # Distribution
 
