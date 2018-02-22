@@ -15,7 +15,8 @@ RUN apt-get update && \
     apt-get remove -y && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir /etc/nginx/custom
 
 ADD supervisor/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
 ADD supervisor/nginx.conf /etc/supervisor/conf.d/nginx.conf
@@ -26,3 +27,4 @@ ADD entrypoint.sh /usr/local/bin/entrypoint-web.sh
 WORKDIR /var/www
 
 ENTRYPOINT ["/usr/local/bin/entrypoint-web.sh"]
+

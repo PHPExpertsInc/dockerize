@@ -8,6 +8,7 @@ services:
     links:
       - db
     volumes:
+      - ./web:/etc/nginx/custom
       - ..:/var/www
 
   db:
