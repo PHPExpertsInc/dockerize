@@ -17,8 +17,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         curl \
         php${PHP_VERSION}-cli \
-        php${PHP_VERSION}-fpm \
-
+        php${PHP_VERSION}-fpm && \
+    apt-get install -y --no-install-recommends \
+        php${PHP_VERSION}-bcmath \
         php${PHP_VERSION}-curl \
         php${PHP_VERSION}-dom \
         php${PHP_VERSION}-mbstring \
