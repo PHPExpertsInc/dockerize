@@ -1,4 +1,4 @@
-VERSION=1.2.3
+VERSION=1.2.0
 
 all: clean
 	@mkdir phppro-dockerized_php-v$(VERSION)
@@ -9,8 +9,8 @@ all: clean
 	@echo "Bundling the common Docker files..."
 	@cp -rf dist/_common/* phppro-dockerized_php-v$(VERSION)/mariadb
 	@cp -rf dist/_common/* phppro-dockerized_php-v$(VERSION)/postgres
-	@echo "Bundling the README.md..."
-	@cp README.md phppro-dockerized_php-v$(VERSION)/
+	@echo "Bundling the README.md and CHANGELOG.md..."
+	@cp README.md CHANGELOG.md phppro-dockerized_php-v$(VERSION)/
 
 	@echo "Making the archives..."
 	@zip -qr phppro-dockerized_php-v$(VERSION).zip phppro-dockerized_php-v$(VERSION)
