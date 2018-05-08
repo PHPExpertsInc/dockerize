@@ -22,6 +22,7 @@ RUN apt-get update && \
         php${PHP_VERSION}-bcmath \
         php${PHP_VERSION}-curl \
         php${PHP_VERSION}-dom \
+        php${PHP_VERSION}-gd \
         php${PHP_VERSION}-mbstring \
         php${PHP_VERSION}-mysql \
         php${PHP_VERSION}-pgsql \
