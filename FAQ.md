@@ -2,7 +2,7 @@
 
 ### What is included in this project?
 
- * PHP v7.2.2, built on 1 Feb 2018
+ * PHP v7.3.0, built on 17 December 2018
  * Nginx v1.10.3
  * Redis v3.2.6
  * PostgreSQL v9.6.6
@@ -34,7 +34,7 @@
 With every other dockerized PHP platformer I am aware of, you are on your own 
 when it comes to setting up these client utilities.
 
-### What does this provide that say Laravel Homestead does not?
+### What does this provide that Laravel Homestead does not?
 
 Laravel Homestead uses Vagrant and full virtual machines. This is *way* overkill when
 you want a dockerized PHP app running on native Linux dev boxes and servers, like I
