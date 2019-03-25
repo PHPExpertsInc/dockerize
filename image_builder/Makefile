@@ -10,7 +10,7 @@ all: clean
 	@cp -rf dist/_common/* phppro-dockerized_php-v$(VERSION)/mariadb
 	@cp -rf dist/_common/* phppro-dockerized_php-v$(VERSION)/postgres
 	@echo "Bundling the README.md and CHANGELOG.md..."
-	@cp README.md CHANGELOG.md phppro-dockerized_php-v$(VERSION)/
+	@cp ../README.md ../CHANGELOG.md phppro-dockerized_php-v$(VERSION)/
 
 	@echo "Making the archives..."
 	@zip -qr phppro-dockerized_php-v$(VERSION).zip phppro-dockerized_php-v$(VERSION)
