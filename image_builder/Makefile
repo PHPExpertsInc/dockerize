@@ -7,8 +7,8 @@ all: clean
 	@echo "Bundling the PostgreSQL Docker files..."
 	@cp -rf dist/postgres phppro-dockerized_php-v$(VERSION)/
 	@echo "Bundling the common Docker files..."
-	@cp -rf dist/_common/* phppro-dockerized_php-v$(VERSION)/mariadb
-	@cp -rf dist/_common/* phppro-dockerized_php-v$(VERSION)/postgres
+	@cp -rf ../bin/stacks/php/* phppro-dockerized_php-v$(VERSION)/mariadb
+	@cp -rf ../bin/stacks/php/* phppro-dockerized_php-v$(VERSION)/postgres
 	@echo "Bundling the README.md and CHANGELOG.md..."
 	@cp ../README.md ../CHANGELOG.md phppro-dockerized_php-v$(VERSION)/
 

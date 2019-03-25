@@ -1,6 +1,11 @@
 version: '2'
 
 services:
+  reverseproxy:
+    image: phpexperts/web:nginx-php7.3
+    volumes:
+      - ./sites:/etc/nginx/custom
+
   web:
     image: phpexperts/web:nginx-php7.3
     depends_on:
