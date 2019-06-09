@@ -1,59 +1,49 @@
 # phpexperts/php:7
-FROM ubuntu:xenial
-
-ENV PHP_VERSION 7.3
+FROM archlinux/base:latest
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
 
-RUN apt-get update && \
+# Set correct locale
+# From https://github.com/niklas-heer/arch-yay/
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment && \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+    echo "LANG=en_US.UTF-8" > /etc/locale.conf
+RUN locale-gen en_US.UTF-8
+ENV LC_CTYPE 'en_US.UTF-8'
 
-    # Configure ondrej PPA
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:ondrej/php && \
-    apt-get update && \
+# Prime the container.
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm sudo binutils core/make tar zip unzip git
+
+# Add user, group sudo
+# From https://github.com/niklas-heer/arch-yay/
+RUN /usr/sbin/groupadd --system sudo && \
+    /usr/sbin/useradd -m --groups sudo arch && \
+    /usr/sbin/sed -i -e "s/Defaults    requiretty.*/ #Defaults    requiretty/g" /etc/sudoers && \
+    /usr/sbin/echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN echo "Installing the PHP ecosystem." && \
 
     # Install PHP & curl (for composer)
-    apt-get install -y --no-install-recommends \
-        curl \
-        php${PHP_VERSION}-cli \
-        vim inetutils-ping \
-        php${PHP_VERSION}-fpm && \
-    apt-get install -y --no-install-recommends \
-        php${PHP_VERSION}-bcmath \
-        php${PHP_VERSION}-curl \
-        php${PHP_VERSION}-dom \
-        php${PHP_VERSION}-gd \
-        php${PHP_VERSION}-gmp \
-        php${PHP_VERSION}-mbstring \
-        php${PHP_VERSION}-mysql \
-        php${PHP_VERSION}-pgsql \
-        php${PHP_VERSION}-sqlite3 \
-        php${PHP_VERSION}-opcache \
-        php${PHP_VERSION}-memcached \
-        php${PHP_VERSION}-zip && \
-
+    pacman -S --noconfirm \
+        php \
+        vim iputils && \
+    pacman -S --noconfirm \
+        php-gd \
+        php-memcached \
+        php-pgsql \
+        php-sqlite && \
 
     # Cleanup
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/cache/apt/* && \
+    rm -rf /var/cache/pacman/pkg/* && \
 
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"
-    mkdir /run/php && \
+    mkdir /run/php 
 
-    ## Configure PHP-FPM
-    sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
-    sed -i "s!;error_log = php_errors.log!error_log = /proc/self/fd/2!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
-    sed -i "s!max_execution_time = 30!max_execution_time = 600!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
-    sed -i "s!session.gc_probability = 0!session.gc_probability = 1!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
-
-    sed -i "s!;daemonize = yes!daemonize = no!g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
-    sed -i "s!error_log = /var/log/php${PHP_VERSION}-fpm.log!error_log = /proc/self/fd/2!g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
-
-    sed -i "s!;catch_workers_output = yes!catch_workers_output = yes!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
-    sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
+COPY ./php.ini /etc/php
+COPY ./phpredis.ini /etc/php/conf.d
+COPY ./phpredis.ini /etc/php/conf.d
 
 VOLUME ["/workdir"]
 WORKDIR /workdir
