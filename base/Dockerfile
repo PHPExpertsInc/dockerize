@@ -1,5 +1,5 @@
 # phpexperts/php:7
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 
 ENV PHP_VERSION 7.3
 
