@@ -1,4 +1,4 @@
-VERSION=1.3.0
+VERSION=1.4.0
 
 all: clean
 	@mkdir phppro-dockerized_php-v$(VERSION)

@@ -1,7 +1,7 @@
 # phpexperts/php:7
 FROM ubuntu:bionic
 
-ENV PHP_VERSION 7.3
+ENV PHP_VERSION 7.4
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8

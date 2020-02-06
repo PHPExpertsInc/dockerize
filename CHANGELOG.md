@@ -1,3 +1,13 @@
+## v1.4.0: 2020-01-16
+ * Upgraded to PHP 7.4.
+ * Moved to the standard docker-compose.yml format.
+ * PHP v7.4.1
+ * Nginx
+
+## v1.3.0: 2019-06-09
+ * Upgraded to Ubuntu Bionic (18.04).
+ * Upgraded to PHP 7.3.
+
 ## v1.2.0: 2018-03-07
 * **[2018-02-04]** Upgraded the stack:
   * PHP v7.2.3

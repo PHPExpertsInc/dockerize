@@ -19,7 +19,6 @@ RUN apt-get update && \
 
 ADD supervisor/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
 ADD supervisor/nginx.conf /etc/supervisor/conf.d/nginx.conf
-ADD nginx.conf /etc/nginx/sites-available/default
 
 ADD entrypoint.sh /usr/local/bin/entrypoint-web.sh
 

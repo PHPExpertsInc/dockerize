@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
-# this has to be done at runtime, because the /etc/hosts file is replaced at startup by Docker
-echo '127.0.0.1 api.myproject.local' >> /etc/hosts
+if [ -f "/etc/nginx/custom/nginx.conf" ]; then
+  mv /etc/nginx/nginx.conf{,.orig}
+  cp /etc/nginx/custom/nginx.conf /etc/nginx/nginx.conf
+fi
+
+if [ -f "/etc/nginx/custom/hosts" ]; then
+  cat /etc/nginx/custom/hosts >> /etc/hosts
+fi
 
 # call the parent images entry point so it can configure PHP etc
 supervisord -n
