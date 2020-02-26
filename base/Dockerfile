@@ -1,7 +1,7 @@
 # phpexperts/php:7
 FROM ubuntu:bionic
 
-ENV PHP_VERSION 7.2
+ARG PHP_VERSION=7.4
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
@@ -42,7 +42,7 @@ RUN apt-get update && \
     rm -rf /var/cache/apt/* && \
 
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"
-    mkdir /run/php && \
+    mkdir -p /run/php && \
 
     ## Configure PHP-FPM
     sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \

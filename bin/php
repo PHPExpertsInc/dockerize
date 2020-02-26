@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+if [ -z "$PHP_VERSION" ]; then
+    PHP_VERSION="7"
+fi
+
+NETWORK_FLAG=""
+if [ ! -z "$PROJECT_NAME" ]; then
+    NETWORK_FLAG="$_PROJECT_NAME"_default
+fi
+
+docker run -u=$UID -v /etc/passwd:/etc/passwd:ro $NETWORK_FLAG -it -v $(pwd):/workdir --rm  --entrypoint=/usr/bin/php phpexperts/php:${PHP_VERSION} "$@"

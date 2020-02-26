@@ -1,6 +1,8 @@
 # phpexperts/php:7-laravel-debug
 FROM phpexperts/php:7-laravel
 
+ARG PHP_VERSION=7.4
+
 COPY xdebug.conf /tmp
 
 RUN apt-get update && \
