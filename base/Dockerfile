@@ -5,6 +5,7 @@ ENV PHP_VERSION 7.2
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
 
