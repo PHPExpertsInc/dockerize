@@ -10,6 +10,7 @@ RUN apt-get update && \
     # Route nginx logs to syslog socket (will show in Docker logs)
     sed -i 's!/var/log/nginx/access.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
     sed -i 's!/var/log/nginx/error.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
+    ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
 
     # Cleanup
     apt-get remove -y && \
