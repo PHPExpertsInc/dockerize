@@ -26,12 +26,16 @@ RUN apt-get update && \
         php${PHP_VERSION}-dom \
         php${PHP_VERSION}-gd \
         php${PHP_VERSION}-gmp \
+        php${PHP_VERSION}-imagick \
         php${PHP_VERSION}-mbstring \
+        php${PHP_VERSION}-memcached \
         php${PHP_VERSION}-mysql \
         php${PHP_VERSION}-pgsql \
-        php${PHP_VERSION}-sqlite3 \
         php${PHP_VERSION}-opcache \
-        php${PHP_VERSION}-memcached \
+        php${PHP_VERSION}-redis \
+        php${PHP_VERSION}-sodium \
+        php${PHP_VERSION}-sqlite3 \
+        php${PHP_VERSION}-xml \
         php${PHP_VERSION}-zip && \
 
 
