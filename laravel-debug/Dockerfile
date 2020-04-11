@@ -1,5 +1,5 @@
 # phpexperts/php:7-laravel-debug
-FROM phpexperts/php:7-laravel
+FROM phpexperts/php:7
 
 ARG PHP_VERSION=7.4
 
