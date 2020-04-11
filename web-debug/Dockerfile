@@ -1,5 +1,5 @@
 # phpexperts/web-debug
-FROM phpexperts/php:7-laravel-debug
+FROM phpexperts/php:7-debug
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \

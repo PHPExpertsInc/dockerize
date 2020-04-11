@@ -1,4 +1,4 @@
-# phpexperts/php:7-laravel-debug
+# phpexperts/php:7-base-debug
 FROM phpexperts/php:7
 
 ARG PHP_VERSION=7.4
