@@ -18,7 +18,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         curl \
         php${PHP_VERSION}-cli \
-        vim inetutils-ping \
+        vim inetutils-ping unzip net-tools \
         php${PHP_VERSION}-fpm && \
     apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-bcmath \
@@ -37,7 +37,6 @@ RUN apt-get update && \
         php${PHP_VERSION}-sqlite3 \
         php${PHP_VERSION}-xml \
         php${PHP_VERSION}-zip && \
-
 
     # Cleanup
     apt-get autoremove -y && \
