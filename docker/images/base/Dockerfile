@@ -13,6 +13,7 @@ RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:ondrej/php && \
     apt-get update && \
+    apt-get upgrade -y && \
 
     # Install PHP & curl (for composer)
     apt-get install -y --no-install-recommends \
