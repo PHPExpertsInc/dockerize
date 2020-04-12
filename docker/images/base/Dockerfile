@@ -13,12 +13,13 @@ RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:ondrej/php && \
     apt-get update && \
+    apt-get upgrade -y && \
 
     # Install PHP & curl (for composer)
     apt-get install -y --no-install-recommends \
         curl \
         php${PHP_VERSION}-cli \
-        vim inetutils-ping \
+        vim inetutils-ping unzip net-tools \
         php${PHP_VERSION}-fpm && \
     apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-bcmath \
@@ -26,13 +27,21 @@ RUN apt-get update && \
         php${PHP_VERSION}-dom \
         php${PHP_VERSION}-gd \
         php${PHP_VERSION}-gmp \
+        php${PHP_VERSION}-imagick \
         php${PHP_VERSION}-mbstring \
+        php${PHP_VERSION}-memcached \
         php${PHP_VERSION}-mysql \
         php${PHP_VERSION}-pgsql \
-        php${PHP_VERSION}-sqlite3 \
         php${PHP_VERSION}-opcache \
-        php${PHP_VERSION}-memcached \
+        php${PHP_VERSION}-redis \
+        php${PHP_VERSION}-sqlite3 \
+        php${PHP_VERSION}-xml \
         php${PHP_VERSION}-zip && \
+    # Install ext-sodium if < PHP 7.2.
+    if [ "${PHP_VERSION}" != "7.2" ] && [ "${PHP_VERSION}" != "7.3" ] && [ "${PHP_VERSION}" != "7.4" ]; then \
+        apt-get install -y --no-install-recommends \
+            php${PHP_VERSION}-sodium; \
+    fi && \
 
 
     # Cleanup

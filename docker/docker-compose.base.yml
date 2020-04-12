@@ -1,0 +1,105 @@
+version: '3.6'
+# Requires Docker v18.02 or higher.
+
+#####################################################################
+#   The DockerPHP Project                                           #
+#   https://github.com/phpexpertsinc/docker-php                     #
+#   License: MIT                                                    #
+#                                                                   #
+#   Copyright © 2018-2020 PHP Experts, Inc. <sales@phpexperts.pro>  #
+#       Author: Theodore R. Smith <theodore@phpexperts.pro>         #
+#      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
+#####################################################################
+
+services:
+  web:
+    image: phpexperts/web:nginx-php7.4
+    # If you need xdebug support
+    #image: phpexperts/web:nginx-php7.4-debug
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 80:80
+
+  web74:
+    image: phpexperts/web:nginx-php7.4
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 8074:80
+
+  web73:
+    image: phpexperts/web:nginx-php7.3
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 8073:80
+
+  web72:
+    image: phpexperts/web:nginx-php7.2
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 8072:80
+
+  web71:
+    image: phpexperts/web:nginx-php7.1
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 8071:80
+
+  web70:
+    image: phpexperts/web:nginx-php7.0
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 8070:80
+
+  web74d:
+    image: phpexperts/web:nginx-php7.4-debug
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 9074:80
+
+  web73d:
+    image: phpexperts/web:nginx-php7.3-debug
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 9073:80
+
+  web72d:
+    image: phpexperts/web:nginx-php7.2-debug
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 9072:80
+
+  web71d:
+    image: phpexperts/web:nginx-php7.1-debug
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 9071:80
+
+  web70d:
+    image: phpexperts/web:nginx-php7.0-debug
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - 9070:80
+
+###### CUSTOM EDITS START HERE ######

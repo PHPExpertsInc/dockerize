@@ -3,43 +3,43 @@
 A [Docker](https://www.docker.com) image for the [PHP](https://secure.php.net/) Command Line scripting language.
 
 Includes: 
- * PHP v7.2.2, built on 1 Feb 2018
- * Nginx v1.10.3
- * Redis v3.2.6
- * PostgreSQL v9.6.6
- * MariaDB 10.3.4
+ * PHP v7.0-7.4
+ * Nginx
+ * Redis
+ * PostgreSQL v12.2
+ * MariaDB v10.5
 
 # Advantages over other dockerized PHP projects
 
 1. **Super fast, completely automated installation.** (Great for testing multiple versions on CIs)
-
-        wget https://github.com/phpexpertsinc/docker-php/releases/download/v1.0%2Bphp-7.2.2/phppro-dockerized_php-v1.0.0.tar.gz
-        tar xzvf phppro-dockerized_php-v1.0.0.tar.gz
-        cp -rvf phppro-dockerized_php-v1.0.0/postgres/* .
-        bin/containers up
-
 2. The **BIG** difference between www.phpdocker.io and DockerPHP is that DockerPHP provides all of the client utilities, where phpdocker.io provides NONE of them.
 
 Out of the box, you have per-project binaries:
 
-* **php**
-* mysql
-* mysqldump
-* psql
-* pg_dump
-* createdb
-* dropdb
-* redis
-* redis-cli
+ * **php**
+ * mysql
+ * mysqldump
+ * psql
+ * pg_dump
+ * createdb
+ * dropdb
+ * redis
+ * redis-cli
 
 # Installation
 
 * Watch the [**Installation HOWTO video**](https://vimeo.com/254179137).
 
+    git clone https://github.com/phpexpertsinc/docker-php-stack.git
+    cd docker-php-stack
+    bin/php install.php
+    docker-compose up -d
+    
+Don't forget to edit your docker-compose.yml!
+
 In order to dockerize your existing PHP project, do the following:
 
-  1. Copy the contents of the `dist/mariadb` or `dist/postgres` directory into your project's root directory.
-  2. Ensure that your profile PATH includes `./bin` and that it takes priority over any other directory that may include a php executable:
+  1. Ensure that your profile PATH includes `./bin` and that it takes priority over any other directory that may include a php executable:
 
          PATH=./bin:$PATH
 
@@ -47,16 +47,17 @@ In order to dockerize your existing PHP project, do the following:
 
          php -r 'phpinfo();'
 
-  3. Change the database credentials in `docker-compose.base.yml`.
-  4. Change the REDIS_PASSWORD in `docker/lib/env.sh`.
-  5. To control the containers, use the `containers` docker wrapper.
+  2. Change the database and redis credentials in `docker-compose.yml`.
+
+
+To control the containers, use `docker-compose`.
   
-         # Downloads the images, creates and launches the containers.
-         containers up -d
-         # View the logs
-         containers logs -ft
-         # Stop the containers
-         containers stop
+    # Downloads the images, creates and launches the containers.
+    docker-compose up -d
+    # View the logs
+    docker-compose logs -ft
+    # Stop the containers
+    docker-compose stop
 
 That's it! You now have the latest LEPP (Linux, Nginx, PostgreSQL, PHP) stack or
 the latest LEMP (Linux, Nginx, MariaDB, PHP) stack.
@@ -66,14 +67,6 @@ the latest LEMP (Linux, Nginx, MariaDB, PHP) stack.
 It is possible to control what UID the initial process (usually PHP) and/or PHP-FPM processes run as. The `bin/php` file already does this for the initial process.
 
 This is important if you are mounting a volumes into the container, as the the UID of the initial process or PHP-FPM will likely need to match the volume to be able to read and/or write to it.
-
-Note: You should _NOT_ try to set the UID using Dockers -u or --user option, as this does not ensure that the user actually exists (entry in `/etc/passwd` home directory etc).
-
-## Initial process UID
-
-To set the UID for the initial process, you should set a `LOCAL_USER_ID` environmental variable on the container. e.g:
-
-    docker run -e LOCAL_USER_ID=1000 phpexperts/php:7 -a php -v
 
 ## PHP-FPM process UID
 
@@ -112,5 +105,3 @@ If someone has a work auth in any of those places, we can place you almost anywh
 out of choice. All over the world.
 
 Plus, no taxes if you spend 6+ months (or a year, if you're American) out of your country. 
-
-Did I mention that you get paid in the cryptocurrency of your choice?

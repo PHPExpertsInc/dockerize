@@ -1,3 +1,18 @@
+## v4.0: 2020-04-12 (Easter 2020)
+ * Completely re-engineered the entire project!
+ * Refactored the entire build system.
+ * Now installs ext-sodium on PHP < 7.2.
+ * Now builds every major version of PHP 7 at once.
+ * Now upgrades the Ubuntu image to get latest security fixes.
+ * Added ext-imagick and ext-sodium.
+ * Added unzip and net-tools.
+
+## v3.0: 2020-02-26
+ * Majorly refactored the build process to build all of the latest PHP versions 
+   at the same time.
+ * Added a utility to delete the web images.
+ * Fixed the 'Can't locate Term/ReadLine.pm' error.
+
 ## v1.4.0: 2020-01-16
  * Upgraded to PHP 7.4.
  * Moved to the standard docker-compose.yml format.

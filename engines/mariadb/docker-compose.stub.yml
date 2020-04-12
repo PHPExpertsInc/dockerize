@@ -1,0 +1,12 @@
+  mariadb:
+    image: mariadb:10.4
+    volumes:
+      - /var/lib/docker/mysql:/var/lib/mysql
+
+    environment:
+      # This should be equal to your project's password.
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: CHANGEME
+# Uncomment if you want it to be exposed system-wide.
+#    ports:
+#      - 3306:3306

@@ -1,0 +1,7 @@
+  redis:
+    image: redis:3.2
+    entrypoint:
+      - redis-server
+      - --requirepass CHANGEME
+      - --loglevel notice
+
