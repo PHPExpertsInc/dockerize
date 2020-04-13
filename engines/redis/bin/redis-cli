@@ -2,10 +2,13 @@
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
-. "${ROOT}"/docker/lib/env.sh
-
-. "${ROOT}"/docker/lib/network.sh
+if [ -z "$PROJECT_NAME" ]; then
+    PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]-]//g")
+fi
+if [ -z "$NETWORK_NAME" ]; then
+    NETWORK_NAME=${PROJECT_NAME}_default
+fi
 
 docker run  -it \
-            --net ${PROJECT_NAME}_default ${ENV} \
+            --network "${NETWORK_NAME}" \
             ${REDIS_IMAGE} redis-cli -h redis -a "${REDIS_PASSWORD}" "$@"

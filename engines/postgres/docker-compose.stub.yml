@@ -1,12 +1,12 @@
   postgres:
     image: postgres:12.2
     volumes:
-      - /var/lib/docker/postgresql:/var/lib/postgresql
+      - /var/lib/docker/postgres/${DB_DATABASE}:/var/lib/postgresql
 
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: CHANGEME
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
 # Uncomment if you want it to be exposed system-wide.
 #    db:
 #      ports:
