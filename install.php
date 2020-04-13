@@ -1,8 +1,79 @@
 #!/bin/env php
 <?php
-system('cp ./docker/docker-compose.base.yml ./docker-compose.yml');
+installPHP();
 
 installDockerEngines();
+
+function installPHP()
+{
+    $dockerStub = file_get_contents('docker/docker-compose.base.yml');
+    $dockerImages = choosePHPVersions();
+    $newDockerCompose = '';
+
+    foreach ($dockerImages as $index => $PHP_IMAGE) {
+        $PHP_VERSION = $index > 0 ? str_replace(['-debug', '.'], '', $PHP_IMAGE) : '';
+        $PORT = $index === 0 ? '80' : "80{$PHP_VERSION}";
+
+        $versionStub = <<<YAML
+  web{$PHP_VERSION}:
+    image: phpexperts/web:nginx-php{$PHP_IMAGE}
+    volumes:
+      - .:/var/www:delegated
+      - ./docker/web:/etc/nginx/custom
+    ports:
+      - {$PORT}:80      
+YAML;
+        $newDockerCompose .= $versionStub . "\n\n";
+    }
+
+    $dockerStub = str_replace('{{PHP_STUB}}', $newDockerCompose, $dockerStub);
+    file_put_contents('docker-compose.yml', $dockerStub);
+}
+
+function choosePHPVersions()
+{
+    $PHP_VERSIONS = array_reverse(array('7.0', '7.1', '7.2', '7.3', '7.4'));
+
+    $selection = '';
+    $selectedChoices = [];
+    while ($selection === '') {
+        echo "Choose PHP Versions (e.g., '1 3' for both $PHP_VERSIONS[0] and $PHP_VERSIONS[2]):\n";
+        foreach ($PHP_VERSIONS as $index => $version) {
+            ++$index;
+            echo "$index) $version\n";
+        }
+
+        $selection = getUserInput();
+        $selectedChoices = explode(' ', $selection);
+        foreach ($selectedChoices as &$choice) {
+            --$choice;
+        }
+
+        $invalidChoices = array_diff($selectedChoices, array_keys($PHP_VERSIONS));
+
+        if (!empty($invalidChoices)) {
+            printError('Invalid choice(s): ' . implode(', ', $invalidChoices));
+            $selection = '';
+        }
+    }
+
+    $selectedVersions = array_values(array_intersect_key($PHP_VERSIONS, array_flip($selectedChoices)));
+
+    $yesNo = '';
+    while (!in_array($yesNo, ['y', 'n'])) {
+        echo "\nDo you need Xdebug support? (y/N)\n";
+        $yesNo = getUserInput();
+        $yesNo = $yesNo === '' ? 'n' : $yesNo;
+    }
+
+    if ($yesNo === 'y') {
+        foreach ($selectedVersions as &$version) {
+            $version .= '-debug';
+        }
+    }
+
+    return $selectedVersions;
+}
 
 function installDockerEngines()
 {
