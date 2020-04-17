@@ -17,7 +17,7 @@ fi
 
 PASSWORD_ARG=""
 if [ -n "$DB_PASSWORD" ]; then
-    PASSWORD_ARG="--password='${DB_PASSWORD}'"
+    PASSWORD_ARG="--password=${DB_PASSWORD}"
 fi
 
 
@@ -28,9 +28,9 @@ if [ -z "$NETWORK_NAME" ]; then
     NETWORK_NAME=${PROJECT_NAME}_default
 fi
 
-echo docker run \
+docker run \
     --network "${NETWORK_NAME}" \
     -it --rm \
     -v $(pwd):/data \
     mariadb:10.4 \
-    mysql --host=$DB_HOST $USERNAME_ARG $PASSWORD_ARG "$@"
+    mysql --host=$DB_HOST $USERNAME_ARG $PASSWORD_ARG $DB_DATABASE "$@"

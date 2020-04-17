@@ -17,9 +17,8 @@ fi
 
 PASSWORD_ARG=""
 if [ -n "$DB_PASSWORD" ]; then
-    PASSWORD_ARG="--password='${DB_PASSWORD}'"
+    PASSWORD_ARG="--password=${DB_PASSWORD}"
 fi
-
 
 if [ -z "$PROJECT_NAME" ]; then
     PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]-]//g")
@@ -30,7 +29,7 @@ fi
 
 docker run \
     --network "${NETWORK_NAME}" \
-    -t --rm \
+    -i --rm \
     -v $(pwd):/data \
-    mariadb:10.3 \
+    mariadb:10.4 \
     mysqldump --host=$DB_HOST $USERNAME_ARG $PASSWORD_ARG "$@"

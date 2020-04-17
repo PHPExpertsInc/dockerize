@@ -1,6 +1,6 @@
-# Docker image for PHP
+# Dockerize PHP
 
-A [Docker](https://www.docker.com) image for the [PHP](https://secure.php.net/) Command Line scripting language.
+A utility for rapidly deploying [Docker](https://www.docker.com) for PHP apps.
 
 Includes: 
  * PHP v7.0-7.4
@@ -12,7 +12,7 @@ Includes:
 # Advantages over other dockerized PHP projects
 
 1. **Super fast, completely automated installation.** (Great for testing multiple versions on CIs)
-2. The **BIG** difference between www.phpdocker.io and DockerPHP is that DockerPHP provides all of the client utilities, where phpdocker.io provides NONE of them.
+2. The **BIG** difference between www.phpdocker.io and Dockerize PHP is that Dockerize PHP provides all of the client utilities, where phpdocker.io provides NONE of them.
 
 Out of the box, you have per-project binaries:
 
@@ -30,6 +30,14 @@ Out of the box, you have per-project binaries:
 
 * Watch the [**Installation HOWTO video**](https://vimeo.com/254179137).
 
+### Via Composer
+
+    composer require phpexperts/dockerize
+    vendor/phpexperts/dockerize/install.php
+    docker-compose up -d
+
+### Via GitHub
+
     git clone https://github.com/phpexpertsinc/docker-php-stack.git
     cd docker-php-stack
     bin/php install.php
@@ -37,18 +45,16 @@ Out of the box, you have per-project binaries:
     
 Don't forget to edit your docker-compose.yml!
 
+### Configure your PATH
+
 In order to dockerize your existing PHP project, do the following:
 
-  1. Ensure that your profile PATH includes `./bin` and that it takes priority over any other directory that may include a php executable:
+Ensure that your profile PATH includes `./bin` and that it takes priority over any other directory that may include a php executable:
 
-         PATH=./bin:$PATH
+    PATH=./bin:$PATH
 
-     Now whenever you are in your project's directory, you can simply execute `php` as you would with a typical composer installation, and the command will execute in the container instead:
 
-         php -r 'phpinfo();'
-
-  2. Change the database and redis credentials in `docker-compose.yml`.
-
+## Manage with docker-compose
 
 To control the containers, use `docker-compose`.
   

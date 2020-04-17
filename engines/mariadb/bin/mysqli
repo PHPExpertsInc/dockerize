@@ -11,13 +11,13 @@ if [ -z "$DB_HOST" ]; then
 fi
 
 USERNAME_ARG=""
-if [ -z "$DB_USERNAME" ]; then
+if [ -n "$DB_USERNAME" ]; then
     USERNAME_ARG="-u $DB_USERNAME"
 fi
 
 PASSWORD_ARG=""
-if [ -z "$DB_PASSWORD" ]; then
-    PASSWORD_ARG="--password='${DB_PASSWORD}'"
+if [ -n "$DB_PASSWORD" ]; then
+    PASSWORD_ARG="--password=${DB_PASSWORD}"
 fi
 
 if [ -z "$PROJECT_NAME" ]; then
@@ -29,7 +29,7 @@ fi
 
 docker run \
     --network "${NETWORK_NAME}" \
-    --rm \
+    -i --rm \
     -v $(pwd):/data \
-    mariadb:10.3 \
-    mysql --host=$DB_HOST $USERNAME_ARG $PASSWORD_ARG "$@"
+    mariadb:10.4 \
+    mysql --host=$DB_HOST $USERNAME_ARG $PASSWORD_ARG $DB_DATABASE "$@"
