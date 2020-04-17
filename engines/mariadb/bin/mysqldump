@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+if [ -f "${ROOT}/.env" ]; then
+    . "${ROOT}/.env"
+fi
+
+if [ -z "$DB_HOST" ]; then
+    DB_HOST="mariadb"
+fi
+
+USERNAME_ARG=""
+if [ -n "$DB_USERNAME" ]; then
+    USERNAME_ARG="-u $DB_USERNAME"
+fi
+
+PASSWORD_ARG=""
+if [ -n "$DB_PASSWORD" ]; then
+    PASSWORD_ARG="--password=${DB_PASSWORD}"
+fi
+
+if [ -z "$PROJECT_NAME" ]; then
+    PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]-]//g")
+fi
+if [ -z "$NETWORK_NAME" ]; then
+    NETWORK_NAME=${PROJECT_NAME}_default
+fi
+
+docker run \
+    --network "${NETWORK_NAME}" \
+    -i --rm \
+    -v $(pwd):/data \
+    mariadb:10.4 \
+    mysqldump --host=$DB_HOST $USERNAME_ARG $PASSWORD_ARG "$@"

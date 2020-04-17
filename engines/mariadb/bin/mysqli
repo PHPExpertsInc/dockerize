@@ -7,17 +7,17 @@ if [ -f "${ROOT}/.env" ]; then
 fi
 
 if [ -z "$DB_HOST" ]; then
-    DB_HOST="postgres"
+    DB_HOST="mariadb"
 fi
 
 USERNAME_ARG=""
-if [ -z "$DB_USERNAME" ]; then
+if [ -n "$DB_USERNAME" ]; then
     USERNAME_ARG="-u $DB_USERNAME"
 fi
 
 PASSWORD_ARG=""
-if [ -z "$DB_PASSWORD" ]; then
-    PASSWORD_ARG="--password='${DB_PASSWORD}'"
+if [ -n "$DB_PASSWORD" ]; then
+    PASSWORD_ARG="--password=${DB_PASSWORD}"
 fi
 
 if [ -z "$PROJECT_NAME" ]; then
@@ -27,10 +27,9 @@ if [ -z "$NETWORK_NAME" ]; then
     NETWORK_NAME=${PROJECT_NAME}_default
 fi
 
-echo docker run \
+docker run \
     --network "${NETWORK_NAME}" \
-    -it \
-    --volume ~/.pgpass:/root/.pgpass \
+    -i --rm \
     -v $(pwd):/data \
-    postgres:12.2 \
-    psql --host=db --dbname=postgres "$@"
+    mariadb:10.4 \
+    mysql --host=$DB_HOST $USERNAME_ARG $PASSWORD_ARG $DB_DATABASE "$@"

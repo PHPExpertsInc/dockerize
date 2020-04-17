@@ -1,3 +1,8 @@
+## v5.0: 2020-04-17
+ * Fully automated dockerization via composer.
+ * Added the ability to install specific PHP versions + DB creds.
+ * Programmatically set the docker network.
+
 ## v4.0: 2020-04-12 (Easter 2020)
  * Completely re-engineered the entire project!
  * Refactored the entire build system.

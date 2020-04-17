@@ -1,0 +1,21 @@
+{
+    "name": "phpexperts/dockerize",
+    "description": "The quickest and easiest way to dockerize any PHP app.",
+    "keywords": [
+        "docker",
+        "dockerize",
+        "new project"
+    ],
+    "homepage": "https://www.phpexperts.pro/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PHP Experts, Inc.",
+            "homepage": "https://www.phpexperts.pro/"
+        },
+        {
+            "name": "Theodore R. Smith",
+            "homepage": "https://www.linkedin.com/in/tedrsmith"
+        }
+    ]
+}

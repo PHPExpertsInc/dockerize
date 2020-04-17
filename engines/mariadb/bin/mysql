@@ -2,14 +2,35 @@
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
-. "${ROOT}"/docker/lib/env.sh
+if [ -f "${ROOT}/.env" ]; then
+    . "${ROOT}/.env"
+fi
 
-. "${ROOT}"/docker/lib/network.sh
+if [ -z "$DB_HOST" ]; then
+    DB_HOST="mariadb"
+fi
+
+USERNAME_ARG=""
+if [ -n "$DB_USERNAME" ]; then
+    USERNAME_ARG="-u $DB_USERNAME"
+fi
+
+PASSWORD_ARG=""
+if [ -n "$DB_PASSWORD" ]; then
+    PASSWORD_ARG="--password=${DB_PASSWORD}"
+fi
+
+
+if [ -z "$PROJECT_NAME" ]; then
+    PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]-]//g")
+fi
+if [ -z "$NETWORK_NAME" ]; then
+    NETWORK_NAME=${PROJECT_NAME}_default
+fi
 
 docker run \
-    --net ${PROJECT_NAME}_default \
-    -it \
-    --volume ~/.pgpass:/root/.pgpass \
+    --network "${NETWORK_NAME}" \
+    -it --rm \
     -v $(pwd):/data \
-    mariadb:10.3 \
-    mysql --host=db "$@"
+    mariadb:10.4 \
+    mysql --host=$DB_HOST $USERNAME_ARG $PASSWORD_ARG $DB_DATABASE "$@"
