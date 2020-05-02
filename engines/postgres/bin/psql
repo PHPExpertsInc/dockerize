@@ -26,11 +26,11 @@ fi
 if [ -z "$NETWORK_NAME" ]; then
     NETWORK_NAME=${PROJECT_NAME}_default
 fi
-
-echo docker run \
+docker run \
     --network "${NETWORK_NAME}" \
     -it \
+    -e PGPASSWORD="${DB_PASSWORD}" \
     --volume ~/.pgpass:/root/.pgpass \
     -v $(pwd):/data \
     postgres:12.2 \
-    psql --host=db --dbname=postgres "$@"
+    psql --host=postgres -U ${DB_USERNAME} --dbname=${DB_DATABASE} "$@"

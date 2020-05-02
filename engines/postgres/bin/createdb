@@ -21,7 +21,8 @@ fi
 docker run \
     --network "${NETWORK_NAME}" \
     -it \
+    -e PGPASSWORD="${DB_PASSWORD}" \
     --volume ~/.pgpass:/root/.pgpass \
     -v $(pwd):/data \
     postgres:12.2 \
-    createdb --host=$DB_HOST "$@"
+    createdb --host=$DB_HOST -U $DB_USERNAME "$@"
