@@ -1,5 +1,5 @@
 # phpexperts/php:7
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 ARG PHP_VERSION=7.4
 
