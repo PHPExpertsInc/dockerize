@@ -38,11 +38,10 @@ RUN apt-get update && \
         php${PHP_VERSION}-xml \
         php${PHP_VERSION}-zip && \
     # Install ext-sodium if < PHP 7.2.
-    if [ "${PHP_VERSION}" != "7.2" ] && [ "${PHP_VERSION}" != "7.3" ] && [ "${PHP_VERSION}" != "7.4" ]; then \
+    if [ "${PHP_VERSION}" == "7.0" ] && [ "${PHP_VERSION}" == "7.1" ]; then \
         apt-get install -y --no-install-recommends \
             php${PHP_VERSION}-sodium; \
     fi && \
-
 
     # Cleanup
     apt-get autoremove -y && \
