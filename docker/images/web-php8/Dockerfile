@@ -1,5 +1,5 @@
-# phpexperts/web-debug
-FROM phpexperts/php:latest-debug
+# phpexperts/web
+FROM phpexperts/php:8
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \
@@ -10,13 +10,13 @@ RUN apt-get update && \
     # Route nginx logs to syslog socket (will show in Docker logs)
     sed -i 's!/var/log/nginx/access.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
     sed -i 's!/var/log/nginx/error.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
-    ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
 
     # Cleanup
     apt-get remove -y && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir /etc/nginx/custom
 
 ADD supervisor/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
 ADD supervisor/nginx.conf /etc/supervisor/conf.d/nginx.conf
@@ -26,3 +26,4 @@ ADD entrypoint.sh /usr/local/bin/entrypoint-web.sh
 WORKDIR /var/www
 
 ENTRYPOINT ["/usr/local/bin/entrypoint-web.sh"]
+

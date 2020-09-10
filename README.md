@@ -5,7 +5,7 @@ A utility for rapidly deploying [Docker](https://www.docker.com) for PHP apps.
 Watch the installation video: https://youtu.be/xZxaJcsbrWU
 
 Includes: 
- * PHP v7.0-7.4
+ * PHP v7.0-7.4 + 8.0
  * Nginx
  * Redis
  * PostgreSQL v12.2

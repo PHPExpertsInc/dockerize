@@ -1,5 +1,5 @@
 # phpexperts/php:7-base-debug
-FROM phpexperts/php:7
+FROM phpexperts/php:latest
 
 ARG PHP_VERSION=7.4
 
