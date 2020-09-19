@@ -19,27 +19,32 @@ RUN apt-get update && \
         less vim inetutils-ping unzip net-tools && \
     #
     # Compile PHP 8 manuall
-    apt-get install -y --no-install-recommends gcc make && \
+    apt-get install -y --no-install-recommends gcc g++ make && \
     apt-get install -y libxml2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
                        libxslt-dev libssl-dev libldb-dev libmemcached-dev \
+                       libedit-dev libsodium-dev zlibc zlib1g zlib1g-dev \
                        libsqlite3-dev libgmp-dev libzip-dev libonig-dev && \
     #
-    curl https://downloads.php.net/~carusogabriel/php-8.0.0beta3.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~pollita/php-8.0.0beta4.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.0.0beta3 && \
-    # Build FPM
+    cd php-8.0.0beta4 && \
+#    # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
-                --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --enable-fpm \
-                --with-fpm-user=www-data --enable-pcntl --prefix=/workdir/install/usr \
-                --with-config-file-path=/etc/php/8.0/fpm  --with-config-file-scan-dir=/etc/php/8.0/fpm/conf.d && \
-    make -j8 && \
-    make install && \
-    # Build CLI
-    ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
-                --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --enable-fpm \
+                --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
+                --enable-sockets --with-libedit --with-sodium --enable-exif --enable-intl \
+                --with-mysqli --with-xsl --with-zlib --with-memcache --with-memcached \
                 --prefix=/workdir/install/usr \
                 --with-config-file-path=/etc/php/8.0/cli  --with-config-file-scan-dir=/etc/php/8.0/cli/conf.d && \
+    make -j8 && \
+    make install && \
+    # Build FPM
+    ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
+                --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
+                --enable-sockets --with-libedit --with-sodium --enable-exif --enable-intl \
+                --with-mysqli --with-xsl --with-zlib --with-memcache --with-memcached \
+                --enable-fpm --with-fpm-user=www-data --enable-pcntl --prefix=/workdir/install/usr \
+                --with-config-file-path=/etc/php/8.0/fpm  --with-config-file-scan-dir=/etc/php/8.0/fpm/conf.d && \
     make -j8 && \
     make install && \
     #
@@ -100,7 +105,7 @@ RUN apt-get update && \
         curl \
         less vim inetutils-ping unzip net-tools && \
     # Install PHP extension dependencies
-    apt-get install -y libpq5 libpng16-16 libonig5 libzip5 && \
+    apt-get install -y libpq5 libpng16-16 libonig5 libzip5 libxslt-dev zlibc zlib1g libsodium-dev libedit-dev && \
     #
     # Cleanup
     apt-get remove -y && \
