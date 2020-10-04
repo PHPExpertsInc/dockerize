@@ -47,21 +47,12 @@ RUN apt-get update && \
     make -j8 && \
     make install && \
     #
-#    # Compile PHP extensions
-#    # PHP 8 support is broken until phpredis-5.3.2.
-#    apt install autoconf
-#    cd /workdir
-#    curl -L https://github.com/phpredis/phpredis/archive/5.3.1.tar.gz -o phpredis.tar.gz
-#    tar xvf phpredis.tar.gz
-#    cd phpredis-5.3.1/
-#    echo "done" && \
-    #
-    #
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"
     mkdir -p /run/php && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/cli/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d && \
+    cd /php-8.0.0rc1 && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     cp -v ./sapi/fpm/php-fpm.conf /workdir/install/etc/php/${PHP_VERSION}/fpm/ && \
