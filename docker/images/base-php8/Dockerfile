@@ -24,7 +24,7 @@ RUN apt-get update && \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
                        libxslt-dev libssl-dev libldb-dev libedit-dev libsodium-dev \
                        zlibc zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
-                       libonig-dev && \
+                       libonig-dev binutils && \
     #
     curl https://downloads.php.net/~carusogabriel/php-8.0.0rc1.tar.xz -o php.xz && \
     tar xvf php.xz && \
@@ -62,6 +62,9 @@ RUN apt-get update && \
     echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
     echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i 's#/workdir/install##' /workdir/install/usr/bin/phpize && \
+    #
+    ## Strip the PHP binaries to dramatically reduce the image size (583 MB to 156 MB).
+    strip /usr/bin/php*
     #
     ## Install PHP so that the build programs will work.
     cp -avf /workdir/install/* / && \
