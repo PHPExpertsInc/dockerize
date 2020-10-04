@@ -1,6 +1,6 @@
 # phpexperts/php:7
 FROM ubuntu:focal as intermediate
-#FROM phpexperts/php:base
+#FROM phpexperts/php:8.0-temp
 
 ARG PHP_VERSION=8.0
 
@@ -22,19 +22,18 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends gcc g++ make && \
     apt-get install -y libxml2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
-                       libxslt-dev libssl-dev libldb-dev libmemcached-dev \
-                       libedit-dev libsodium-dev zlibc zlib1g zlib1g-dev \
-                       libsqlite3-dev libgmp-dev libzip-dev libonig-dev && \
+                       libxslt-dev libssl-dev libldb-dev libedit-dev libsodium-dev \
+                       zlibc zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
+                       libonig-dev && \
     #
     curl https://downloads.php.net/~carusogabriel/php-8.0.0rc1.tar.xz -o php.xz && \
     tar xvf php.xz && \
     cd php-8.0.0rc1 && \
-#    # Build CLI
+    # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
                 --enable-sockets --with-libedit --with-sodium --enable-exif --enable-intl \
-                --with-mysqli --with-xsl --with-zlib --with-memcache --with-memcached \
-                --prefix=/workdir/install/usr \
+                --with-mysqli --with-xsl --with-zlib --prefix=/workdir/install/usr \
                 --with-config-file-path=/etc/php/8.0/cli  --with-config-file-scan-dir=/etc/php/8.0/cli/conf.d && \
     make -j8 && \
     make install && \
@@ -42,7 +41,7 @@ RUN apt-get update && \
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
                 --enable-sockets --with-libedit --with-sodium --enable-exif --enable-intl \
-                --with-mysqli --with-xsl --with-zlib --with-memcache --with-memcached \
+                --with-mysqli --with-xsl --with-zlib \
                 --enable-fpm --with-fpm-user=www-data --enable-pcntl --prefix=/workdir/install/usr \
                 --with-config-file-path=/etc/php/8.0/fpm  --with-config-file-scan-dir=/etc/php/8.0/fpm/conf.d && \
     make -j8 && \
