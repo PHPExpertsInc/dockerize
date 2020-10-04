@@ -26,9 +26,9 @@ RUN apt-get update && \
                        libedit-dev libsodium-dev zlibc zlib1g zlib1g-dev \
                        libsqlite3-dev libgmp-dev libzip-dev libonig-dev && \
     #
-    curl https://downloads.php.net/~pollita/php-8.0.0beta4.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~carusogabriel/php-8.0.0rc1.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.0.0beta4 && \
+    cd php-8.0.0rc1 && \
 #    # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
