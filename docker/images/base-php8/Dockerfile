@@ -58,6 +58,11 @@ RUN apt-get update && \
     cp -v ./sapi/fpm/php-fpm.conf /workdir/install/etc/php/${PHP_VERSION}/fpm/ && \
     cp -v ./sapi/fpm/www.conf     /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d && \
     #
+    ## Fix the extension_dir path (screwed up from --prefix=/workdir/install/usr):
+    echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
+    echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's#/workdir/install##' /workdir/install/usr/bin/phpize && \
+    #
     ## Configure PHP-FPM
     sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i "s!;error_log = php_errors.log!error_log = /proc/self/fd/2!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
