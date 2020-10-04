@@ -63,10 +63,28 @@ RUN apt-get update && \
     echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i 's#/workdir/install##' /workdir/install/usr/bin/phpize && \
     #
+    ## Install PHP so that the build programs will work.
+    cp -avf /workdir/install/* / && \
+    #
     ## Install Custom PHP Extensions
     # Zend Opcache
     echo "zend_extension=opcache" > /workdir/install/etc/php/${PHP_VERSION}/cli/conf.d/opcache.ini && \
     echo "zend_extension=opcache" > /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d/opcache.ini && \
+    # Redis
+    apt-get install -y autoconf && \
+    cd /workdir && \
+    #
+    curl -L https://github.com/phpredis/phpredis/archive/develop.zip -o phpredis.zip && \
+    unzip phpredis.zip && \
+    cd phpredis-develop && \
+    phpize && \
+    ./configure && \
+    make -j8 && \
+    make install && \
+    echo "extension=redis" > /workdir/install/etc/php/${PHP_VERSION}cli/conf.d/redis.ini && \
+    echo "extension=redis" > /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d/redis.ini && \
+    ## Install the new extensions, mostly for debug-on-build-failure.
+    cp -avf /workdir/install/* / && \
     #
     ## Configure PHP-FPM
     sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
@@ -79,9 +97,10 @@ RUN apt-get update && \
     #
     sed -i "s!;catch_workers_output = yes!catch_workers_output = yes!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
     sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
-
+    #
     cd /workdir/install && \
-    tar czvf /workdir/php-${PHP_VERSION}-ubuntu.tar.gz *
+    tar czvf /workdir/php-${PHP_VERSION}-ubuntu.tar.gz * && \
+    echo "Finished"
 
 WORKDIR /workdir
 
