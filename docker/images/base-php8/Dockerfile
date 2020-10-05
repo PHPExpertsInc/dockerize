@@ -1,6 +1,6 @@
 # phpexperts/php:7
 FROM ubuntu:focal as intermediate
-#FROM phpexperts/php:base
+#FROM phpexperts/php:8.0-temp
 
 ARG PHP_VERSION=8.0
 
@@ -22,19 +22,18 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends gcc g++ make && \
     apt-get install -y libxml2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
-                       libxslt-dev libssl-dev libldb-dev libmemcached-dev \
-                       libedit-dev libsodium-dev zlibc zlib1g zlib1g-dev \
-                       libsqlite3-dev libgmp-dev libzip-dev libonig-dev && \
+                       libxslt-dev libssl-dev libldb-dev libedit-dev libsodium-dev \
+                       zlibc zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
+                       libonig-dev binutils && \
     #
-    curl https://downloads.php.net/~pollita/php-8.0.0beta4.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~carusogabriel/php-8.0.0rc1.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.0.0beta4 && \
-#    # Build CLI
+    cd php-8.0.0rc1 && \
+    # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
                 --enable-sockets --with-libedit --with-sodium --enable-exif --enable-intl \
-                --with-mysqli --with-xsl --with-zlib --with-memcache --with-memcached \
-                --prefix=/workdir/install/usr \
+                --with-mysqli --with-xsl --with-zlib --prefix=/workdir/install/usr \
                 --with-config-file-path=/etc/php/8.0/cli  --with-config-file-scan-dir=/etc/php/8.0/cli/conf.d && \
     make -j8 && \
     make install && \
@@ -42,31 +41,53 @@ RUN apt-get update && \
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
                 --enable-sockets --with-libedit --with-sodium --enable-exif --enable-intl \
-                --with-mysqli --with-xsl --with-zlib --with-memcache --with-memcached \
+                --with-mysqli --with-xsl --with-zlib \
                 --enable-fpm --with-fpm-user=www-data --enable-pcntl --prefix=/workdir/install/usr \
                 --with-config-file-path=/etc/php/8.0/fpm  --with-config-file-scan-dir=/etc/php/8.0/fpm/conf.d && \
     make -j8 && \
     make install && \
-    #
-#    # Compile PHP extensions
-#    # PHP 8 support is broken until phpredis-5.3.2.
-#    apt install autoconf
-#    cd /workdir
-#    curl -L https://github.com/phpredis/phpredis/archive/5.3.1.tar.gz -o phpredis.tar.gz
-#    tar xvf phpredis.tar.gz
-#    cd phpredis-5.3.1/
-#    echo "done" && \
-    #
     #
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"
     mkdir -p /run/php && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/cli/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d && \
+    cd /php-8.0.0rc1 && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     cp -v ./sapi/fpm/php-fpm.conf /workdir/install/etc/php/${PHP_VERSION}/fpm/ && \
     cp -v ./sapi/fpm/www.conf     /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d && \
+    #
+    ## Fix the extension_dir path (screwed up from --prefix=/workdir/install/usr):
+    echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
+    echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's#/workdir/install##' /workdir/install/usr/bin/phpize && \
+    #
+    ## Strip the PHP binaries to dramatically reduce the image size (583 MB to 156 MB).
+    strip /usr/bin/php*
+    #
+    ## Install PHP so that the build programs will work.
+    cp -avf /workdir/install/* / && \
+    #
+    ## Install Custom PHP Extensions
+    # Zend Opcache
+    echo "zend_extension=opcache" > /workdir/install/etc/php/${PHP_VERSION}/cli/conf.d/opcache.ini && \
+    echo "zend_extension=opcache" > /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d/opcache.ini && \
+    # Redis
+    apt-get install -y autoconf && \
+    cd /workdir && \
+    #
+    curl -L https://github.com/phpredis/phpredis/archive/develop.zip -o phpredis.zip && \
+    unzip phpredis.zip && \
+    cd phpredis-develop && \
+    phpize && \
+    ./configure && \
+    make -j8 && \
+    make install && \
+    echo "extension=redis" > /workdir/install/etc/php/${PHP_VERSION}cli/conf.d/redis.ini && \
+    echo "extension=redis" > /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d/redis.ini && \
+    ## Install the new extensions, mostly for debug-on-build-failure.
+    cp -avf /workdir/install/* / && \
     #
     ## Configure PHP-FPM
     sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
@@ -79,9 +100,10 @@ RUN apt-get update && \
     #
     sed -i "s!;catch_workers_output = yes!catch_workers_output = yes!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
     sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
-
+    #
     cd /workdir/install && \
-    tar czvf /workdir/php-${PHP_VERSION}-ubuntu.tar.gz *
+    tar czvf /workdir/php-${PHP_VERSION}-ubuntu.tar.gz * && \
+    echo "Finished"
 
 WORKDIR /workdir
 

@@ -1,3 +1,29 @@
+## v6.2.0
+
+* [2020-10-04] Upgraded to PHP v8.0 RC1.
+* [2020-10-04] Fixed the extension_dir location so PHP extensions work.
+* [2020-10-04] Installed the Zend Opcache extension.
+* [2020-10-04] Installed the PHPRedis extension.
+* [2020-10-04] Stripped out the debug symbols for massive space savings.
+* [2020-09-19] Upgraded to PHP v8.0 Beta 4.
+
+## v6.1.0: 
+
+ * [2020-09-10] Added the ability to dynamically pick what PHP version is run via $PHP_VERSION.
+ * [2020-09-10] Run the system's native PHP via $PHP_VERSION="native".
+
+## v6.0.0: 2020-09-10
+
+ * [2020-09-09] Upgraded to Ubuntu Focal Fossa v20.04-LTS.
+ * [2020-09-09] Added support for PHP v5.6.
+ * [2020-09-10] Added support for manually compiling PHP 8 pre-releases.
+
+## v5.0.2: 2020-07-17
+ * [2020-07-17] Fixed the .env.stub for Laravel DB engines.
+ 
+## v5.0.1: 2020-05-02
+ * [2020-05-02] - Fixed a bug that prevented accessing Postgres DBs via psql.
+
 ## v5.0: 2020-04-17
  * Fully automated dockerization via composer.
  * Added the ability to install specific PHP versions + DB creds.
@@ -15,6 +41,7 @@
 ## v3.0: 2020-02-26
  * Majorly refactored the build process to build all of the latest PHP versions 
    at the same time.
+ * Added the ability to dynamically pick what PHP version is run via $PHP_VERSION.
  * Added a utility to delete the web images.
  * Fixed the 'Can't locate Term/ReadLine.pm' error.
 
