@@ -26,9 +26,9 @@ RUN apt-get update && \
                        zlibc zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://downloads.php.net/~carusogabriel/php-8.0.0rc1.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~carusogabriel/php-8.0.0RC3.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.0.0rc1 && \
+    cd php-8.0.0RC3 && \
     # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
@@ -52,7 +52,7 @@ RUN apt-get update && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/cli/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d && \
-    cd /php-8.0.0rc1 && \
+    cd /php-8.0.0RC3 && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     cp -v ./sapi/fpm/php-fpm.conf /workdir/install/etc/php/${PHP_VERSION}/fpm/ && \
@@ -64,7 +64,9 @@ RUN apt-get update && \
     sed -i 's#/workdir/install##' /workdir/install/usr/bin/phpize && \
     #
     ## Strip the PHP binaries to dramatically reduce the image size (583 MB to 156 MB).
-    strip /usr/bin/php*
+    strip /workdir/install/usr/bin/php /workdir/install/usr/sbin/php-fpm && \
+    ## Remove the worthless php-cgi and save 64 MB.
+    rm /workdir/install/usr/bin/php-cgi && \
     #
     ## Install PHP so that the build programs will work.
     cp -avf /workdir/install/* / && \
@@ -84,7 +86,7 @@ RUN apt-get update && \
     ./configure && \
     make -j8 && \
     make install && \
-    echo "extension=redis" > /workdir/install/etc/php/${PHP_VERSION}cli/conf.d/redis.ini && \
+    echo "extension=redis" > /workdir/install/etc/php/${PHP_VERSION}/cli/conf.d/redis.ini && \
     echo "extension=redis" > /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d/redis.ini && \
     ## Install the new extensions, mostly for debug-on-build-failure.
     cp -avf /workdir/install/* / && \

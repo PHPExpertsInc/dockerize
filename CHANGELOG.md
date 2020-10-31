@@ -1,3 +1,7 @@
+## v6.2.1
+
+* [2020-10-30] Upgraded to PHP v8.0 RC3.
+
 ## v6.2.0
 
 * [2020-10-04] Upgraded to PHP v8.0 RC1.
