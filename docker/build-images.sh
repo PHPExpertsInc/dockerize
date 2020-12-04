@@ -2,8 +2,8 @@
 
 #PHP_VERSIONS="7.4"
 #PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4"
-PHP_VERSIONS="7.0 7.1 7.2 7.3 7.4"
-PHP_VERSIONS=""
+PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0"
+#PHP_VERSIONS="8.0"
 cd images
 
 for VERSION in ${PHP_VERSIONS}; do
@@ -25,8 +25,8 @@ for VERSION in ${PHP_VERSIONS}; do
 
 done
 
-docker rmi --force phpexperts/php:8 phpexperts/php:8.0 phpexperts/web:nginx-php8
-docker build base-php8 --tag="phpexperts/php:8.0"
-docker build base-php8 --tag="phpexperts/php:8"
+# docker rmi --force phpexperts/php:8 phpexperts/php:8.0 phpexperts/web:nginx-php8
+# docker build base-php8 --tag="phpexperts/php:8.0"
+# docker build base-php8 --tag="phpexperts/php:8"
 
-docker build web-php8 --tag="phpexperts/web:nginx-php8"
+# docker build web-php8 --tag="phpexperts/web:nginx-php8"
