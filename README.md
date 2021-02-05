@@ -40,7 +40,7 @@ Out of the box, you have per-project binaries:
 
 ### Via GitHub
 
-    git clone https://github.com/phpexpertsinc/docker-php-stack.git
+    git clone https://github.com/PHPExpertsInc/dockerize-php.git
     cd docker-php-stack
     bin/php install.php
     docker-compose up -d
@@ -51,9 +51,9 @@ Don't forget to edit your docker-compose.yml!
 
 In order to dockerize your existing PHP project, do the following:
 
-Ensure that your profile PATH includes `./bin` and that it takes priority over any other directory that may include a php executable:
+Ensure that your profile PATH includes `./vendor/bin` and that it takes priority over any other directory that may include a php executable:
 
-    PATH=./bin:$PATH
+    PATH=./vendor/bin:$PATH
 
 
 ## Manage with docker-compose

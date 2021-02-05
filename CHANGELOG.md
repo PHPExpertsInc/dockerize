@@ -1,3 +1,10 @@
+## v6.4.1
+* [2021-02-05] Upgraded to PHP v8.0.1, v7.4.14, and v7.3.26
+* [2021-02-05] Added a Docker Hub release script.
+
+## v6.4.0
+* [2020-12-03] Upgraded to PHP v8.0.0
+
 ## v6.2.1
 
 * [2020-10-30] Upgraded to PHP v8.0 RC3.
