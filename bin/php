@@ -21,8 +21,8 @@ fi
 # Test if the network exists.
 docker network inspect $NETWORK_NAME > /dev/null 2>&1
 if [ $? == 0 ]; then
-  docker run -u=$UID -v /etc/passwd:/etc/passwd:ro --network="$NETWORK_NAME" -it -v $(pwd):/workdir --rm phpexperts/php:${PHP_VERSION} "$@"
+  docker run -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro --network="$NETWORK_NAME" -it -v $PWD:/workdir --rm phpexperts/php:${PHP_VERSION} "$@"
 else
-  docker run -u=$UID -v /etc/passwd:/etc/passwd:ro -it -v $(pwd):/workdir --rm phpexperts/php:${PHP_VERSION} "$@"
+  docker run -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro -it -v $PWD:/workdir --rm phpexperts/php:${PHP_VERSION} "$@"
 fi
 
