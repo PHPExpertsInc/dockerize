@@ -4,10 +4,15 @@
 if [ "$PHP_FPM_USER_ID" != "" ]; then
     usermod -u $PHP_FPM_USER_ID www-data
 fi
+PHP_VERSION=$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')
 
 # Set php.ini options
 for TYPE in cli fpm; do
     PHP_INI=/etc/php/${PHP_VERSION}/${TYPE}/php.ini
+
+    if [ "$PHP_MEMORY_LIMIT" != "" ]; then
+        sed -i "s!memory_limit =.\+!memory_limit = $PHP_MEMORY_LIMIT!g" "$PHP_INI"
+    fi
 
     # Update the PHP upload_max_filesize setting if one was specified
     if [ "$PHP_UPLOAD_MAX_FILESIZE" != "" ]; then
