@@ -1,3 +1,7 @@
+## v6.5.0
+* [2021-06-03 08:22:27 CDT] - Installed the SOAP extension.
+* [2021-06-03 08:37:10 CDT] - Major improvements to the php cli.
+
 ## v6.4.1
 * [2021-02-05] Upgraded to PHP v8.0.1, v7.4.14, and v7.3.26
 * [2021-02-05] Added a Docker Hub release script.
