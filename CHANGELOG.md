@@ -1,3 +1,6 @@
+## v6.6.0
+* [2021-09-22 08:40:22 CDT] - Added the abiltiy to run commands in containers from the CLI.
+
 ## v6.5.0
 * [2021-06-03 08:22:27 CDT] - Installed the SOAP extension.
 * [2021-06-03 08:37:10 CDT] - Major improvements to the php cli.
