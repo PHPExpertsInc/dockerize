@@ -20,4 +20,9 @@ for TYPE in cli fpm; do
     fi
 done
 
-/usr/bin/php "$@"
+if [ -z "$INTERACTIVE" ]; then
+    /usr/bin/php "$@"
+else
+    "$@"
+fi
+
