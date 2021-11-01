@@ -2,6 +2,13 @@
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
+# Detect if it's running inside of docker and run it natively if it is.
+# @see https://stackoverflow.com/a/25518345/430062
+if [ "$PHP_VERSION" == "native" ] || [ -f "/.dockerenv" ]; then
+  (/bin/env --chdir=/ php "$@")
+  exit
+fi
+
 if [ -z "$PROJECT_NAME" ]; then
     PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]-]//g")
 fi
@@ -11,11 +18,6 @@ fi
 
 if [ -z "$PHP_VERSION" ]; then
     PHP_VERSION="7"
-fi
-
-if [ "$PHP_VERSION" == "native" ]; then
-  (/bin/env --chdir=/ php "$@")
-  exit
 fi
 
 # Test if the network exists.
