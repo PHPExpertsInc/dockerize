@@ -25,6 +25,11 @@ for TYPE in cli fpm; do
     fi
 done
 
+if [ "$RUN_COMPOSER" == "1" ]; then
+    /usr/local/bin/composer "$@"
+    exit
+fi
+
 if [ -z "$INTERACTIVE" ]; then
     /usr/bin/php "$@"
 else

@@ -23,5 +23,5 @@
         "phpexperts/docker-phpstan":  "Dockerized phpstan/phpstan",
         "phpexperts/docker-rector":   "Dockerized rector/rector"
     },
-    "bin": ["bin/php"]
+    "bin": ["bin/php", "bin/composer"]
 }
