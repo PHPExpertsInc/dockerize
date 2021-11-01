@@ -1,5 +1,5 @@
 # phpexperts/php:7
-FROM ubuntu:focal
+FROM phpexperts/linux:latest
 
 ARG PHP_VERSION=7.4
 
@@ -7,20 +7,9 @@ ARG PHP_VERSION=7.4
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && \
-    # Configure ondrej PPA
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:ondrej/php && \
-    apt-get update && \
-    apt-get upgrade -y && \
-    #
-    # Install PHP & curl (for composer)
-    apt-get install -y --no-install-recommends \
-        curl git ssh \
+RUN apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-cli \
-        vim inetutils-ping unzip net-tools \
-        php${PHP_VERSION}-fpm && \
-    apt-get install -y --no-install-recommends \
+        php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-bcmath \
         php${PHP_VERSION}-curl \
         php${PHP_VERSION}-dom \
@@ -47,8 +36,8 @@ RUN apt-get update && \
     # Cleanup
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/cache/apt/* && \
+    #rm -rf /var/lib/apt/lists/* && \
+    #rm -rf /var/cache/apt/* && \
     #
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"
     mkdir -p /run/php

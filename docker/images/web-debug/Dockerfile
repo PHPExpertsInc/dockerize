@@ -1,5 +1,6 @@
 # phpexperts/web-debug
-FROM phpexperts/php:latest-debug
+ARG PHP_VERSION=7.4
+FROM phpexperts/php:${PHP_VERSION}-debug
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \
