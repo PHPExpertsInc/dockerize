@@ -26,7 +26,6 @@ RUN echo "Building base Linux..." && \
         curl git ssh  \
         less vim inetutils-ping zip unzip net-tools
 
-VOLUME ["/workdir"]
 WORKDIR /workdir
 
 ENTRYPOINT ["bash", "-l"]
