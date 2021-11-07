@@ -1,3 +1,12 @@
+## v7.0.0
+* **[2021-11-02 15:47:49 CDT]** PHP 8.1 RC5.
+* **[2021-11-01 08:08:36 CDT]** Dramatically reduced total build time from 33 minutes to 11 minutes.
+* **[2021-11-01 06:24:52 CDT]** Embedded composer into the php container.
+* **[2021-11-01 06:00:30 CDT]** Run the native PHP when inside docker.
+* **[2021-07-29 07:13:12 CDT]** Set the PHP memory_limit to unlimited by default.
+* **[2021-07-29 07:07:35 CDT]** Fixed the building of xdebug.
+* **[2021-06-21 07:10:58 CDT]** Added git and ssh for private packages supoprt.
+
 ## v6.6.0
 * [2021-09-22 08:40:22 CDT] - Added the abiltiy to run commands in containers from the CLI.
 

@@ -1,49 +1,39 @@
 # phpexperts/php:7
-FROM ubuntu:focal as intermediate
+FROM phpexperts/linux:latest AS intermediate
 #FROM phpexperts/php:8.0-temp
 
-ARG PHP_VERSION=8.0
+ARG PHP_VERSION=8.1
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && \
-    # Configure ondrej PPA
-    apt-get install -y software-properties-common && \
-    apt-get upgrade -y && \
-    #
-    # Install PHP & curl (for composer)
-    apt-get install -y --no-install-recommends \
-        curl \
-        less vim inetutils-ping unzip net-tools && \
-    #
-    # Compile PHP 8 manuall
-    apt-get install -y --no-install-recommends gcc g++ make && \
+# Compile PHP 8.1 manually
+RUN apt-get install -y --no-install-recommends gcc g++ make && \
     apt-get install -y libxml2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
                        libxslt-dev libssl-dev libldb-dev libedit-dev libsodium-dev \
                        zlibc zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://downloads.php.net/~carusogabriel/php-8.0.0RC3.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~patrickallaert/php-8.1.0RC5.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.0.0RC3 && \
+    cd php-8.1.0RC5 && \
     # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
-                --enable-sockets --with-libedit --with-sodium --enable-exif --enable-intl \
+                --enable-sockets --disable-phpdbg --with-libedit --with-sodium --enable-exif --enable-intl \
                 --with-mysqli --with-xsl --with-zlib --prefix=/workdir/install/usr \
-                --with-config-file-path=/etc/php/8.0/cli  --with-config-file-scan-dir=/etc/php/8.0/cli/conf.d && \
+                --with-config-file-path=/etc/php/8.1/cli  --with-config-file-scan-dir=/etc/php/8.1/cli/conf.d && \
     make -j8 && \
     make install && \
     # Build FPM
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
-                --enable-sockets --with-libedit --with-sodium --enable-exif --enable-intl \
+                --enable-sockets --disable-phpdbg --with-libedit --with-sodium --enable-exif --enable-intl \
                 --with-mysqli --with-xsl --with-zlib \
                 --enable-fpm --with-fpm-user=www-data --enable-pcntl --prefix=/workdir/install/usr \
-                --with-config-file-path=/etc/php/8.0/fpm  --with-config-file-scan-dir=/etc/php/8.0/fpm/conf.d && \
+                --with-config-file-path=/etc/php/8.1/fpm  --with-config-file-scan-dir=/etc/php/8.1/fpm/conf.d && \
     make -j8 && \
     make install && \
     #
@@ -52,21 +42,21 @@ RUN apt-get update && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/cli/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d && \
-    cd /php-8.0.0RC3 && \
+    #cd /php-8.1.0RC5 && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     cp -v ./sapi/fpm/php-fpm.conf /workdir/install/etc/php/${PHP_VERSION}/fpm/ && \
-    cp -v ./sapi/fpm/www.conf     /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d && \
+    cp -v ./sapi/fpm/www.conf     /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d
     #
     ## Fix the extension_dir path (screwed up from --prefix=/workdir/install/usr):
-    echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
+RUN echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
     echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i 's#/workdir/install##' /workdir/install/usr/bin/phpize && \
     #
-    ## Strip the PHP binaries to dramatically reduce the image size (583 MB to 156 MB).
-    strip /workdir/install/usr/bin/php /workdir/install/usr/sbin/php-fpm && \
     ## Remove the worthless php-cgi and save 64 MB.
     rm /workdir/install/usr/bin/php-cgi && \
+    ## Strip the PHP binaries to dramatically reduce the image size (583 MB to 156 MB).
+    strip -v /workdir/install/usr/bin/php /workdir/install/usr/sbin/php-fpm && \
     #
     ## Install PHP so that the build programs will work.
     cp -avf /workdir/install/* / && \
@@ -109,15 +99,17 @@ RUN apt-get update && \
 
 WORKDIR /workdir
 
-FROM ubuntu:focal
+ENTRYPOINT ["/usr/bin/bash", "-l"]
 
-ARG PHP_VERSION=8.0
+FROM phpexperts/linux:latest
+
+ARG PHP_VERSION=8.1
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY --from=intermediate /workdir/php-8.0-ubuntu.tar.gz /php-8.0-ubuntu.tar.gz
+COPY --from=intermediate /workdir/php-8.1-ubuntu.tar.gz /php-8.1-ubuntu.tar.gz
 
 RUN apt-get update && \
     # Configure ondrej PPA
@@ -125,23 +117,22 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     #
     # Install PHP & curl (for composer)
-    apt-get install -y --no-install-recommends \
-        curl \
-        less vim inetutils-ping unzip net-tools && \
     # Install PHP extension dependencies
-    apt-get install -y libpq5 libpng16-16 libonig5 libzip5 libxslt-dev zlibc zlib1g libsodium-dev libedit-dev && \
+    apt-get install -y libpq5 libpng16-16 libonig5 libxslt-dev zlibc zlib1g libsodium-dev libedit-dev libcurl4 libzip4 && \
     #
     # Cleanup
     apt-get remove -y && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    tar xvf php-8.0-ubuntu.tar.gz && \
-    rm -v php-8.0-ubuntu.tar.gz
+#    rm -rf /var/lib/apt/lists/* && \
+    cd / && \
+    tar xvf php-8.1-ubuntu.tar.gz && \
+    rm -v php-8.1-ubuntu.tar.gz && \
+    echo "Finished..."
 
-VOLUME ["/workdir"]
 WORKDIR /workdir
 
 COPY entrypoint.sh /usr/local/bin/entrypoint-php.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint-php.sh"]
+
