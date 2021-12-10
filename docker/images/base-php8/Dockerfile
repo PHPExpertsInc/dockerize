@@ -16,9 +16,9 @@ RUN apt-get install -y --no-install-recommends gcc g++ make && \
                        zlibc zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://downloads.php.net/~patrickallaert/php-8.1.0RC5.tar.xz -o php.xz && \
+    curl https://www.php.net/distributions/php-8.1.0.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.1.0RC5 && \
+    cd php-8.1.0 && \
     # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
@@ -42,13 +42,13 @@ RUN apt-get install -y --no-install-recommends gcc g++ make && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/cli/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/conf.d && \
     mkdir -p /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d && \
-    #cd /php-8.1.0RC5 && \
+    #
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
     cp -v php.ini-development /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     cp -v ./sapi/fpm/php-fpm.conf /workdir/install/etc/php/${PHP_VERSION}/fpm/ && \
     cp -v ./sapi/fpm/www.conf     /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d
-    #
-    ## Fix the extension_dir path (screwed up from --prefix=/workdir/install/usr):
+
+## Fix the extension_dir path (screwed up from --prefix=/workdir/install/usr):
 RUN echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/cli/php.ini && \
     echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_dir | awk '{print $3}' | sed 's#/workdir/install##') >> /workdir/install/etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i 's#/workdir/install##' /workdir/install/usr/bin/phpize && \
