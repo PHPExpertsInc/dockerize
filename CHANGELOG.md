@@ -1,3 +1,8 @@
+## v7.1.0
+* **[2021-11-18 04:10:49 CDT]** Upgraded the config files for Xdebug v3.0.
+* **[2021-11-18 04:13:15 CDT]** Added the ability to configure the Docker platform via the .env.
+* **[2021-12-10 08:32:27 CDT]** Added install support for PHP 5.6, 8.0, and 8.1.
+
 ## v7.0.0
 * **[2021-11-02 15:47:49 CDT]** PHP 8.1 RC5.
 * **[2021-11-01 08:08:36 CDT]** Dramatically reduced total build time from 33 minutes to 11 minutes.

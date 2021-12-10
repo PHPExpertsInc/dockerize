@@ -9,6 +9,14 @@ if [ "$PHP_VERSION" == "native" ] || [ -f "/.dockerenv" ]; then
    exit;
 fi
 
+ORIG_PHP_VERSION=$PHP_VERSION
+if [ -f "${ROOT}/.env" ]; then
+    source "${ROOT}/.env"
+    if [ ! -z "$ORIG_PHP_VERSION" ]; then
+        PHP_VERSION="$ORIG_PHP_VERSION"
+    fi
+fi
+
 if [ -z "$PROJECT_NAME" ]; then
     PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]-]//g")
 fi
