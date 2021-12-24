@@ -1,6 +1,7 @@
 ## v7.1.1
 * **[2021-12-24 15:36:38 CDT]** Fixed the ability of selecting the PHP version via the .env file.
 * **[2021-12-24 16:09:02 CDT]** Upgraded to PHP v7.4.27, 8.0.14, and 8.1.1.
+* **[2021-12-24 16:09:16 CDT]** Added xdebug support for PHP 8.1.
 
 ## v7.1.0
 * **[2021-11-18 04:10:49 CDT]** Upgraded the config files for Xdebug v3.0.
