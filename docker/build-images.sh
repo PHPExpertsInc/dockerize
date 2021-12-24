@@ -1,10 +1,8 @@
 #!/bin/bash
 
-#PHP_VERSIONS="7.4"
-#PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4"
-PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0"
-#HP_VERSIONS="7.0 7.1 7.2 7.3 7.4 8.0"
-#PHP_VERSIONS="8.0"
+PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1"
+#PHP_VERSIONS="7.4 8.0 8.1"
+#PHP_VERSIONS="8.1"
 cd images
 
 # Build the base linux image first.
