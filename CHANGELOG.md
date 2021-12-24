@@ -1,3 +1,6 @@
+## v7.1.1
+* **[2021-12-24 15:36:38 CDT]** Fixed the ability of selecting the PHP version via the .env file.
+
 ## v7.1.0
 * **[2021-11-18 04:10:49 CDT]** Upgraded the config files for Xdebug v3.0.
 * **[2021-11-18 04:13:15 CDT]** Added the ability to configure the Docker platform via the .env.

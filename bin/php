@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
 # Detect if it's running inside of docker and run it natively if it is.
 # @see https://stackoverflow.com/a/25518345/430062
