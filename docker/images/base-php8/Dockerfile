@@ -16,9 +16,9 @@ RUN apt-get install -y --no-install-recommends gcc g++ make && \
                        zlibc zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://www.php.net/distributions/php-8.1.0.tar.xz -o php.xz && \
+    curl https://www.php.net/distributions/php-8.1.1.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.1.0 && \
+    cd php-8.1.1 && \
     # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
@@ -94,7 +94,7 @@ RUN echo extension_dir=$(/workdir/install/usr/bin/php --info | grep ^extension_d
     sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /workdir/install/etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
     #
     cd /workdir/install && \
-    tar czvf /workdir/php-${PHP_VERSION}-ubuntu.tar.gz * && \
+    tar cvf /workdir/php-${PHP_VERSION}-ubuntu.tar * && \
     echo "Finished"
 
 WORKDIR /workdir
@@ -109,7 +109,7 @@ ARG PHP_VERSION=8.1
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY --from=intermediate /workdir/php-8.1-ubuntu.tar.gz /php-8.1-ubuntu.tar.gz
+COPY --from=intermediate /workdir/php-8.1-ubuntu.tar /php-8.1-ubuntu.tar
 
 RUN apt-get update && \
     # Configure ondrej PPA
@@ -126,8 +126,8 @@ RUN apt-get update && \
     apt-get clean && \
 #    rm -rf /var/lib/apt/lists/* && \
     cd / && \
-    tar xvf php-8.1-ubuntu.tar.gz && \
-    rm -v php-8.1-ubuntu.tar.gz && \
+    tar xvf php-8.1-ubuntu.tar && \
+    rm -v php-8.1-ubuntu.tar && \
     echo "Finished..."
 
 WORKDIR /workdir
