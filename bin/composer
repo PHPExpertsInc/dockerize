@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+# @see https://linuxize.com/post/how-to-check-if-string-contains-substring-in-bash/
+# @see https://github.com/composer/composer/issues/10389
+SUB="/vendor/"
+if [[ "$0" == *"$SUB"* ]]; then
+  ROOT="$(readlink -f /proc/$PPID/cwd)"
+else
+  ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
+fi
 
 # Detect if it's running inside of docker and run it natively if it is.
 # @see https://stackoverflow.com/a/25518345/430062

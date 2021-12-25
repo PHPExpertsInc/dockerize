@@ -1,3 +1,6 @@
+## v7.1.2
+* **[2021-12-24 23:27:47 CDT]** Added support for composer v2.2.0+.
+
 ## v7.1.1
 * **[2021-12-24 15:36:38 CDT]** Fixed the ability of selecting the PHP version via the .env file.
 * **[2021-12-24 16:09:02 CDT]** Upgraded to PHP v7.4.27, 8.0.14, and 8.1.1.
