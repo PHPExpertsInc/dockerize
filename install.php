@@ -28,9 +28,6 @@ Please consider a $5 donation.
   - Cashapp:  \$theocode
   - Patreon:  https://www.patreon.com/hopeseekr
   - Paypal:   hopeseekr@xmule.ws
-  - Bitcoin:  3C6Jay2TEzAksek2geXtqdDrKV5R5EkoWz
-  - Ethereum: hopeseekr@xmule.ws
-
 
 TEXT;
 
@@ -92,6 +89,21 @@ function choosePHPVersions()
     $selectedVersions = array_values(array_intersect_key($PHP_VERSIONS, array_flip($selectedChoices)));
 
     $yesNo = '';
+    while (!in_array($yesNo, ['y', 'n'])) {
+        echo "\nDo you need Ioncube Decoder support? (y/N)\n";
+        $yesNo = getUserInput();
+        $yesNo = $yesNo === '' ? 'n' : $yesNo;
+    }
+
+    if ($yesNo === 'y') {
+        foreach ($selectedVersions as &$version) {
+            $version .= '-ioncube';
+        }
+echo "hmm";
+        return $selectedVersions;
+    }
+    $yesNo = '';
+
     while (!in_array($yesNo, ['y', 'n'])) {
         echo "\nDo you need Xdebug support? (y/N)\n";
         $yesNo = getUserInput();
