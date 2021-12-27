@@ -31,7 +31,7 @@ for VERSION in ${PHP_VERSIONS}; do
 
 done
 
-docker rmi --force phpexperts/php:8 phpexperts/php:8.1 phpexperts/web:nginx-php8.1
-docker build base-php8 --tag="phpexperts/php:8.1"
-
-docker build web-php8 --tag="phpexperts/web:nginx-php8.1"
+#docker rmi --force phpexperts/php:8 phpexperts/php:8.1 phpexperts/web:nginx-php8.1
+#docker build base-php8 --tag="phpexperts/php:8.1"
+#
+#docker build web-php8 --tag="phpexperts/web:nginx-php8.1"
