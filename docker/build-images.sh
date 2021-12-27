@@ -31,7 +31,7 @@ for VERSION in ${PHP_VERSIONS}; do
 
   if [ "$MAJOR_VERSION" != "8" ]; then
     docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg PHP_VERSION=$VERSION
-    docker build web-ioncube --tag="phpexperts/web:nginx-php${VERSION}-ioncube"          --build-arg PHP_VERSION=$VERSION
+    docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg PHP_VERSION=$VERSION
   fi
 done
 

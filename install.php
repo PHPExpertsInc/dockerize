@@ -217,7 +217,7 @@ function getUserInput()
 }
 
 /**
- * Copyright © 2020 Theodore R. Smith <https://www.phpexperts.pro/>
+ * Copyright © 2020-2022 Theodore R. Smith <https://www.phpexperts.pro/>
  * License: MIT
  *
  * @see https://stackoverflow.com/a/61168906/430062
