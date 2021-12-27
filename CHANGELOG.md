@@ -1,3 +1,6 @@
+## v7.2.0
+* **[2021-12-27 12:05:54 CDT]** Use the official PHP 8.1 builds now.
+
 ## v7.1.2
 * **[2021-12-24 23:27:47 CDT]** Added support for composer v2.2.0+.
 
