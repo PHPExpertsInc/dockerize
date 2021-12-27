@@ -7,7 +7,7 @@ cd images
 
 # Build the base linux image first.
 docker rmi phpexperts/linux:latest
-docker build linux --tag="phpexperts/linux:latest"
+docker build linux --tag="phpexperts/linux:latest" --no-cache
 
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
