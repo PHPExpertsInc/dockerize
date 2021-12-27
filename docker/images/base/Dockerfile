@@ -16,6 +16,7 @@ RUN apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-gd \
         php${PHP_VERSION}-gmp \
         php${PHP_VERSION}-imagick \
+        php${PHP_VERSION}-imap \
         php${PHP_VERSION}-intl \
         php${PHP_VERSION}-mbstring \
         php${PHP_VERSION}-memcached \
@@ -23,6 +24,7 @@ RUN apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-pgsql \
         php${PHP_VERSION}-opcache \
         php${PHP_VERSION}-redis \
+        php${PHP_VERSION}-ssh2 \
         php${PHP_VERSION}-soap \
         php${PHP_VERSION}-sqlite3 \
         php${PHP_VERSION}-xml \
