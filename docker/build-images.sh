@@ -7,7 +7,7 @@ cd images
 
 # Build the base linux image first.
 docker rmi phpexperts/linux:latest
-docker build linux --tag="phpexperts/linux:latest"
+docker build linux --tag="phpexperts/linux:latest" --no-cache
 
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
@@ -29,6 +29,10 @@ for VERSION in ${PHP_VERSIONS}; do
   docker build web        --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg PHP_VERSION=$VERSION
   docker build web-debug  --tag="phpexperts/web:nginx-php${VERSION}-debug" --build-arg PHP_VERSION=$VERSION
 
+  if [ "$MAJOR_VERSION" != "8" ]; then
+    docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg PHP_VERSION=$VERSION
+    docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg PHP_VERSION=$VERSION
+  fi
 done
 
 #docker rmi --force phpexperts/php:8 phpexperts/php:8.1 phpexperts/web:nginx-php8.1
