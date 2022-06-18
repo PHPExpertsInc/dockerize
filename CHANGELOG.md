@@ -1,3 +1,7 @@
+## v7.2.1
+* **[2022-06-18 00:05:57 CDT]** Show all of the output of docker build, not just the last 6 lines.
+* **[2022-06-18 00:10:05 CDT]** Upgraded to Ubuntu 22.04 Jammy Jellyfish.
+
 ## v7.2.0
 * **[2021-12-27 12:05:54 CDT]** Use the official PHP 8.1 builds now.
 * **[2021-12-27 12:06:15 CDT]** Include ext-imap and ext-ssh2.
