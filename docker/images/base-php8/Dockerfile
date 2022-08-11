@@ -2,29 +2,29 @@
 FROM phpexperts/linux:latest AS intermediate
 #FROM phpexperts/php:8.0-temp
 
-ARG PHP_VERSION=8.1
+ARG PHP_VERSION=8.2
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
-# Compile PHP 8.1 manually
-RUN apt-get install -y --no-install-recommends gcc g++ make && \
+# Compile PHP 8.2 manually
+RUN apt-get install -y --no-install-recommends gcc g++ make file && \
     apt-get install -y libxml2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
                        libxslt-dev libssl-dev libldb-dev libedit-dev libsodium-dev \
-                       zlibc zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
+                       zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://www.php.net/distributions/php-8.1.1.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~sergey/php-8.2.0beta2.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.1.1 && \
+    cd php-8.2.0beta2 && \
     # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
                 --enable-sockets --disable-phpdbg --with-libedit --with-sodium --enable-exif --enable-intl \
                 --with-mysqli --with-xsl --with-zlib --prefix=/workdir/install/usr \
-                --with-config-file-path=/etc/php/8.1/cli  --with-config-file-scan-dir=/etc/php/8.1/cli/conf.d && \
+                --with-config-file-path=/etc/php/8.2/cli  --with-config-file-scan-dir=/etc/php/8.2/cli/conf.d && \
     make -j8 && \
     make install && \
     # Build FPM
@@ -33,7 +33,7 @@ RUN apt-get install -y --no-install-recommends gcc g++ make && \
                 --enable-sockets --disable-phpdbg --with-libedit --with-sodium --enable-exif --enable-intl \
                 --with-mysqli --with-xsl --with-zlib \
                 --enable-fpm --with-fpm-user=www-data --enable-pcntl --prefix=/workdir/install/usr \
-                --with-config-file-path=/etc/php/8.1/fpm  --with-config-file-scan-dir=/etc/php/8.1/fpm/conf.d && \
+                --with-config-file-path=/etc/php/8.2/fpm  --with-config-file-scan-dir=/etc/php/8.2/fpm/conf.d && \
     make -j8 && \
     make install && \
     #
@@ -103,13 +103,13 @@ ENTRYPOINT ["/usr/bin/bash", "-l"]
 
 FROM phpexperts/linux:latest
 
-ARG PHP_VERSION=8.1
+ARG PHP_VERSION=8.2
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY --from=intermediate /workdir/php-8.1-ubuntu.tar /php-8.1-ubuntu.tar
+COPY --from=intermediate /workdir/php-8.2-ubuntu.tar /php-8.2-ubuntu.tar
 
 RUN apt-get update && \
     # Configure ondrej PPA
@@ -118,7 +118,7 @@ RUN apt-get update && \
     #
     # Install PHP & curl (for composer)
     # Install PHP extension dependencies
-    apt-get install -y libpq5 libpng16-16 libonig5 libxslt-dev zlibc zlib1g libsodium-dev libedit-dev libcurl4 libzip4 && \
+    apt-get install -y libpq5 libpng16-16 libonig5 libxslt-dev zlib1g libsodium-dev libedit-dev libcurl4 libzip4 && \
     #
     # Cleanup
     apt-get remove -y && \
@@ -126,8 +126,8 @@ RUN apt-get update && \
     apt-get clean && \
 #    rm -rf /var/lib/apt/lists/* && \
     cd / && \
-    tar xvf php-8.1-ubuntu.tar && \
-    rm -v php-8.1-ubuntu.tar && \
+    tar xvf php-8.2-ubuntu.tar && \
+    rm -v php-8.2-ubuntu.tar && \
     echo "Finished..."
 
 WORKDIR /workdir
