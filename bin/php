@@ -32,7 +32,7 @@ if [ -z "$NETWORK_NAME" ]; then
 fi
 
 if [ -z "$PHP_VERSION" ]; then
-    PHP_VERSION="7"
+    PHP_VERSION="8"
 fi
 
 # Test if the network exists.
