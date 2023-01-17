@@ -1,3 +1,12 @@
+## v8.0.0
+* **[2022-08-11 00:37:03 CDT]** Boosted the default version of PHP to 8.1.
+* **[2022-08-11 00:37:33 CDT]** Added PHP v8.2 support. master
+* **[2023-01-17 06:59:14 CDT]** Cleaned up the build script so that it tags instead of building duplicate images.
+* **[2023-01-17 07:00:57 CDT]** Improved the Linux base image build.
+* **[2023-01-17 08:46:09 CDT]** Explicitly set the default PHP version to 8.1.
+* **[2023-01-17 07:41:52 CDT]** Now, PHP will be launched from a continuously-running container for much faster runtimes at the expense of about 130 MB per container.
+* **[2023-01-17 08:57:42 CDT]** Added support for PHP 8.2.
+
 ## v7.2.1
 * **[2022-06-18 00:05:57 CDT]** Show all of the output of docker build, not just the last 6 lines.
 * **[2022-06-18 00:10:05 CDT]** Upgraded to Ubuntu 22.04 Jammy Jellyfish.

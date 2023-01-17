@@ -1,20 +1,10 @@
 FROM ubuntu:jammy
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
-ENV LC_ALL C.UTF-8
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt-get update && \
-    # Configure ondrej PPA
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:ondrej/php && \
-    apt-get upgrade -y
-
-# Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
-ENV LC_ALL C.UTF-8
-ENV DEBIAN_FRONTEND noninteractive
+ENV LANG=C.UTF-8 \ LC_ALL=C.UTF-8 \ DEBIAN_FRONTEND=noninteractive
 
 RUN echo "Building base Linux..." && \
+    apt-get update -y && \
     # Configure ondrej PPA
     apt-get install -y software-properties-common && \
     add-apt-repository ppa:ondrej/php && \
