@@ -1,45 +1,14 @@
-#!/usr/bin/env bash
-
-# @see https://linuxize.com/post/how-to-check-if-string-contains-substring-in-bash/
-# @see https://github.com/composer/composer/issues/10389
-SUB="/vendor/"
-if [[ "$0" == *"$SUB"* ]]; then
-  ROOT="$(readlink -f /proc/$PPID/cwd)"
-else
-  ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
-fi
+#!/bin/bash
 
 # Detect if it's running inside of docker and run it natively if it is.
 # @see https://stackoverflow.com/a/25518345/430062
 if [ "$PHP_VERSION" == "native" ] || [ -f "/.dockerenv" ]; then
-   /usr/local/bin/composer "$@"
-   exit;
+  (/bin/env --chdir=/ composer "$@")
+  exit
 fi
 
-ORIG_PHP_VERSION=$PHP_VERSION
-if [ -f "${ROOT}/.env" ]; then
-    source "${ROOT}/.env"
-    if [ ! -z "$ORIG_PHP_VERSION" ]; then
-        PHP_VERSION="$ORIG_PHP_VERSION"
-    fi
-fi
+# Get the script's directory.
+# @see https://stackoverflow.com/a/246128/430062
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-if [ -z "$PROJECT_NAME" ]; then
-    PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]-]//g")
-fi
-if [ -z "$NETWORK_NAME" ]; then
-    NETWORK_NAME=${PROJECT_NAME}_default
-fi
-
-if [ -z "$PHP_VERSION" ]; then
-    PHP_VERSION="7"
-fi
-
-# Test if the network exists.
-docker network inspect $NETWORK_NAME > /dev/null 2>&1
-if [ $? == 0 ]; then
-  docker run --env RUN_COMPOSER=1 -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro --network="$NETWORK_NAME" -it -v $PWD:/workdir --rm phpexperts/php:${PHP_VERSION} "$@"
-else
-  docker run --env RUN_COMPOSER=1 -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro -it -v $PWD:/workdir --rm phpexperts/php:${PHP_VERSION} "$@"
-fi
-
+${SCRIPT_DIR}/php composer "$@"

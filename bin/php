@@ -35,11 +35,27 @@ if [ -z "$PHP_VERSION" ]; then
     PHP_VERSION="8"
 fi
 
-# Test if the network exists.
-docker network inspect $NETWORK_NAME > /dev/null 2>&1
-if [ $? == 0 ]; then
-  docker run --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro --network="$NETWORK_NAME" -it -v $PWD:/workdir --rm phpexperts/php:${PHP_VERSION} "$@"
-else
-  docker run --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro -it -v $PWD:/workdir --rm phpexperts/php:${PHP_VERSION} "$@"
+# Detect if the PHP container is running already...
+# If not, start it.
+if [ ! "$(docker top phpexperts_php${PHP_VERSION} 2> /dev/null)" ]; then
+    # Test if the network exists.
+    docker network inspect $NETWORK_NAME > /dev/null 2>&1
+    if [ $? == 0 ]; then
+      docker run --name phpexperts_php${PHP_VERSION} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro --network="$NETWORK_NAME" -it -v $PWD:/workdir --rm phpexperts/php:${PHP_VERSION} &
+    else
+      docker run --name phpexperts_php${PHP_VERSION} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro -v $PWD:/workdir --rm -t phpexperts/php:${PHP_VERSION} &
+    fi
+
+    # Wait for the docker process to be created.
+    while [ ! "$(docker top phpexperts_php${PHP_VERSION} 2> /dev/null)" ]; do
+#        echo "Waiting for the phpexperts_php${PHP_VERSION} container to start..."
+        sleep 0.5
+    done
 fi
 
+# Run the command directly from the container for faster and more performant execution.
+if [ "$1" == "bash" ] || [ "$1" == "composer" ]; then
+    docker exec -it phpexperts_php${PHP_VERSION} "$@"
+else
+    docker exec -it phpexperts_php${PHP_VERSION} php "$@"
+fi
