@@ -32,7 +32,7 @@ if [ -z "$NETWORK_NAME" ]; then
 fi
 
 if [ -z "$PHP_VERSION" ]; then
-    PHP_VERSION="8"
+    PHP_VERSION="8.1"
 fi
 
 # Detect if the PHP container is running already...
