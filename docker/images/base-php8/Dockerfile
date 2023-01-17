@@ -16,9 +16,9 @@ RUN apt-get install -y --no-install-recommends gcc g++ make file && \
                        zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://downloads.php.net/~sergey/php-8.2.0beta2.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~sergey/php-8.2.0RC6.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.2.0beta2 && \
+    cd php-8.2.0RC6 && \
     # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
