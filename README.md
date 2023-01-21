@@ -57,6 +57,9 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
 
 ## Latest Changes
 
+### v8.0.1
+* **[2023-01-20 21:58:20 CDT]** Fixed the problem that prevented the web images from being successfully built.
+
 ### v8.0.0
 * **[2022-08-11 00:37:03 CDT]** Boosted the default version of PHP to 8.1.
 * **[2022-08-11 00:37:33 CDT]** Added PHP v8.2 support. master
