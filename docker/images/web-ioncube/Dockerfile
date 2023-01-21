@@ -1,6 +1,7 @@
 # phpexperts/web-debug
 ARG PHP_VERSION=7.4
 FROM phpexperts/php:${PHP_VERSION}-ioncube
+ARG PHP_VERSION
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \

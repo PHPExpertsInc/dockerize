@@ -1,16 +1,18 @@
 # phpexperts/web
 ARG PHP_VERSION=7.4
-FROM phpexperts/php:${PHP_VERSION}
+FROM phpexperts/php:$PHP_VERSION
+ARG PHP_VERSION
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \
         ca-certificates \
         nginx \
-        php{$PHP_VERSION}-fpm \
+        php${PHP_VERSION}-fpm \
         supervisor && \
+    echo "${PHP_VERSION}" | tee > /VERSION && \
     #
     ## Configure PHP-FPM
-RUN sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i "s!memory_limit =.\+!memory_limit = -1!g" /etc/php/${PHP_VERSION}/cli/php.ini && \
     sed -i "s!memory_limit =.\+!memory_limit = -1!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
     sed -i "s!;error_log = php_errors.log!error_log = /proc/self/fd/2!g" /etc/php/${PHP_VERSION}/fpm/php.ini && \
@@ -21,7 +23,7 @@ RUN sed -i "s!display_startup_errors = Off!display_startup_errors = On!g" /etc/p
     sed -i "s!error_log = /var/log/php${PHP_VERSION}-fpm.log!error_log = /proc/self/fd/2!g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
     #
     sed -i "s!;catch_workers_output = yes!catch_workers_output = yes!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
-    sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
+    sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
     # Route nginx logs to syslog socket (will show in Docker logs)
     sed -i 's!/var/log/nginx/access.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
     sed -i 's!/var/log/nginx/error.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
