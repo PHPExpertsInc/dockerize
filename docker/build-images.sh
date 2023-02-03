@@ -36,8 +36,8 @@ for VERSION in ${PHP_VERSIONS}; do
 #  docker build full       --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
   docker build base-debug --tag="phpexperts/php:latest-debug"              --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker tag phpexperts/php:latest "phpexperts/php:${MAJOR_VERSION}-debug"
-  docker tag phpexperts/php:latest "phpexperts/php:${VERSION}-debug"
+  docker tag phpexperts/php:latest-debug "phpexperts/php:${MAJOR_VERSION}-debug"
+  docker tag phpexperts/php:latest-debug "phpexperts/php:${VERSION}-debug"
 
   docker tag "phpexperts/php:${VERSION}" phpexperts/php:latest
   docker build web        --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
