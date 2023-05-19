@@ -13,7 +13,7 @@ export DOCKER_BUILDKIT=1
 docker rmi --force phpexperts/linux:latest
 docker build linux --tag="phpexperts/linux:latest" --no-cache --progress=plain
 docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
-
+exit
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
 

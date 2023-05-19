@@ -1,11 +1,14 @@
 # phpexperts/php:7
 FROM phpexperts/linux:latest
 
-ARG PHP_VERSION=7.4
+ARG PHP_VERSION=8.0
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
+
+## Change the mirror to Turkey, because I'm in UAE right now and it's damn slow.
+RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
 
 RUN apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-cli \

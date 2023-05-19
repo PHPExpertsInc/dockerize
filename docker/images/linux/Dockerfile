@@ -3,6 +3,9 @@ FROM ubuntu:jammy
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LANG=C.UTF-8 \ LC_ALL=C.UTF-8 \ DEBIAN_FRONTEND=noninteractive
 
+## Change the mirror to Turkey, because I'm in UAE right now and it's damn slow.
+RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
+
 RUN echo "Building base Linux..." && \
     apt-get update -y && \
     # Configure ondrej PPA

@@ -1,6 +1,6 @@
 # phpexperts/php:7-base-debug
 
-ARG PHP_VERSION=7.4
+ARG PHP_VERSION=8.0
 FROM phpexperts/php:${PHP_VERSION}
 
 ARG PHP_VERSION
