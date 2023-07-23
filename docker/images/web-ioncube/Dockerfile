@@ -1,5 +1,5 @@
 # phpexperts/web-debug
-ARG PHP_VERSION=7.4
+ARG PHP_VERSION=8.0
 FROM phpexperts/php:${PHP_VERSION}-ioncube
 ARG PHP_VERSION
 

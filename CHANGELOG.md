@@ -1,44 +1,50 @@
+## v8.1.0
+* **[2023-07-23 03:21:22 CDT]** Now Dockerize PHP will run in the container, if it's running, or create a temp one if it's not.
+* **[2023-05-19 05:35:27 CDT]** Updated to PHP v8.0.28, v8.1.19, and v8.2.6.
+* **[2023-05-19 05:30:36 CDT]** Changed the default image from PHP v7.4 to v8.0.
+* **[2023-02-03 07:19:37 CST]** Majorly refactored so that it executes a persistent container for native launch speeds.
+
 ## v8.0.1
-* **[2023-01-20 21:58:20 CDT]** Fixed the problem that prevented the web images from being successfully built.
+* **[2023-01-20 21:58:20 CST]** Fixed the problem that prevented the web images from being successfully built.
 
 ## v8.0.0
 * **[2022-08-11 00:37:03 CDT]** Boosted the default version of PHP to 8.1.
 * **[2022-08-11 00:37:33 CDT]** Added PHP v8.2 support. master
-* **[2023-01-17 06:59:14 CDT]** Cleaned up the build script so that it tags instead of building duplicate images.
-* **[2023-01-17 07:00:57 CDT]** Improved the Linux base image build.
-* **[2023-01-17 08:46:09 CDT]** Explicitly set the default PHP version to 8.1.
-* **[2023-01-17 07:41:52 CDT]** Now, PHP will be launched from a continuously-running container for much faster runtimes at the expense of about 130 MB per container.
-* **[2023-01-17 08:57:42 CDT]** Added support for PHP 8.2.
+* **[2023-01-17 06:59:14 CST]** Cleaned up the build script so that it tags instead of building duplicate images.
+* **[2023-01-17 07:00:57 CST]** Improved the Linux base image build.
+* **[2023-01-17 08:46:09 CST]** Explicitly set the default PHP version to 8.1.
+* **[2023-01-17 07:41:52 CST]** Now, PHP will be launched from a continuously-running container for much faster runtimes at the expense of about 130 MB per container.
+* **[2023-01-17 08:57:42 CST]** Added support for PHP 8.2.
 
 ## v7.2.1
 * **[2022-06-18 00:05:57 CDT]** Show all of the output of docker build, not just the last 6 lines.
 * **[2022-06-18 00:10:05 CDT]** Upgraded to Ubuntu 22.04 Jammy Jellyfish.
 
 ## v7.2.0
-* **[2021-12-27 12:05:54 CDT]** Use the official PHP 8.1 builds now.
-* **[2021-12-27 12:06:15 CDT]** Include ext-imap and ext-ssh2.
-* **[2021-12-27 17:18:50 CDT]** (#10) Added support for the Ioncube Decoder.
-* **[2021-12-27 17:22:18 CDT]** Force the rebuilding of the Linux base image, for an up-to-date OS.
-* **[2021-12-27 17:26:25 CDT]** Added basic automated tests.
+* **[2021-12-27 12:05:54 CST]** Use the official PHP 8.1 builds now.
+* **[2021-12-27 12:06:15 CST]** Include ext-imap and ext-ssh2.
+* **[2021-12-27 17:18:50 CST]** (#10) Added support for the Ioncube Decoder.
+* **[2021-12-27 17:22:18 CST]** Force the rebuilding of the Linux base image, for an up-to-date OS.
+* **[2021-12-27 17:26:25 CST]** Added basic automated tests.
 
 ## v7.1.2
-* **[2021-12-24 23:27:47 CDT]** Added support for composer v2.2.0+.
+* **[2021-12-24 23:27:47 CST]** Added support for composer v2.2.0+.
 
 ## v7.1.1
-* **[2021-12-24 15:36:38 CDT]** Fixed the ability of selecting the PHP version via the .env file.
-* **[2021-12-24 16:09:02 CDT]** Upgraded to PHP v7.4.27, 8.0.14, and 8.1.1.
-* **[2021-12-24 16:09:16 CDT]** Added xdebug support for PHP 8.1.
+* **[2021-12-24 16:09:16 CST]** Added xdebug support for PHP 8.1.
+* **[2021-12-24 16:09:02 CST]** Upgraded to PHP v7.4.27, 8.0.14, and 8.1.1.
+* **[2021-12-24 15:36:38 CST]** Fixed the ability of selecting the PHP version via the .env file.
 
 ## v7.1.0
-* **[2021-11-18 04:10:49 CDT]** Upgraded the config files for Xdebug v3.0.
-* **[2021-11-18 04:13:15 CDT]** Added the ability to configure the Docker platform via the .env.
-* **[2021-12-10 08:32:27 CDT]** Added install support for PHP 5.6, 8.0, and 8.1.
+* **[2021-12-10 08:32:27 CST]** Added install support for PHP 5.6, 8.0, and 8.1.
+* **[2021-11-18 04:13:15 CST]** Added the ability to configure the Docker platform via the .env.
+* **[2021-11-18 04:10:49 CST]** Upgraded the config files for Xdebug v3.0.
 
 ## v7.0.0
-* **[2021-11-02 15:47:49 CDT]** PHP 8.1 RC5.
-* **[2021-11-01 08:08:36 CDT]** Dramatically reduced total build time from 33 minutes to 11 minutes.
-* **[2021-11-01 06:24:52 CDT]** Embedded composer into the php container.
-* **[2021-11-01 06:00:30 CDT]** Run the native PHP when inside docker.
+* **[2021-11-02 15:47:49 CST]** PHP 8.1 RC5.
+* **[2021-11-01 08:08:36 CST]** Dramatically reduced total build time from 33 minutes to 11 minutes.
+* **[2021-11-01 06:24:52 CST]** Embedded composer into the php container.
+* **[2021-11-01 06:00:30 CST]** Run the native PHP when inside docker.
 * **[2021-07-29 07:13:12 CDT]** Set the PHP memory_limit to unlimited by default.
 * **[2021-07-29 07:07:35 CDT]** Fixed the building of xdebug.
 * **[2021-06-21 07:10:58 CDT]** Added git and ssh for private packages supoprt.

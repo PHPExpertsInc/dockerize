@@ -35,27 +35,33 @@ if [ -z "$PHP_VERSION" ]; then
     PHP_VERSION="8.1"
 fi
 
+# Test if the network exists.
+NETWORK_STRING=""
+docker network inspect "$NETWORK_NAME" > /dev/null 2>&1
+if [ $? == 0 ]; then
+    NETWORK_STRING="--network='$NETWORK_NAME'"
+fi
+
 # Detect if the PHP container is running already...
-# If not, start it.
-if [ ! "$(docker top ${PROJECT_NAME}${PHP_VERSION} 2> /dev/null)" ]; then
-    # Test if the network exists.
-    docker network inspect $NETWORK_NAME > /dev/null 2>&1
-    if [ $? == 0 ]; then
-      docker run --name ${PROJECT_NAME}${PHP_VERSION} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro --network="$NETWORK_NAME" -it -v $PWD:/workdir --rm phpexperts/php:${PHP_VERSION} &
-    else
-      docker run --name ${PROJECT_NAME}${PHP_VERSION} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v $PWD:$PWD -v /etc/passwd:/etc/passwd:ro -v $PWD:/workdir --rm -t phpexperts/php:${PHP_VERSION} &
-    fi
+# If it is running, use it directly.
+if [ "$(docker top "${PROJECT_NAME}"${PHP_VERSION} 2> /dev/null)" ]; then
+    # shellcheck disable=SC2086
+    docker run --name "${PROJECT_NAME}"${PHP_VERSION} "${NETWORK_STRING}" --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":$PWD -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm -t phpexperts/php:${PHP_VERSION} &
 
     # Wait for the docker process to be created.
-    while [ ! "$(docker top ${PROJECT_NAME}${PHP_VERSION} 2> /dev/null)" ]; do
+    while [ ! "$(docker top "${PROJECT_NAME}"${PHP_VERSION} 2> /dev/null)" ]; do
 #        echo "Waiting for the phpexperts_php${PHP_VERSION} container to start..."
         sleep 0.5
     done
+
+    # Run the command directly from the container for faster and more performant execution.
+    if [ "$1" == "bash" ] || [ "$1" == "composer" ]; then
+        docker exec -it "${PROJECT_NAME}"${PHP_VERSION} "$@"
+    else
+        docker exec -it "${PROJECT_NAME}"${PHP_VERSION} php "$@"
+    fi
+
+    exit
 fi
 
-# Run the command directly from the container for faster and more performant execution.
-if [ "$1" == "bash" ] || [ "$1" == "composer" ]; then
-    docker exec -it ${PROJECT_NAME}${PHP_VERSION} "$@"
-else
-    docker exec -it ${PROJECT_NAME}${PHP_VERSION} php "$@"
-fi
+docker run "${NETWORK_STRING}" --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":"$PWD" -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm -it phpexperts/php:${PHP_VERSION} "$@"
