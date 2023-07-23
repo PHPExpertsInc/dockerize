@@ -57,17 +57,23 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
 
 ## Latest Changes
 
+## v8.1.0
+* **[2023-07-23 03:21:22 CDT]** Now Dockerize PHP will run in the container, if it's running, or create a temp one if it's not.
+* **[2023-05-19 05:35:27 CDT]** Updated to PHP v8.0.28, v8.1.19, and v8.2.6.
+* **[2023-05-19 05:30:36 CDT]** Changed the default image from PHP v7.4 to v8.0.
+* **[2023-02-03 07:19:37 CST]** Majorly refactored so that it executes a persistent container for native launch speeds.
+
 ### v8.0.1
 * **[2023-01-20 21:58:20 CDT]** Fixed the problem that prevented the web images from being successfully built.
 
 ### v8.0.0
-* **[2022-08-11 00:37:03 CDT]** Boosted the default version of PHP to 8.1.
-* **[2022-08-11 00:37:33 CDT]** Added PHP v8.2 support. master
-* **[2023-01-17 06:59:14 CDT]** Cleaned up the build script so that it tags instead of building duplicate images.
-* **[2023-01-17 07:00:57 CDT]** Improved the Linux base image build.
-* **[2023-01-17 08:46:09 CDT]** Explicitly set the default PHP version to 8.1.
-* **[2023-01-17 07:41:52 CDT]** Now, PHP will be launched from a continuously-running container for much faster runtimes at the expense of about 130 MB per container.
-* **[2023-01-17 08:57:42 CDT]** Added support for PHP 8.2.
+* **[2022-08-11 00:37:03 CST]** Boosted the default version of PHP to 8.1.
+* **[2022-08-11 00:37:33 CST]** Added PHP v8.2 support. master
+* **[2023-01-17 06:59:14 CST]** Cleaned up the build script so that it tags instead of building duplicate images.
+* **[2023-01-17 07:00:57 CST]** Improved the Linux base image build.
+* **[2023-01-17 08:46:09 CST]** Explicitly set the default PHP version to 8.1.
+* **[2023-01-17 07:41:52 CST]** Now, PHP will be launched from a continuously-running container for much faster runtimes at the expense of about 130 MB per container.
+* **[2023-01-17 08:57:42 CST]** Added support for PHP 8.2.
 
 ## Manage with docker-compose
 
