@@ -64,4 +64,4 @@ if [ "$(docker top "${PROJECT_NAME}"${PHP_VERSION} 2> /dev/null)" ]; then
     exit
 fi
 
-docker run "${NETWORK_STRING}" --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":"$PWD" -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm -it phpexperts/php:${PHP_VERSION} "$@"
+docker run ${NETWORK_STRING} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":"$PWD" -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm -it phpexperts/php:${PHP_VERSION} "$@"
