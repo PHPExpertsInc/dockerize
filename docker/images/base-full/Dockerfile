@@ -10,6 +10,19 @@ ENV DEBIAN_FRONTEND noninteractive
 ## Change the mirror to Turkey, because I'm in UAE right now and it's damn slow.
 #RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
 
+# Download oracle packages and install OCI8
+RUN curl -O https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip && \
+    unzip instantclient-basic-linux.x64-21.12.0.0.0dbru.zip -d /opt/oracle/instantclient/ && \
+    rm instantclient-basic-linux.x64-21.12.0.0.0dbru.zip && \
+    curl -o instantclient-basic-193000.zip https://dependencies.silencesys.dev/instantclient-sdk-193000.zip && \
+    unzip instantclient-basic-193000.zip -d /usr/lib/oracle/  && \
+    rm instantclient-basic-193000.zip  && \
+    echo /usr/lib/oracle/instantclient_19_3 > /etc/ld.so.conf.d/oracle-instantclient.conf && \
+    ldconfig
+
+ENV LD_LIBRARY_PATH /usr/lib/oracle/instantclient_19_3
+
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-ldap \
         php${PHP_VERSION}-pspell \

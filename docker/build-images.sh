@@ -8,7 +8,7 @@ cd images
 export BUILDKIT_STEP_LOG_MAX_SIZE=104857600
 
 # Build the base linux image first.
-export DOCKER_BUILDKIT=1
+#export DOCKER_BUILDKIT=1
 docker rmi --force phpexperts/linux:latest
 docker build linux --tag="phpexperts/linux:latest" --no-cache --progress=plain
 docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
@@ -17,6 +17,10 @@ docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
 ## IonCube
 curl -LO https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 mv ioncube_loaders_lin_x86-64.tar.gz ./base-ioncube/.build-assets/
+## Oracle OCI8
+curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip
+mv instantclient-basic-linux.x64-21.12.0.0.0dbru.zip /tmp
+
 
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
