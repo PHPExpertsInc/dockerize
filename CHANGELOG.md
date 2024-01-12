@@ -1,3 +1,10 @@
+## v8.2.0
+* **[2024-01-12 05:58:13 CDT]** Remove Ubuntu's apt files to save space in the base image.
+* **[2024-01-07 09:30:00 CDT]** Fixed the building of the ioncube images.
+* **[2024-01-07 03:28:00 CDT]** [major] Fixed the broken web images.
+* **[2023-12-05 10:10:39 CDT]** Added PHP v8.3 support.
+* **[2023-12-05 10:09:40 CDT]** Added a PHP version test script.
+
 ## v8.1.0
 * **[2023-07-23 03:21:22 CDT]** Now Dockerize PHP will run in the container, if it's running, or create a temp one if it's not.
 * **[2023-05-19 05:35:27 CDT]** Updated to PHP v8.0.28, v8.1.19, and v8.2.6.
