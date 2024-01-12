@@ -13,6 +13,11 @@ docker rmi --force phpexperts/linux:latest
 docker build linux --tag="phpexperts/linux:latest" --no-cache --progress=plain
 docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
 
+# Download build assets
+## IonCube
+curl -LO https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
+mv ioncube_loaders_lin_x86-64.tar.gz ./base-ioncube/.build-assets/
+
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
 
@@ -43,7 +48,10 @@ for VERSION in ${PHP_VERSIONS}; do
   docker build web        --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   docker build web-debug  --tag="phpexperts/web:nginx-php${VERSION}-debug" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
-  if [ "$MAJOR_VERSION" != "8" ]; then
+
+  # IonCube doesn't support PHP v8.0 or v8.3.
+  if [[ "$VERSION" != "8.0" && "$VERSION" != "8.3" ]]; then
+    echo "Building IonCube for PHP v${VERSION}"
     docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   fi
