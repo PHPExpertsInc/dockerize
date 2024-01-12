@@ -9,8 +9,6 @@ if [ -f "/etc/nginx/custom/hosts" ]; then
   cat /etc/nginx/custom/hosts >> /etc/hosts
 fi
 
-INTERACTIVE=1 /usr/local/bin/entrypoint-php.sh
-
 if [ ! -z "$1" ]; then
     "$@"
     exit
