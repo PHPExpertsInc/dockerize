@@ -5,7 +5,7 @@ ARG PHP_VERSION=8.0
 
 COPY xdebug.conf /tmp
 
-RUN apt-get install -y php${PHP_VERSION}-xdebug && \
+RUN apt-get -y update && apt-get install -y php${PHP_VERSION}-xdebug && \
     #
     # Configure XDebug
     cat /tmp/xdebug.conf >> /etc/php/${PHP_VERSION}/mods-available/xdebug.ini && \
