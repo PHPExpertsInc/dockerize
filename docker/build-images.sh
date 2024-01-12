@@ -32,7 +32,8 @@ for VERSION in ${PHP_VERSIONS}; do
   docker tag phpexperts/php:latest "phpexperts/php:${MAJOR_VERSION}"
   docker tag phpexperts/php:latest "phpexperts/php:${VERSION}"
 
-#  docker build full       --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker rmi --force phpexperts/php:${VERSION}-full
+  docker build base-full  --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
   docker build base-debug --tag="phpexperts/php:latest-debug"              --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   docker tag phpexperts/php:latest-debug "phpexperts/php:${MAJOR_VERSION}-debug"

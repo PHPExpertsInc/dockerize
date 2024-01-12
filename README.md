@@ -11,6 +11,17 @@ Includes:
  * PostgreSQL v15
  * MariaDB v10.5
 
+The `phpexperts/php:base-full` image contains every bundled PHP extension, plus a driver for Redis.
+
+* imap
+* ldap
+* pspell
+* redis
+* snmp
+* xmlrpc
+
+If you need an extension that is not available in the `full` build, please create an Issue at GitHub.
+
 # Advantages over other dockerized PHP projects
 
 1. **Super fast, completely automated installation.** (Great for testing multiple versions on CIs)
