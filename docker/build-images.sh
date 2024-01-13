@@ -15,8 +15,16 @@ docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
 
 # Download build assets
 ## IonCube
+echo "Downloading IonCube..."
 curl -LO https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 mv ioncube_loaders_lin_x86-64.tar.gz ./base-ioncube/.build-assets/
+
+## Oracle OCI8
+echo "Downloading Oracle's Instantclient + SDK..."
+curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip
+mv instantclient-basic-linux.x64-21.12.0.0.0dbru.zip ./base-full/.build-assets/
+curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip
+mv instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip ./base-full/.build-assets/
 
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}

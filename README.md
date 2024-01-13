@@ -11,10 +11,11 @@ Includes:
  * PostgreSQL v15
  * MariaDB v10.5
 
-The `phpexperts/php:base-full` image contains every bundled PHP extension, plus a driver for Redis.
+The `phpexperts/php:base-full` image contains every bundled PHP extension, plus drivers for Oracle, and Redis.
 
 * imap
 * ldap
+* oci8
 * pspell
 * redis
 * snmp
