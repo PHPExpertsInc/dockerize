@@ -44,6 +44,5 @@ fi
 # If not, install it...
 composer show phpexperts/dockerize > /dev/null 2>&1 || composer require --ignore-platform-reqs --dev phpexperts/dockerize
 
-cp /code/dockerize/install.php vendor/phpexperts/dockerize
 ./vendor/phpexperts/dockerize/bin/php ./vendor/phpexperts/dockerize/install.php
 
