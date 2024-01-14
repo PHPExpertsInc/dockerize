@@ -48,7 +48,7 @@ Out of the box, you have per-project binaries:
 
 ## Via Bash (Zero PHP dependencies)
 
-    curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/install.sh | bash
+    curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/dockerize.sh | bash
 
 ### Via Composer
 
