@@ -15,8 +15,15 @@ docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
 
 # Download build assets
 ## IonCube
+echo "Downloading IonCube..."
 curl -LO https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz
 mv ioncube_loaders_lin_x86-64.tar.gz ./base-ioncube/.build-assets/
+# Oracle OCI8
+echo "Downloading Oracle's Instantclient + SDK..."
+curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip
+mv instantclient-basic-linux.x64-21.12.0.0.0dbru.zip ./base-oracle/.build-assets/
+curl -LO https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip
+mv instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip ./base-oracle/.build-assets/
 
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
@@ -40,8 +47,10 @@ for VERSION in ${PHP_VERSIONS}; do
   docker rmi --force phpexperts/php:${VERSION}-full
   docker build base-full  --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
+  cp ~/.ssh/id_ed25519 base-oracle/.build-assets/
   docker rmi --force phpexperts/php:${VERSION}-oracle
   docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"           --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  rm -f base-oracle/.build-assets/id_ed25519
 
   docker build base-debug --tag="phpexperts/php:latest-debug"              --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   docker tag phpexperts/php:latest-debug "phpexperts/php:${MAJOR_VERSION}-debug"

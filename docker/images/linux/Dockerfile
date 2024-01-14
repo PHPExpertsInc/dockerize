@@ -16,7 +16,7 @@ RUN echo "Building base Linux..." && \
     #
     # Install PHP & curl (for composer)
     apt-get install -y --no-install-recommends \
-        curl git ssh wget \
+        curl git ssh wget acl \
         less vim inetutils-ping zip unzip net-tools
 
 WORKDIR /workdir
