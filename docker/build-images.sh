@@ -40,6 +40,9 @@ for VERSION in ${PHP_VERSIONS}; do
   docker rmi --force phpexperts/php:${VERSION}-full
   docker build base-full  --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
+  docker rmi --force phpexperts/php:${VERSION}-oracle
+  docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"           --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+
   docker build base-debug --tag="phpexperts/php:latest-debug"              --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   docker tag phpexperts/php:latest-debug "phpexperts/php:${MAJOR_VERSION}-debug"
   docker tag phpexperts/php:latest-debug "phpexperts/php:${VERSION}-debug"

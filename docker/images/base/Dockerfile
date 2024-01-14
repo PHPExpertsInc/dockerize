@@ -39,7 +39,7 @@ RUN apt-get install -y --no-install-recommends \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/cache/apt/* && \
+    rm -rf /var/cache/debconfig/* && \
     #
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"
     mkdir -p /run/php

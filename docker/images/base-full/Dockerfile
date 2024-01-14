@@ -20,23 +20,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/cache/apt/* && \
+    rm -rf /var/cache/debconf/* && \
     #
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"
     mkdir -p /run/php
     #
-    ## Configure PHP
-RUN sed -i "s!memory_limit =.\+!memory_limit = -1!g" /etc/php/${PHP_VERSION}/cli/php.ini
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer --version
-
-VOLUME ["/workdir"]
-WORKDIR /workdir
-
-EXPOSE 9000
-
-# Use the entrypoint.sh from the base layer.
-#COPY entrypoint.sh /usr/local/bin/entrypoint-php.sh
-
-ENTRYPOINT ["/usr/local/bin/entrypoint-php.sh"]
