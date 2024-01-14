@@ -20,16 +20,15 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY .build-assets/${PHP_VERSION}/* \
      .build-assets/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip \
      .build-assets/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip \
-     /tmp
+     /tmp/
 
 # Download oracle packages and install OCI8
 RUN mkdir -p /opt/oracle && \
     unzip /tmp/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip && \
     mv instantclient_21_12    /opt/oracle/instantclient/ && \
-    rm /tmp/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip && \
     unzip /tmp/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip  && \
     mv instantclient_21_12/*  /opt/oracle/instantclient/ && \
-    rm -r instantclient_21_12 /tmp/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip  && \
+    rm -r instantclient_21_12 /tmp/instantclient*  && \
     echo /opt/oracle/instantclient > /etc/ld.so.conf.d/oracle-instantclient.conf && \
     ldconfig && \
     echo "Finished setting up the Oracle SDK."
