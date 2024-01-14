@@ -71,30 +71,33 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
 
 ## Latest Changes
 
-## v9.0.0: Version 9.0.0: New full PHP image, Oracle ext-oci8, and a new build system.
+#### v9.0.1:
+* **[2024-01-14 06:40:56 CDT]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in new projects. HEAD -> v9.0
+
+#### v9.0.0: Version 9.0.0: New full PHP image, Oracle ext-oci8, and a new build system.
 * **[2024-01-13 23:04:49 CDT]** Added the Oracle ext-oci8 binaries, built against Ubuntu 22.04.
 * **[2024-01-13 22:51:39 CDT]** Added a  docker build that contains the Oracle DB's ext-oci8 extension.
 * **[2024-01-13 22:50:16 CDT]** Added wget to the base PHP image.
 * **[2024-01-12 17:30:47 CDT]** Refactored IonCube builds so that the extension is only downloaded once.
 * **[2024-01-12 14:49:27 CDT]** Added a `full` docker build that contains every bundled PHP extension, and then some.
 
-## v8.2.0
+#### v8.2.0
 * **[2024-01-12 05:58:13 CDT]** Removed Ubuntu's apt files to save space in the base image.
 * **[2024-01-07 09:30:00 CDT]** Fixed the building of the ioncube images.
 * **[2024-01-07 03:28:00 CDT]** [major] Fixed the broken web images.
 * **[2023-12-05 10:10:39 CDT]** Added PHP v8.3 support.
 * **[2023-12-05 10:09:40 CDT]** Added a PHP version test script.
 
-## v8.1.0
+#### v8.1.0
 * **[2023-07-23 03:21:22 CDT]** Now Dockerize PHP will run in the container, if it's running, or create a temp one if it's not.
 * **[2023-05-19 05:35:27 CDT]** Updated to PHP v8.0.28, v8.1.19, and v8.2.6.
 * **[2023-05-19 05:30:36 CDT]** Changed the default image from PHP v7.4 to v8.0.
 * **[2023-02-03 07:19:37 CST]** Majorly refactored so that it executes a persistent container for native launch speeds.
 
-### v8.0.1
+##### v8.0.1
 * **[2023-01-20 21:58:20 CDT]** Fixed the problem that prevented the web images from being successfully built.
 
-### v8.0.0
+##### v8.0.0
 * **[2022-08-11 00:37:03 CST]** Boosted the default version of PHP to 8.1.
 * **[2022-08-11 00:37:33 CST]** Added PHP v8.2 support. master
 * **[2023-01-17 06:59:14 CST]** Cleaned up the build script so that it tags instead of building duplicate images.
@@ -158,5 +161,3 @@ every few months or even weeks, anywhere in the continental U.S., Europe, or Sou
 Since 2015, I have set up branches in Las Vegas, Houston, the UK, Dublin, Costa Rica, Colombia, India, and the Philippines. 
 If someone has a work auth in any of those places, we can place you almost anywhere you want. I travel 50% of the time 
 out of choice. All over the world.
-
-Plus, no taxes if you spend 6+ months (or a year, if you're American) out of your country. 
