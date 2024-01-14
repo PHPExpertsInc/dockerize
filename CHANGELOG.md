@@ -1,3 +1,6 @@
+## v9.0.1
+* **[2024-01-14 06:40:56 CDT]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in new projects. HEAD -> v9.0
+
 ## v9.0.0: Version 9.0.0: New full PHP image, Oracle ext-oci8, and a new build system.
 * **[2024-01-13 23:04:49 CDT]** Added the Oracle ext-oci8 binaries, built against Ubuntu 22.04.
 * **[2024-01-13 22:51:39 CDT]** Added a  docker build that contains the Oracle DB's ext-oci8 extension.
@@ -168,4 +171,3 @@
   * Redis v3.2.6
   * PostgreSQL v9.6.6
   * MariaDB 10.3.4
-
