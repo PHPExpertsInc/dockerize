@@ -1,5 +1,12 @@
+## v9.0.0: Version 9.0.0: New full PHP image, Oracle ext-oci8, and a new build system.
+* **[2024-01-13 23:04:49 CDT]** Added the Oracle ext-oci8 binaries, built against Ubuntu 22.04.
+* **[2024-01-13 22:51:39 CDT]** Added a  docker build that contains the Oracle DB's ext-oci8 extension.
+* **[2024-01-13 22:50:16 CDT]** Added wget to the base PHP image.
+* **[2024-01-12 17:30:47 CDT]** Refactored IonCube builds so that the extension is only downloaded once.
+* **[2024-01-12 14:49:27 CDT]** Added a `full` docker build that contains every bundled PHP extension, and then some.
+
 ## v8.2.0
-* **[2024-01-12 05:58:13 CDT]** Remove Ubuntu's apt files to save space in the base image.
+* **[2024-01-12 05:58:13 CDT]** Removed Ubuntu's apt files to save space in the base image.
 * **[2024-01-07 09:30:00 CDT]** Fixed the building of the ioncube images.
 * **[2024-01-07 03:28:00 CDT]** [major] Fixed the broken web images.
 * **[2023-12-05 10:10:39 CDT]** Added PHP v8.3 support.
