@@ -6,8 +6,9 @@ FROM phpexperts/php:${PHP_VERSION}
 ARG PHP_VERSION
 ENV PHP_VERSION=$PHP_VERSION
 
+COPY .build-assets/ioncube_loaders_lin_x86-64.tar.gz /tmp
+
 RUN cd /tmp && \
-    curl -LO https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz && \
     tar xzvf ioncube_loaders_lin_x86-64.tar.gz && \
     export EXT_DIR=$(php -r 'echo ini_get("extension_dir");') && \
     printf  "[ioncube] \n \
