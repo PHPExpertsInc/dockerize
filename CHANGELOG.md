@@ -1,3 +1,8 @@
+#### v9.1.0: New zero-dependency Bash Installer
+* **[2024-01-14 07:06:07 CDT]** Added a zero-PHP-dependency Bash installer. HEAD -> v9.1, master
+* **[2024-01-14 07:04:47 CDT]** Added support for Linux ACLs in the base Linux image.
+* **[2024-01-14 07:03:35 CDT]** Fixed docker building bugs in base-oracle.
+
 ## v9.0.1
 * **[2024-01-14 06:40:56 CDT]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in new projects. HEAD -> v9.0
 
