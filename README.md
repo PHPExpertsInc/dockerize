@@ -46,17 +46,25 @@ Out of the box, you have per-project binaries:
 
 * Watch the [**Installation HOWTO video**](https://youtu.be/xZxaJcsbrWU).
 
+## Via Bash (Zero PHP dependencies)
+
+    curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/install.sh | bash
+
 ### Via Composer
 
-    composer require phpexperts/dockerize
+    composer require --dev phpexperts/dockerize
     vendor/phpexperts/dockerize/install.php
     docker-compose up -d
 
-### Via GitHub
+### Via GitHub (Zero PHP dependencies)
+
+From inside your project's directory:
 
     git clone https://github.com/PHPExpertsInc/dockerize-php.git
-    cd docker-php-stack
-    bin/php install.php
+    mkdir -p ./vendor/bin
+    cp -r dockerize-php/bin/* ./vendor/bin/
+    chmod 0755 ./vendor/bin/composer ./vendor/bin/php
+    ./vendor/bin/php install.php
     docker-compose up -d
     
 Don't forget to edit your docker-compose.yml!
