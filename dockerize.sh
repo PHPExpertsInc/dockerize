@@ -2,8 +2,10 @@
 
 mkdir -p ./vendor/bin
 if [ ! -f ./vendor/bin/composer ]; then
-    wget https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/composer -P vendor/bin
-    wget https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/php -P vendor/bin
+    echo "Downloading phpexperts/dockerize's php CLI launcher..."
+    curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/composer -o vendor/bin/composer
+    echo "Downloading phpexperts/dockerize's composer CLI launcher..."
+    curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/master/bin/php -o vendor/bin/php
     chmod 0755 ./vendor/bin/composer ./vendor/bin/php
 fi
 hash -r
@@ -42,6 +44,5 @@ fi
 # If not, install it...
 composer show phpexperts/dockerize > /dev/null 2>&1 || composer require --ignore-platform-reqs --dev phpexperts/dockerize
 
-cp /code/dockerize/install.php vendor/phpexperts/dockerize
 ./vendor/phpexperts/dockerize/bin/php ./vendor/phpexperts/dockerize/install.php
 
