@@ -79,13 +79,19 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
 
 ## Latest Changes
 
+#### v9.1.1
+* **[2024-01-16 03:15:49 CST]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in projects with a defined network.
+* **[2024-01-14 14:22:31 CST]** Fixed the Docker installer.
+* **[2024-01-14 14:13:58 CST]** Renamed the installer.
+* **[2024-01-14 14:12:02 CST]** Switched the installer from wget to curl.
+
 #### v9.1.0: New zero-dependency Bash Installer
-* **[2024-01-14 07:06:07 CST]** Added a zero-PHP-dependency Bash installer. HEAD -> v9.1, master
+* **[2024-01-14 07:06:07 CST]** Added a zero-PHP-dependency Bash installer.
 * **[2024-01-14 07:04:47 CST]** Added support for Linux ACLs in the base Linux image.
 * **[2024-01-14 07:03:35 CST]** Fixed docker building bugs in base-oracle.
 
 #### v9.0.1:
-* **[2024-01-14 06:40:56 CDT]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in new projects. HEAD -> v9.0
+* **[2024-01-14 06:40:56 CDT]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in new projects.
 
 #### v9.0.0: Version 9.0.0: New full PHP image, Oracle ext-oci8, and a new build system.
 * **[2024-01-13 23:04:49 CST]** Added the Oracle ext-oci8 binaries, built against Ubuntu 22.04.
