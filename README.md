@@ -55,7 +55,7 @@ In the project root directory, where your phpunit.xml is, or where you'd normall
     vendor/bin/php-ci.sh
 
 It will then automagically update composer and run the appropriate version of PHPUnit for all of the major PHP versions
-via the power of Docker.
+supported by your project via the power of Docker.
 
 # Installation
 
@@ -88,6 +88,12 @@ Ensure that your profile PATH includes `./vendor/bin` and that it takes priority
     PATH=./vendor/bin:$PATH
 
 ## Latest Changes
+
+## v10.0.3
+* **[2024-06-29 10:13:12 CDT]** [php-ci] Dynamically fetch and compute the supported PHP versions from the composer.json.
+* **[2024-06-29 10:20:39 CDT]** [php-ci] Use phpunit's default config if there aren't version-specific xmls.
+* **[2024-06-29 10:20:48 CDT]** [php-ci] Added support for PHPUnit v11.
+* **[2024-06-29 10:31:50 CDT]** Create a Packagist alias to phpexperts/dockerise for SEO.
 
 ### v10.0.2
 * **[2024-06-26 00:57:05 CDT]** Added my php-ci.sh script.
