@@ -8,7 +8,7 @@ ARG PHP_VERSION=8.2
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
-# Compile PHP 8.2 manually
+# Compile PHP 8.x manually
 RUN apt-get install -y --no-install-recommends gcc g++ make file && \
     apt-get install -y libxml2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
@@ -16,15 +16,15 @@ RUN apt-get install -y --no-install-recommends gcc g++ make file && \
                        zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://downloads.php.net/~sergey/php-8.2.0RC6.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~saki/php-8.4.0alpha4.tar.xz -o php.xz && \
     tar xvf php.xz && \
-    cd php-8.2.0RC6 && \
+    cd php-* && \
     # Build CLI
     ./configure --enable-mbstring --with-pdo-mysql --with-pdo-pgsql --enable-mysqlnd \
                 --enable-gd --with-gmp --enable-bcmath --with-curl --with-zip --with-openssl \
                 --enable-sockets --disable-phpdbg --with-libedit --with-sodium --enable-exif --enable-intl \
                 --with-mysqli --with-xsl --with-zlib --prefix=/workdir/install/usr \
-                --with-config-file-path=/etc/php/8.2/cli  --with-config-file-scan-dir=/etc/php/8.2/cli/conf.d && \
+                --with-config-file-path=/etc/php/${PHP_VERSION}/cli  --with-config-file-scan-dir=/etc/php/${PHP_VERSION}/cli/conf.d && \
     make -j8 && \
     make install && \
     # Build FPM
@@ -33,7 +33,7 @@ RUN apt-get install -y --no-install-recommends gcc g++ make file && \
                 --enable-sockets --disable-phpdbg --with-libedit --with-sodium --enable-exif --enable-intl \
                 --with-mysqli --with-xsl --with-zlib \
                 --enable-fpm --with-fpm-user=www-data --enable-pcntl --prefix=/workdir/install/usr \
-                --with-config-file-path=/etc/php/8.2/fpm  --with-config-file-scan-dir=/etc/php/8.2/fpm/conf.d && \
+                --with-config-file-path=/etc/php/${PHP_VERSION}/fpm  --with-config-file-scan-dir=/etc/php/${PHP_VERSION}/fpm/conf.d && \
     make -j8 && \
     make install && \
     #
@@ -103,13 +103,13 @@ ENTRYPOINT ["/usr/bin/bash", "-l"]
 
 FROM phpexperts/linux:latest
 
-ARG PHP_VERSION=8.2
+ARG PHP_VERSION=8.4
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL C.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
-COPY --from=intermediate /workdir/php-8.2-ubuntu.tar /php-8.2-ubuntu.tar
+COPY --from=intermediate /workdir/php-${PHP_VERSION}-ubuntu.tar /php-${PHP_VERSION}-ubuntu.tar
 
 RUN apt-get update && \
     # Configure ondrej PPA
@@ -126,8 +126,8 @@ RUN apt-get update && \
     apt-get clean && \
 #    rm -rf /var/lib/apt/lists/* && \
     cd / && \
-    tar xvf php-8.2-ubuntu.tar && \
-    rm -v php-8.2-ubuntu.tar && \
+    tar xvf php-${PHP_VERSION}-ubuntu.tar && \
+    rm -v php-${PHP_VERSION}-ubuntu.tar && \
     echo "Finished..."
 
 WORKDIR /workdir
