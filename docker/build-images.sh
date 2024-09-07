@@ -9,9 +9,9 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 
-#PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3"
-PHP_VERSIONS="8.0 8.1 8.2 8.3"
-#PHP_VERSIONS="8.2"
+PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3"
+#PHP_VERSIONS="8.0 8.1 8.2 8.3"
+#PHP_VERSIONS="8.3"
 cd images
 
 export BUILDKIT_STEP_LOG_MAX_SIZE=104857600

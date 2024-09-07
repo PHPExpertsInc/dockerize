@@ -7,13 +7,13 @@
 #       Author: Theodore R. Smith <theodore@phpexperts.pro>         #
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LANG=C.UTF-8 \ LC_ALL=C.UTF-8 \ DEBIAN_FRONTEND=noninteractive
 
-## Change the mirror to Turkey, because I'm in UAE right now and it's damn slow.
-#RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
+# Change the mirror to Turkey, because I'm in UAE right now and it's damn slow.
+RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
 
 RUN echo "Building base Linux..." && \
     apt-get update -y && \
