@@ -1,3 +1,13 @@
+## v11.0.0
+* **[2024-09-07 17:20:00 CDT]** [m] Added license and copyright clauses to files.
+* **[2024-09-07 17:20:24 CDT]** Added initial steps for creating a distroless PHP image. origin/v11.0
+* **[2024-09-07 18:55:07 CDT]** [major] Upgraded to Ubuntu 24.04 Noble Numbat.
+* **[2024-09-07 18:55:45 CDT]** Fixed a major reversion in web-debug by readding php-fpm.
+* **[2024-09-07 19:00:42 CDT]** Use a docker volume to store apt metadata.
+* **[2024-08-05 03:46:54 CDT]** Added support for PHP 8.4 Alpha 4.
+* **[2024-08-05 04:33:33 CDT]** Added a bash installation script to the composer package.
+
+
 ## v10.0.3
 * **[2024-06-29 10:13:12 CDT]** [php-ci] Dynamically fetch and compute the supported PHP versions from the composer.json.
 * **[2024-06-29 10:20:39 CDT]** [php-ci] Use phpunit's default config if there aren't version-specific xmls.
