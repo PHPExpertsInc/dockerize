@@ -30,4 +30,6 @@ RUN echo "Building base Linux..." && \
 
 WORKDIR /workdir
 
+VOLUME /var/lib/apt
+
 ENTRYPOINT ["bash", "-l"]
