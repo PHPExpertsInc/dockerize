@@ -27,36 +27,6 @@ The `phpexperts/php:VERSION-oracle` images contain everything in the full image 
 
 If you need an extension that is not available in the `full` build, please create an Issue at GitHub.
 
-# Advantages over other dockerized PHP projects
-
-1. **Super fast, completely automated installation.** (Great for testing multiple versions on CIs)
-2. The **BIG** difference between www.phpdocker.io and Dockerize PHP is that Dockerize PHP provides all of the client utilities, where phpdocker.io provides NONE of them.
-
-Out of the box, you have per-project binaries:
-
- * **php**
- * **composer**
- * **php-ci.sh**
- * mysql
- * mysqldump
- * psql
- * pg_dump
- * createdb
- * dropdb
- * redis
- * redis-cli
-
-# PHP CI via Docker
-
-With the **php-ci.sh** shell script, you can easily test your app or library against every major version of PHP (currently 7.4-8.3):
-
-In the project root directory, where your phpunit.xml is, or where you'd normally run phpunit:
-
-    vendor/bin/php-ci.sh
-
-It will then automagically update composer and run the appropriate version of PHPUnit for all of the major PHP versions
-supported by your project via the power of Docker.
-
 # Installation
 
 * Watch the [**Installation HOWTO video**](https://youtu.be/xZxaJcsbrWU).
@@ -86,6 +56,36 @@ In order to dockerize your existing PHP project, do the following:
 Ensure that your profile PATH includes `./vendor/bin` and that it takes priority over any other directory that may include a php executable:
 
     PATH=./vendor/bin:$PATH
+
+# Advantages over other dockerized PHP projects
+
+1. **Super fast, completely automated installation.** (Great for testing multiple versions on CIs)
+2. The **BIG** difference between www.phpdocker.io and Dockerize PHP is that Dockerize PHP provides all of the client utilities, where phpdocker.io provides NONE of them.
+
+Out of the box, you have per-project binaries:
+
+ * **php**
+ * **composer**
+ * **php-ci.sh**
+ * mysql
+ * mysqldump
+ * psql
+ * pg_dump
+ * createdb
+ * dropdb
+ * redis
+ * redis-cli
+
+# PHP CI via Docker
+
+With the **php-ci.sh** shell script, you can easily test your app or library against every major version of PHP (currently 7.4-8.3):
+
+In the project root directory, where your phpunit.xml is, or where you'd normally run phpunit:
+
+    vendor/bin/php-ci.sh
+
+It will then automagically update composer and run the appropriate version of PHPUnit for all of the major PHP versions
+supported by your project via the power of Docker.
 
 ## Latest Changes
 
