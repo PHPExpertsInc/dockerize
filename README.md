@@ -2,12 +2,13 @@
 
 A utility for rapidly deploying [Docker](https://www.docker.com) for PHP apps.
 
-Watch the installation video: https://youtu.be/xZxaJcsbrWU
+Watch the zero-dependency installation video: https://youtu.be/d8o9p2DimME  
+Installing on a legacy PHP 5.6 app in 2 minutes: https://youtu.be/xZxaJcsbrWU
 
-## This project has been tested against over 350,000 open-sourced Packagist packages and is compatible with 99.999% of them.
+**This project has been tested against over 350,000 open-sourced Packagist packages (via the Bettergist Archiver project) and is compatible with 99.999% of them.**
 
 Includes: 
- * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, and 8.3
+ * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, and 8.3, and 8.4-beta4.
  * Nginx
  * Redis v7.2
  * PostgreSQL v16
@@ -56,6 +57,10 @@ In order to dockerize your existing PHP project, do the following:
 Ensure that your profile PATH includes `./vendor/bin` and that it takes priority over any other directory that may include a php executable:
 
     PATH=./vendor/bin:$PATH
+
+## Thank you, JetBrains
+
+JetBrains generously grants this project a free Open-Source License to PhpStorm and all other JetBrains products as part of its [Open Source License](https://www.jetbrains.com/community/opensource/) initiative.
 
 # Advantages over other dockerized PHP projects
 
