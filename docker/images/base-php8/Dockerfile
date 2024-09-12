@@ -25,7 +25,7 @@ RUN apt-get install -y --no-install-recommends gcc g++ make file && \
                        zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://downloads.php.net/~saki/php-8.4.0alpha4.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~saki/php-8.4.0beta4.tar.xz -o php.xz && \
     tar xvf php.xz && \
     cd php-* && \
     # Build CLI

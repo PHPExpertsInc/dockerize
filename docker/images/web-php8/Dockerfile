@@ -8,7 +8,7 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 # phpexperts/web
-FROM phpexperts/php:8.1
+FROM phpexperts/php:8.4
 
 RUN apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \
