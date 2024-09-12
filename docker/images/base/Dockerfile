@@ -13,8 +13,8 @@ FROM phpexperts/linux:latest
 ARG PHP_VERSION=8.0
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
-ENV LC_ALL C.UTF-8
-ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
 
 COPY install.sh /usr/local/bin
 

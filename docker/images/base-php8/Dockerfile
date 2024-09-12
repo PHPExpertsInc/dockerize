@@ -14,8 +14,8 @@ FROM phpexperts/linux:latest AS intermediate
 ARG PHP_VERSION=8.2
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
-ENV LC_ALL C.UTF-8
-ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Compile PHP 8.x manually
 RUN apt-get install -y --no-install-recommends gcc g++ make file && \
@@ -115,8 +115,8 @@ FROM phpexperts/linux:latest
 ARG PHP_VERSION=8.4
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
-ENV LC_ALL C.UTF-8
-ENV DEBIAN_FRONTEND noninteractive
+ENV LC_ALL=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
 
 COPY --from=intermediate /workdir/php-${PHP_VERSION}-ubuntu.tar /php-${PHP_VERSION}-ubuntu.tar
 
