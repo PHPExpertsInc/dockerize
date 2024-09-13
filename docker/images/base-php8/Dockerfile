@@ -11,7 +11,7 @@
 FROM phpexperts/linux:latest AS intermediate
 #FROM phpexperts/php:8.0-temp
 
-ARG PHP_VERSION=8.2
+ARG PHP_VERSION=8.4
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56
 ENV LC_ALL=C.UTF-8
@@ -25,7 +25,7 @@ RUN apt-get install -y --no-install-recommends gcc g++ make file && \
                        zlib1g zlib1g-dev libsqlite3-dev libgmp-dev libzip-dev \
                        libonig-dev binutils && \
     #
-    curl https://downloads.php.net/~saki/php-8.4.0beta4.tar.xz -o php.xz && \
+    curl https://downloads.php.net/~calvinb/php-8.4.0beta5.tar.xz -o php.xz && \
     tar xvf php.xz && \
     cd php-* && \
     # Build CLI
