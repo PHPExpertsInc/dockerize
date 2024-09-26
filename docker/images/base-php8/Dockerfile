@@ -139,6 +139,9 @@ RUN apt-get update && \
     rm -v php-${PHP_VERSION}-ubuntu.tar && \
     echo "Finished..."
 
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && composer --version
+
 WORKDIR /workdir
 
 COPY entrypoint.sh /usr/local/bin/entrypoint-php.sh
