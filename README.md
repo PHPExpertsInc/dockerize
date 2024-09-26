@@ -94,6 +94,15 @@ supported by your project via the power of Docker.
 
 ## Latest Changes
 
+#### v11.1.0
+* **[2024-09-26 07:37:40 CDT]** Add composer to the PHP 8.4 image. HEAD -> v11.0
+* **[2024-09-26 07:36:44 CDT]** Fixed the PHP 8.4 entrypoint to use the standard entrypoint.
+* **[2024-09-13 03:48:00 CDT]** Added support for PHP 8.4 beta5.
+* **[2024-09-12 05:30:37 CDT]** [m] Updated the README.
+* **[2024-09-12 01:58:49 CDT]** [m] Use the new ENV format in the Dockerfiles.
+* **[2024-09-12 01:44:09 CDT]** Fixes for PHP 8.4 beta4 builds.
+* **[2024-09-09 12:55:33 CDT]** [m] Prioritized the installation instructions in the README.md.
+
 #### v11.0.0
 * **[2024-09-07 18:55:07 CDT]** [major] Upgraded to Ubuntu 24.04 Noble Numbat.
 * **[2024-09-07 18:55:45 CDT]** Fixed a major reversion in web-debug by readding php-fpm.
