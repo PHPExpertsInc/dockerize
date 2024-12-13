@@ -32,6 +32,10 @@ If you need an extension that is not available in the `full` build, please creat
 
 * Watch the [**Installation HOWTO video**](https://youtu.be/xZxaJcsbrWU).
 
+* Here's another Zero Install demo including PHP 8.4 and the php-ci system for testing every version of PHP.
+
+[![phpexperts/dockerize Demo](https://private-user-images.githubusercontent.com/1125541/395483191-6dc866ed-b2fb-4262-98fe-2f8dbaa1e76f.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzQwNzgxNDgsIm5iZiI6MTczNDA3Nzg0OCwicGF0aCI6Ii8xMTI1NTQxLzM5NTQ4MzE5MS02ZGM4NjZlZC1iMmZiLTQyNjItOThmZS0yZjhkYmFhMWU3NmYucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI0MTIxMyUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNDEyMTNUMDgxNzI4WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9ZTFiOGM0ZDFkMTRlMmUwNTJmOWM5ZDA5M2U2OWU5NDFlOTk4ZTc2YmIwMmZiZjAyYmY3ZTZhMjI3OWRlZmIwMiZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QifQ.747HeCQJJpg9Snd93a0BECrVAF9-_lDwm-E32-d69nM)](https://youtu.be/rCfmTH62-os)
+
 ## Via Bash (Zero PHP dependencies)
 
     bash <(curl -s 'https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v12.x/dockerize.sh')
