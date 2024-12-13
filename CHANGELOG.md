@@ -1,6 +1,9 @@
+## v12.0.1
+* **[2024-12-13 01:51:43 CST]** Added PHP 8.4 support to php-ci.sh HEAD -> v12.x, origin/v12.x
+
 ## v12.0.0
-* **[2024-12-12 16:19:40 CDT]** Added support for PHP 8.4.
-* **[2024-12-12 23:55:18 CDT]** Majorly overhauled the dockerize installer.
+* **[2024-12-12 16:19:40 CST]** Added support for PHP 8.4.
+* **[2024-12-12 23:55:18 CST]** Majorly overhauled the dockerize installer.
 
 ## v11.1.0
 * **[2024-09-26 07:37:40 CDT]** Add composer to the PHP 8.4 image. HEAD -> v11.0
