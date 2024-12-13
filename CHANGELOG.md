@@ -1,3 +1,7 @@
+## v12.0.0
+* **[2024-12-12 16:19:40 CDT]** Added support for PHP 8.4.
+* **[2024-12-12 23:55:18 CDT]** Majorly overhauled the dockerize installer.
+
 ## v11.1.0
 * **[2024-09-26 07:37:40 CDT]** Add composer to the PHP 8.4 image. HEAD -> v11.0
 * **[2024-09-26 07:36:44 CDT]** Fixed the PHP 8.4 entrypoint to use the standard entrypoint.

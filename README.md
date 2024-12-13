@@ -34,7 +34,7 @@ If you need an extension that is not available in the `full` build, please creat
 
 ## Via Bash (Zero PHP dependencies)
 
-    bash <(curl -s 'https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v10.0/dockerize.sh')
+    bash <(curl -s 'https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v12.x/dockerize.sh')
 
 Then edit credentials in .env.
 
@@ -93,6 +93,10 @@ It will then automagically update composer and run the appropriate version of PH
 supported by your project via the power of Docker.
 
 ## Latest Changes
+
+#### v12.0.0
+* **[2024-12-12 16:19:40 CDT]** Added support for PHP 8.4.
+* **[2024-12-12 23:55:18 CDT]** Majorly overhauled the dockerize installer.
 
 #### v11.1.0
 * **[2024-09-26 07:37:40 CDT]** Add composer to the PHP 8.4 image. HEAD -> v11.0

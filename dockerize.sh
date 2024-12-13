@@ -51,9 +51,9 @@ fi
 mkdir -p ./vendor/bin
 #if [ ! -f ./vendor/bin/composer ]; then
 echo "Downloading phpexperts/dockerize's php CLI launcher..."
-curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v11.x/bin/composer -o vendor/bin/composer
+curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v12.x/bin/composer -o vendor/bin/composer
 echo "Downloading phpexperts/dockerize's composer CLI launcher..."
-curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v11.x/bin/php -o vendor/bin/php
+curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v12.x/bin/php -o vendor/bin/php
 #cp -v /code/dockerize/bin/php vendor/bin/php
 chmod 0755 ./vendor/bin/composer ./vendor/bin/php
 #fi
