@@ -1,16 +1,5 @@
 #!/bin/bash
 
-mkdir -p ./vendor/bin
-#if [ ! -f ./vendor/bin/composer ]; then
-echo "Downloading phpexperts/dockerize's php CLI launcher..."
-curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v10.0/bin/composer -o vendor/bin/composer
-echo "Downloading phpexperts/dockerize's composer CLI launcher..."
-curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v10.0/bin/php -o vendor/bin/php
-#cp -v /code/dockerize/bin/php vendor/bin/php
-chmod 0755 ./vendor/bin/composer ./vendor/bin/php
-#fi
-hash -r
-
 # @see https://linuxize.com/post/how-to-check-if-string-contains-substring-in-bash/
 # @see https://github.com/composer/composer/issues/10389
 SUB="/vendor/"
@@ -19,6 +8,15 @@ if [[ "$0" == *"$SUB"* ]]; then
 else
   ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 fi
+
+if ! groups | grep docker; then
+    echo "Error: You must be in the 'docker' group."
+    echo "Trying to add you now via 'sudo usermod -aG docker $USER'..."
+    sudo usermod -aG docker $USER
+    echo "Now you need to start a new shell to continue."
+    exit 2;
+fi 
+
 
 if ! echo $PATH | grep -q ./vendor/bin; then
     echo 'You do not have ./vendor/bin in your $PATH.'
@@ -50,6 +48,17 @@ if ! echo $PATH | grep -q ./vendor/bin; then
     fi
 fi
 
+mkdir -p ./vendor/bin
+#if [ ! -f ./vendor/bin/composer ]; then
+echo "Downloading phpexperts/dockerize's php CLI launcher..."
+curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v11.x/bin/composer -o vendor/bin/composer
+echo "Downloading phpexperts/dockerize's composer CLI launcher..."
+curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v11.x/bin/php -o vendor/bin/php
+#cp -v /code/dockerize/bin/php vendor/bin/php
+chmod 0755 ./vendor/bin/composer ./vendor/bin/php
+#fi
+hash -r
+
 ORIG_PHP_VERSION=$PHP_VERSION
 if [ -f "${ROOT}/.env" ]; then
     source "${ROOT}/.env"
@@ -63,8 +72,7 @@ if [ -z "$PHP_VERSION" ]; then
 fi
 
 #echo "PHP Version: $PHP_VERSION"
-vendor/bin/composer show phpexperts/dockerize > /dev/null 2>&1 || vendor/bin/composer require --ignore-platform-reqs --dev phpexperts/dockerize
-
+:
 export PHP_VERSION=8.3
 #cp -v /code/dockerize/bin/php vendor/bin/php
 
@@ -72,8 +80,14 @@ vendor/bin/php --version
 
 #cp -v /code/dockerize/install.php vendor/phpexperts/dockerize/install.php
 
-if [ ! -f docker-compose.yml ]; then
-    vendor/bin/php dockerize
-fi
 
 #script -qc "/usr/bin/php vendor/phpexperts/dockerize/install.php" typescript
+vendor/bin/composer show phpexperts/dockerize > /dev/null 2>&1 || vendor/bin/composer require --ignore-platform-reqs --dev phpexperts/dockerize
+
+if [ ! -f docker-compose.yml ]; then
+    if [ ! -f vendor/phpexperts/dockerize/install.php ]; then
+        mkdir -p vendor/phpexperts/dockerize
+        curl https://raw.githubusercontent.com/PHPExpertsInc/dockerize/v11.x/install.php -o vendor/phpexperts/dockerize/install.php
+    fi
+    vendor/bin/php dockerize
+fi
