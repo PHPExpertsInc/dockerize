@@ -80,7 +80,7 @@ for VERSION in ${PHP_VERSIONS}; do
 
 
   # IonCube doesn't support PHP v8.0 or v8.3.
-  if [[ "$VERSION" != "8.0" && "$VERSION" != "8.3" ]]; then
+  if [[ "$VERSION" != "8.0" && "$VERSION" != "8.3" && "$VERSION" != "8.4" ]]; then
     echo "Building IonCube for PHP v${VERSION}"
     docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain

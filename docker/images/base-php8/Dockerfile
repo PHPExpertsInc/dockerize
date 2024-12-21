@@ -18,7 +18,8 @@ ENV LC_ALL=C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Compile PHP 8.x manually
-RUN apt-get install -y --no-install-recommends gcc g++ make file && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc g++ make file && \
     apt-get install -y libxml2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
                        libxslt-dev libssl-dev libldb-dev libedit-dev libsodium-dev \
