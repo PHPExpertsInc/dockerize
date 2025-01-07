@@ -1,3 +1,7 @@
+## v12.0.2
+* **[2024-12-13 02:18:41 CDT]** Added another YouTube demo.
+* **[2025-01-07 08:11:57 CDT]** Fixed a bug where native PHP detection via .env didn't work.
+
 ## v12.0.1
 * **[2024-12-13 01:51:43 CST]** Added PHP 8.4 support to php-ci.sh HEAD -> v12.x, origin/v12.x
 
