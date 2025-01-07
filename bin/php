@@ -18,19 +18,19 @@ else
   ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 fi
 
-# Detect if it's running inside of docker and run it natively if it is.
-# @see https://stackoverflow.com/a/25518345/430062
-if [ "$PHP_VERSION" == "native" ] || [ -f "/.dockerenv" ]; then
-  (/bin/env --chdir=/ php "$@")
-  exit
-fi
-
 ORIG_PHP_VERSION=$PHP_VERSION
 if [ -f "${ROOT}/.env" ]; then
     source "${ROOT}/.env"
     if [ ! -z "$ORIG_PHP_VERSION" ]; then
         PHP_VERSION="$ORIG_PHP_VERSION"
     fi
+fi
+
+# Detect if it's running inside of docker and run it natively if it is.
+# @see https://stackoverflow.com/a/25518345/430062
+if [ "$PHP_VERSION" == "native" ] || [ -f "/.dockerenv" ]; then
+  (/bin/env --chdir=/ php "$@")
+  exit
 fi
 
 if [ -z "$PROJECT_NAME" ]; then
