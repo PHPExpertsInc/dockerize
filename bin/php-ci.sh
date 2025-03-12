@@ -16,7 +16,11 @@ time for PHPV in ${SUPPORTED_PHP_VERSIONS}-debug; do
     PHP_VERSION=$PHPV composer --version
     PHP_VERSION=$PHPV composer update
     PHPUNIT_V=''
-    if [ $PHPV == '7.2' ]; then
+    if [ $PHPV == '7.0' ]; then
+        PHPUNIT_V='6'
+    if [ $PHPV == '7.1' ]; then
+        PHPUNIT_V='7'
+    elif [ $PHPV == '7.2' ]; then
         PHPUNIT_V='8'
     elif [ $PHPV == '7.3' ] || [ $PHPV == '7.4' ] || [ $PHPV == '8.0' ]; then
         PHPUNIT_V='9'
