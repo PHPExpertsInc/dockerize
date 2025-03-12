@@ -23,7 +23,7 @@ time for PHPV in ${SUPPORTED_PHP_VERSIONS}-debug; do
     if [ -z "$PHPUNIT_V" ]; then
         if [ $PHPV == '7.0' ]; then
             PHPUNIT_V='6'
-        if [ $PHPV == '7.1' ]; then
+        elif [ $PHPV == '7.1' ]; then
             PHPUNIT_V='7'
         elif [ $PHPV == '7.2' ]; then
             PHPUNIT_V='8'
