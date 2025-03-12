@@ -1,6 +1,12 @@
+## v12.1.0
+* **[2025-03-12 18:32:13 CDT]** Upgraded PHP 8.3.17 and 8.4.4.
+* **[2025-03-12 17:50:58 CDT]** Renabled build support for PHP 5.6-7.3.
+* **[2025-03-12 17:45:01 CDT]** [php-ci] Added support for PHPUnit v12.
+* **[2025-03-12 17:37:04 CDT]** [php-ci] Added PHPUnit support for PHP 7.0 and 7.1.
+
 ## v12.0.2
-* **[2024-12-13 02:18:41 CDT]** Added another YouTube demo.
-* **[2025-01-07 08:11:57 CDT]** Fixed a bug where native PHP detection via .env didn't work.
+* **[2025-01-07 08:11:57 CST]** Fixed a bug where native PHP detection via .env didn't work.
+* **[2024-12-13 02:18:41 CST]** Added another YouTube demo.
 
 ## v12.0.1
 * **[2024-12-13 01:51:43 CST]** Added PHP 8.4 support to php-ci.sh HEAD -> v12.x, origin/v12.x
