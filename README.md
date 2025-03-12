@@ -8,7 +8,7 @@ Installing on a legacy PHP 5.6 app in 2 minutes: https://youtu.be/xZxaJcsbrWU
 **This project has been tested against over 350,000 open-sourced Packagist packages (via the Bettergist Archiver project) and is compatible with 99.999% of them.**
 
 Includes: 
- * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, and 8.3, and 8.4-beta4.
+ * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, 8.3, and 8.4.
  * Nginx
  * Redis v7.2
  * PostgreSQL v16
@@ -194,18 +194,19 @@ To set the UID for the PHP-FPM process, you should set the `PHP_FPM_USER_ID` env
 
     docker run -e PHP_FPM_USER_ID=1000 phpexperts/php:7 php-fpm5.6
 
-# php.ini directives
+# Exact PHP Versions 
 
-You can modify certain php.ini directives by setting environmental variables within the container. The following is a list of environmental variables and the php.ini directives that they correspond to:
-
-| environmental variable  | php.ini directives                                                                       |
-|-------------------------|---------------------------------------------------------------------------------------|
-| `PHP_POST_MAX_SIZE`       | [`post_max_size`](http://php.net/manual/en/ini.core.php#ini.post-max-size)              |
-| `PHP_UPLOAD_MAX_FILESIZE` | [`upload_max_filesize`](http://php.net/manual/en/ini.core.php#ini.upload-max-filesize)  |
-
-e.g. the following will start a PHP container with the `post_max_size` to 30 Megabytes:
-
-`docker run -e PHP_POST_MAX_SIZE=30M phpexperts/php:7`
+PHP 5.6.40-81+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:43:22) ( NTS )
+PHP 7.0.33-79+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:43:22) ( NTS )
+PHP 7.1.33-67+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:50:54) ( NTS )
+PHP 7.2.34-54+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:58:15) ( NTS )
+PHP 7.3.33-24+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 07:05:25) ( NTS )
+PHP 7.4.33 (cli) (built: Dec 24 2024 07:12:16) ( NTS )
+PHP 8.0.30 (cli) (built: Dec 24 2024 07:19:59) ( NTS )
+PHP 8.1.31 (cli) (built: Nov 21 2024 13:10:45) (NTS)
+PHP 8.2.27 (cli) (built: Dec 24 2024 06:29:37) (NTS)
+PHP 8.3.17 (cli) (built: Feb 15 2025 09:09:25) (NTS)
+PHP 8.4.4 (cli) (built: Feb 15 2025 08:59:26) (NTS)
 
 # Distribution
 
