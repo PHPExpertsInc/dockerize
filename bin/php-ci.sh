@@ -12,23 +12,29 @@
 SUPPORTED_PHP_VERSIONS=$(php vendor/phpexperts/docker*/version-constraints.php)
 echo "Supported PHP versions: $SUPPORTED_PHP_VERSIONS"
 
+if [ -f .env ]; then
+    source .env
+fi
+
 time for PHPV in ${SUPPORTED_PHP_VERSIONS}-debug; do
     PHP_VERSION=$PHPV composer --version
     PHP_VERSION=$PHPV composer update
-    PHPUNIT_V=''
-    if [ $PHPV == '7.0' ]; then
-        PHPUNIT_V='6'
-    if [ $PHPV == '7.1' ]; then
-        PHPUNIT_V='7'
-    elif [ $PHPV == '7.2' ]; then
-        PHPUNIT_V='8'
-    elif [ $PHPV == '7.3' ] || [ $PHPV == '7.4' ] || [ $PHPV == '8.0' ]; then
-        PHPUNIT_V='9'
-    else
-        if [ $PHPV == "8.1" ]; then
+    # Assign the PHPUnit version, if it's not set inside of .env or $_ENV.
+    if [ -z "$PHPUNIT_V" ]; then
+        if [ $PHPV == '7.0' ]; then
+            PHPUNIT_V='6'
+        if [ $PHPV == '7.1' ]; then
+            PHPUNIT_V='7'
+        elif [ $PHPV == '7.2' ]; then
+            PHPUNIT_V='8'
+        elif [ $PHPV == '7.3' ] || [ $PHPV == '7.4' ] || [ $PHPV == '8.0' ]; then
+            PHPUNIT_V='9'
+        elif [ $PHPV == '8.1' ]; then
             PHPUNIT_V='10'
-        else
+        elif [ $PHPV == '8.2' ]; then
             PHPUNIT_V='11'
+        else
+            PHPUNIT_V='12'
         fi
     fi
 
