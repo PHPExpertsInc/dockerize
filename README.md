@@ -111,6 +111,10 @@ supported by your project via the power of Docker.
 
 ## Latest Changes
 
+#### v12.1.2
+* **[2024-12-21 13:32:23 CDT]** Improved PHP 8.4 support.
+* **[2025-03-17 16:31:30 CDT]** Built PHP 8.1.32, 8.2.28, 8.3.19, 8.4.5. HEAD -> v12.x
+
 #### v12.1.1
 * **[2025-03-13 17:25:06 CDT]** [php-ci] Refactored a lot.
 
