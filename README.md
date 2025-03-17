@@ -13,7 +13,19 @@ Includes:
  * Redis v7.2
  * PostgreSQL v16
  * MariaDB v10.11
- * Oracle ext-oci
+
+Current PHP versions: 
+ * 5.6.40-81+ubuntu24.04.1+deb.sury.org+1
+ * 7.0.33-79+ubuntu24.04.1+deb.sury.org+1
+ * 7.1.33-67+ubuntu24.04.1+deb.sury.org+1
+ * 7.2.34-54+ubuntu24.04.1+deb.sury.org+1
+ * 7.3.33-24+ubuntu24.04.1+deb.sury.org+1
+ * 7.4.33
+ * 8.0.30
+ * 8.1.32
+ * 8.2.28
+ * 8.3.17
+ * 8.4.5
 
 The `phpexperts/php:VESION-full` images contain every bundled PHP extension, and Redis.
 
@@ -23,8 +35,9 @@ The `phpexperts/php:VESION-full` images contain every bundled PHP extension, and
 * redis
 * snmp
 * xmlrpc
+* Oracle ext-oci
 
-The `phpexperts/php:VERSION-oracle` images contain everything in the full image plus drivers for Oracle (ext-oci8),
+The `phpexperts/php:VERSION-full` images contain everything in the full image plus drivers for Oracle (ext-oci8),
 
 If you need an extension that is not available in the `full` build, please create an Issue at GitHub.
 
