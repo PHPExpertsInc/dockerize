@@ -1,3 +1,6 @@
+## v12.2.0
+* **[2025-03-23 00:33:11 CDT]** Fixed a bug where the native PHP binary couldn't find files.
+
 ## v12.1.2
 * **[2024-12-21 13:32:23 CDT]** Improved PHP 8.4 support.
 * **[2025-03-17 16:31:30 CDT]** Built PHP 8.1.32, 8.2.28, 8.3.19, 8.4.5. HEAD -> v12.x
