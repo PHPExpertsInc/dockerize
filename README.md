@@ -111,6 +111,9 @@ supported by your project via the power of Docker.
 
 ## Latest Changes
 
+#### v12.2.1
+* **[2025-03-24 13:20:03 CDT]** [bin/php] Complete fixed native PHP dispatching.
+
 #### v12.2.0
 * **[2025-03-23 00:33:11 CDT]** Fixed a bug where the native PHP binary couldn't find files.
 
