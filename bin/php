@@ -45,7 +45,7 @@ if [ -z "$PHP_VERSION" ]; then
 fi
 
 # Test if the network exists.
-NETWORK_STRING=""
+NETWORK_STRING="--network=host"
 docker network inspect "$NETWORK_NAME" > /dev/null 2>&1
 if [ $? == 0 ]; then
     NETWORK_STRING="--network=$NETWORK_NAME"
