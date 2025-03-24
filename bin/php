@@ -85,4 +85,6 @@ if [ "$1" == "dockerize" ]; then
 fi
 
 
-docker run ${NETWORK_STRING} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":"$PWD" -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm ${TTY_OPTS} phpexperts/php:${PHP_VERSION} $@
+docker run ${NETWORK_STRING} --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID \
+    -v $HOME:$HOME -v "$PWD":"$PWD" -w "$PWD" -v /etc/passwd:/etc/passwd:ro \
+    --rm ${TTY_OPTS} phpexperts/php:${PHP_VERSION} "$@"
