@@ -30,7 +30,7 @@ fi
 # @see https://stackoverflow.com/a/25518345/430062
 if [ "$PHP_VERSION" == "native" ] || [ -f "/.dockerenv" ]; then
   $(cd /; which php) "$@"
-  exit
+  exit $?
 fi
 
 if [ -z "$PROJECT_NAME" ]; then
