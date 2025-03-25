@@ -7,7 +7,7 @@
 #       Author: Theodore R. Smith <theodore@phpexperts.pro>         #
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
-# phpexperts/php:7
+
 ARG PHP_VERSION=8.1
 FROM phpexperts/php:$PHP_VERSION
 ARG PHP_VERSION
