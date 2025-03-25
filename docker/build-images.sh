@@ -4,14 +4,14 @@
 #   https://github.com/PHPExpertsInc/docker-php                     #
 #   License: MIT                                                    #
 #                                                                   #
-#   Copyright © 2024 PHP Experts, Inc. <sales@phpexperts.pro>       #
+#   Copyright © 2020-2025 PHP Experts, Inc. <sales@phpexperts.pro>  #
 #       Author: Theodore R. Smith <theodore@phpexperts.pro>         #
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 
 PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4"
 #PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4"
-#PHP_VERSIONS="8.3"
+#PHP_VERSIONS="8.4"
 cd images
 
 # Create the apt cache volume
@@ -68,6 +68,8 @@ for VERSION in ${PHP_VERSIONS}; do
   docker tag phpexperts/php:latest "phpexperts/php:${MAJOR_VERSION}"
   docker tag phpexperts/php:latest "phpexperts/php:${VERSION}"
 
+  docker build ext-builder --tag="phpexperts/ext-builder:${VERSION}" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+
   docker rmi --force phpexperts/php:${VERSION}-full
   docker build base-full  --tag="phpexperts/php:${VERSION}-full"           --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
@@ -95,6 +97,7 @@ done
 
 docker volume rm apt-cache
 
+# PHP-Next builds...
 #docker rmi --force phpexperts/php:8.2 phpexperts/web:nginx-php8.2
 #docker build base-php8 --tag="phpexperts/php:8.2" --no-cache --progress=plain
 
