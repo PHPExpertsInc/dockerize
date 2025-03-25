@@ -43,10 +43,16 @@ if [ ! -f ./base-oracle/.build-assets/instantclient-sdk-linux.x64-21.12.0.0.0dbr
     mv instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip ./base-oracle/.build-assets/
 fi
 
+# @TODO: Investigate whether it's really best to download all of these extensions in ./build.images.
+if [ ! -f ./base-full/.build-assets/uuid-1.2.1.tar.gz ]; then
+    curl -fsSLO https://pecl.php.net/get/uuid-1.2.1.tgz
+    mkdir -p ./base-full/.build-assets
+    mv uuid-1.2.1.tar.gz ./base-full/.build-assets/uuid-1.2.1.tar.gz
+fi
+
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
 
-#  docker rm $(docker ps -aq)
   docker rmi --force phpexperts/php:latest 2> /dev/null
   docker rmi --force phpexperts/php:latest-debug 2> /dev/null
   docker rmi --force phpexperts/php:${MAJOR_VERSION}-debug 2> /dev/null
