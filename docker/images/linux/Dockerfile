@@ -18,10 +18,11 @@ RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ub
 RUN echo "Building base Linux..." && \
     apt-get update -y && \
     # Configure ondrej PPA
-    apt-get install -y software-properties-common && \
+    apt-get install -y software-properties-common locales && \
     add-apt-repository ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y && \
+    locale-gen en_US.UTF-8 && \
     #
     # Install PHP & curl (for composer)
     apt-get install -y --no-install-recommends \
