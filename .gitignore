@@ -3,3 +3,4 @@
 /docker-compose.yml
 .env*
 .build-assets/
+exts/
