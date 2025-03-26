@@ -24,6 +24,13 @@ export DOCKER_BUILDKIT=1
 
 docker build ext-builder --tag="phpexperts/ext-builder:latest" --build-arg VOLUME="apt-cache:/var/lib/apt" --progress=plain
 
+# @TODO: Investigate whether it's really best to download all of these extensions in ./build.images.
+if [ ! -f ./base-full/.build-assets/uuid-1.2.1.tar.gz ]; then
+    curl -fsSLO https://pecl.php.net/get/uuid-1.2.1.tgz
+    mkdir -p ./base-full/.build-assets
+    mv uuid-1.2.1.tgz ./base-full/.build-assets/uuid-1.2.1.tar.gz
+fi
+
 # Install extra extensions. These are built for PHP v8.*.
 for dep in ext-builder/deps/*.deps; do
     EXTENSION=$(basename $dep .deps)
