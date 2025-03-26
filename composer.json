@@ -1,5 +1,5 @@
 {
-    "name": "phpexperts/docker",
+    "name": "phpexperts/dockerize",
     "description": "The quickest and easiest way to switch any PHP app/library to use Docker.",
     "keywords": [
         "docker",
