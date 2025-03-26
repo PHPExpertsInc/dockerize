@@ -35,10 +35,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install extra extensions...
 RUN mkdir /tmp/exts
-COPY ./exts/* /tmp/exts/
+COPY ./exts/*.${PHP_VERSION}.tar.xz /tmp/exts/
 
 # From Anthropic Claude 3.7 Sonnet.
-RUN for file in /tmp/exts/*.xz; do tar -xf "$file" -C /; done
+RUN for file in /tmp/exts/*.xz; do tar -xf "$file" -C /; done && \
+    rm -f /tmp/exts/*
 
     #
 # For demonstration: just keep container alive with a blank command (or use `sleep infinity`)

@@ -11,7 +11,7 @@
 
 PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4"
 #PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4"
-#PHP_VERSIONS="8.4"
+#PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4"
 cd images
 
 # Create the apt cache volume
@@ -61,11 +61,6 @@ for VERSION in ${PHP_VERSIONS}; do
   docker tag phpexperts/php:latest "phpexperts/php:${MAJOR_VERSION}"
   docker tag phpexperts/php:latest "phpexperts/php:${VERSION}"
 
-  docker build ext-builder --tag="phpexperts/ext-builder:${VERSION}" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-
-  docker rmi --force phpexperts/php:${VERSION}-full
-  docker build base-full  --tag="phpexperts/php:${VERSION}-full"           --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-
   cp ~/.ssh/id_ed25519 base-oracle/.build-assets/
   docker rmi --force phpexperts/php:${VERSION}-oracle
   docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
@@ -87,6 +82,8 @@ for VERSION in ${PHP_VERSIONS}; do
     docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   fi
 done
+
+source ./build-full-images.sh
 
 docker volume rm apt-cache
 

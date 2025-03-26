@@ -35,6 +35,8 @@ if [ -z "$PACKAGES" ]; then
     exit 1
 fi
 
+#PHP_VERSION=$(/usr/bin/php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;')
+
 mkdir -p /build-assets
 
 apt-get install -y $PACKAGES
@@ -51,37 +53,41 @@ dpkg -L $PACKAGES | while read FILEPATH; do
 done
 
 
-# Non-interactive installation; skip prompts.
-yes "" | pecl install -f "$EXTENSION"
+for PHP_VERSION in /etc/php/*/; do
+    PHP_VERSION=$(basename "$PHP_VERSION")
+    echo "Building $EXTENSION for PHP v${PHP_VERSION}..."
 
-# Figure out the likely .so name by stripping any version suffix (e.g., "uuid-1.2.1" -> "uuid")
-SO_BASENAME=$(echo "$EXTENSION" | cut -d- -f1)
-SO_FILE="$(php-config --extension-dir)/${SO_BASENAME}.so"
+    # Non-interactive installation; skip prompts.
+    pecl config-set php_suffix $PHP_VERSION
+    yes "" | PHP_PEAR_PHP_BIN=php${PHP_VERSION} /usr/bin/pecl install -f "$EXTENSION"
 
-if [ ! -f "$SO_FILE" ]; then
-    echo "Error: Could not locate $SO_FILE. The extension build may have failed or the .so name is unexpected."
-    exit 1
-fi
+    # Figure out the likely .so name by stripping any version suffix (e.g., "uuid-1.2.1" -> "uuid")
+    SO_BASENAME=$(echo "$EXTENSION" | cut -d- -f1)
+    SO_FILE="$(php-config${PHP_VERSION} --extension-dir)/${SO_BASENAME}.so"
 
-mkdir -vp /build-assets$(dirname $SO_FILE)
-cp -v "$SO_FILE" /build-assets$SO_FILE
+    if [ ! -f "$SO_FILE" ]; then
+        echo "Error: Could not locate $SO_FILE. The extension build may have failed or the .so name is unexpected."
+        exit 1
+    fi
 
-php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;'
-EXTENSION_FILE=ext-$EXTENSION.$PHP_VERSION.tar.xz
+    mkdir -vp /build-assets$(dirname $SO_FILE)
+    cp -v "$SO_FILE" /build-assets$SO_FILE
 
-## Setup the extension's configuration...
-mkdir -p /build-assets/etc/php/${PHP_VERSION}/mods-available /build-assets/etc/php/${PHP_VERSION}/cli/conf.d
-echo "extension=$SO_BASENAME" >> /build-assets/etc/php/${PHP_VERSION}/mods-available/$EXTENSION.ini && \
-# Do NOT add /build-assets to the destination... In the container, it'll resolve just fine...
-ln -s /build-assets/etc/php/${PHP_VERSION}/mods-available/$EXTENSION.ini /etc/php/${PHP_VERSION}/cli/conf.d/ && \
+    EXTENSION_FILE=ext-$EXTENSION.$PHP_VERSION.tar.xz
 
+    ## Setup the extension's configuration...
+    mkdir -p /build-assets/etc/php/${PHP_VERSION}/mods-available /build-assets/etc/php/${PHP_VERSION}/cli/conf.d
+    echo "extension=$SO_BASENAME" > /build-assets/etc/php/${PHP_VERSION}/mods-available/$EXTENSION.ini
+    # Do NOT add /build-assets to the destination... In the container, it'll resolve just fine...
+    ln -sv /etc/php/${PHP_VERSION}/mods-available/$EXTENSION.ini /build-assets/etc/php/${PHP_VERSION}/cli/conf.d/$EXTENSION.ini
 
-mkdir -p /exts
-tar cJvf /exts/$EXTENSION_FILE -C /build-assets/ .
+    mkdir -p /exts
+    tar cJvf /exts/$EXTENSION_FILE -C /build-assets/ .
+    rm -rvf /build-assets/etc/php/ /build-assets/usr/lib/php/
 
-echo ""
-echo ""
-echo "Successfully installed '$EXTENSION' and copied $SO_FILE to ./base-full/exts/$EXTENSION_FILE"
+    echo ""
+    echo ""
+    echo "Successfully installed '$EXTENSION' and copied $SO_FILE to ./base-full/exts/$EXTENSION_FILE"
 
-
+done
 

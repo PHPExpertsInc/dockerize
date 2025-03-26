@@ -55,7 +55,8 @@ fi
 # If it is running, use it directly.
 if [ "$(docker top "${PROJECT_NAME}"${PHP_VERSION} 2> /dev/null)" ]; then
     # shellcheck disable=SC2086
-    docker run --name "${PROJECT_NAME}"${PHP_VERSION} "${NETWORK_STRING}" --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":$PWD -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm -t phpexperts/php:${PHP_VERSION} &
+    # This is broken...
+    #docker run --name "${PROJECT_NAME}"${PHP_VERSION} "${NETWORK_STRING}" --env XDEBUG_SESSION --env XDEBUG_CONFIG -u=$UID -v $HOME:$HOME -v "$PWD":$PWD -v /etc/passwd:/etc/passwd:ro -v "$PWD":/workdir --rm -t phpexperts/php:${PHP_VERSION} &
 
     # Wait for the docker process to be created.
     while [ ! "$(docker top "${PROJECT_NAME}"${PHP_VERSION} 2> /dev/null)" ]; do
