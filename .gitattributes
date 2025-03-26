@@ -1,0 +1,8 @@
+/tests              export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/docker             export-ignore
+/docker/images/web  export-ignore=false
+/FAQ.md             export-ignore
+/release.php        export-ignore
+/test-versions.sh   export-ignore
