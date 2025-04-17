@@ -30,7 +30,7 @@ class ComposerConstraintsHelper
      * @param string $version Version to check
      * @return bool True if the version satisfies the constraint
      */
-    public function versionSatisfies(string $constraints, string $version): bool
+    public function versionSatisfies($constraints, $version)
     {
         // Normalize version to have at least 3 parts
         $version = self::ensure2Dots($version);
@@ -69,7 +69,7 @@ class ComposerConstraintsHelper
      * @param string $version Version to normalize
      * @return string Normalized version with at least 3 parts
      */
-    private static function ensure2Dots(string $version): string
+    private static function ensure2Dots($version)
     {
         $versionParts = explode('.', $version);
         if (count($versionParts) < 3) {
@@ -85,7 +85,7 @@ class ComposerConstraintsHelper
      * @param string $constraints Constraints to normalize
      * @return string Normalized constraints
      */
-    private function normalizeConstraints(string $constraints): string
+    private function normalizeConstraints($constraints)
     {
         // Convert "* >" to ">" and other normalizations
         $constraints = preg_replace('/\* ?([><!]=?)\s*/', '$1', $constraints);
@@ -106,7 +106,7 @@ class ComposerConstraintsHelper
      * @param string $version Version to check
      * @return bool True if the version satisfies the constraint
      */
-    private function satisfiesSingleConstraint(string $constraint, string $version): bool
+    private function satisfiesSingleConstraint($constraint, $version)
     {
         // Edge cases
         if ($constraint === 'x' || $constraint === '*') {
@@ -114,7 +114,7 @@ class ComposerConstraintsHelper
         }
 
         // Always pass dev/rc branches
-        if (str_ends_with($constraint, '-dev') || str_ends_with($constraint, '-rc')) {
+        if ($this->strEndsWith($constraint, '-dev') || $this->strEndsWith($constraint, '-rc')) {
             return true;
         }
 
@@ -133,7 +133,7 @@ class ComposerConstraintsHelper
         // Handle trailing dot (e.g., "1.0.")
         // This effects 615 projects as of 2025-03-24.
         // @see rinsvent/data2dto
-        if (str_ends_with($constraint, '.')) {
+        if ($this->strEndsWith($constraint, '.')) {
             $constraint = substr($constraint, 0, -1);
         }
 
@@ -141,19 +141,19 @@ class ComposerConstraintsHelper
         $constraint = str_ireplace('.x', '.*', $constraint);
 
         // Handle wildcards
-        if (str_contains($constraint, '*')) {
+        if (strpos($constraint, '*') !== false) {
             $pattern = str_replace('.', '\.', $constraint);
             $pattern = str_replace('*', '(\d+){1,2}', $pattern);
             return preg_match('/^' . $pattern . '/', $version) === 1;
         }
 
         // Handle caret (^) - allows changes that don't modify the left-most non-zero digit
-        if (str_starts_with($constraint, '^')) {
+        if ($this->strStartsWith($constraint, '^')) {
             return $this->handleCaretConstraint($constraint, $version);
         }
 
         // Handle tilde (~) - allows the specified precision of version
-        if (str_starts_with($constraint, '~')) {
+        if ($this->strStartsWith($constraint, '~')) {
             return $this->handleTildeConstraint($constraint, $version);
         }
 
@@ -180,7 +180,7 @@ class ComposerConstraintsHelper
      * @param string $version Version to check
      * @return bool True if the version satisfies the constraint
      */
-    private function handleCaretConstraint(string $constraint, string $version): bool
+    private function handleCaretConstraint($constraint, $version)
     {
         $baseVersion = substr($constraint, 1);
         $baseVersion = self::ensure2Dots($baseVersion);
@@ -209,7 +209,7 @@ class ComposerConstraintsHelper
      * @param string $version Version to check
      * @return bool True if the version satisfies the constraint
      */
-    private function handleTildeConstraint(string $constraint, string $version): bool
+    private function handleTildeConstraint($constraint, $version)
     {
         $baseVersion = substr($constraint, 1);
         $parts = explode('.', $baseVersion);
@@ -221,14 +221,13 @@ class ComposerConstraintsHelper
             version_compare($version, $nextMinor, '<');
     }
 
-
     /**
      * Converts hyphen ranges (e.g., "5 - 6") to standard comparison operators.
      *
      * @param string $constraint Constraint with potential hyphen ranges
      * @return string Normalized constraint
      */
-    private static function normalizeHyphenRanges(string $constraint): string
+    private static function normalizeHyphenRanges($constraint)
     {
         // Convert "X - Y" to ">=X <Y"
         return preg_replace_callback(
@@ -240,6 +239,34 @@ class ComposerConstraintsHelper
             },
             $constraint
         );
+    }
+
+    /**
+     * Check if a string starts with a specific substring (PHP < 8.0 compatibility)
+     *
+     * @param string $haystack The string to search in
+     * @param string $needle The substring to search for
+     * @return bool Returns true if haystack starts with needle
+     */
+    private function strStartsWith($haystack, $needle)
+    {
+        return strpos($haystack, $needle) === 0;
+    }
+
+    /**
+     * Check if a string ends with a specific substring (PHP < 8.0 compatibility)
+     *
+     * @param string $haystack The string to search in
+     * @param string $needle The substring to search for
+     * @return bool Returns true if haystack ends with needle
+     */
+    private function strEndsWith($haystack, $needle)
+    {
+        $length = strlen($needle);
+        if ($length === 0) {
+            return true;
+        }
+        return substr($haystack, -$length) === $needle;
     }
 }
 

@@ -33,15 +33,15 @@ if [ "$PHP_VERSION" == "native" ] || [ -f "/.dockerenv" ]; then
   exit $?
 fi
 
+if [ -z "$PHP_VERSION" ]; then
+    PHP_VERSION="8.1"
+fi
+
 if [ -z "$PROJECT_NAME" ]; then
     PROJECT_NAME=$(basename $ROOT | tr '[:upper:]' '[:lower:]' | sed "s/[^[:alpha:]-]//g")
 fi
 if [ -z "$NETWORK_NAME" ]; then
     NETWORK_NAME=${PROJECT_NAME}_default
-fi
-
-if [ -z "$PHP_VERSION" ]; then
-    PHP_VERSION="8.1"
 fi
 
 # Test if the network exists.
