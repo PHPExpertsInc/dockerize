@@ -111,6 +111,25 @@ supported by your project via the power of Docker.
 
 ## Latest Changes
 
+#### v13.0.0
+* **[2025-04-17 06:21:56 CDT]** Downverted the composer version constraints system to PHP 7.0.0 compatibility, with polyfills.
+* **[2025-04-17 05:56:47 CDT]** [m] Version bumped the PHP versions.
+* **[2025-04-17 05:08:34 CDT]** Completely reimplemented the PHP version parser.
+* **[2025-03-26 11:15:21 CDT]** [m] Renamed test/ to tests/.
+* **[2025-03-26 10:45:57 CDT]** Removed unnecessary distributables from composer install.
+* **[2025-03-26 10:35:51 CDT]** Moved the web root to public/.
+* **[2025-03-26 09:51:14 CDT]** Added ext-uuid to the extension builder system.
+* **[2025-03-26 09:40:29 CDT]** Completely reimplemented the PHP extension builder to use only 1 image for all PHP versions.
+* **[2025-03-26 08:21:47 CDT]** [bin/php] Optimized further when running natively and inside docker.
+* **[2025-03-25 13:21:46 CDT]** Added the PHP Extension Builder system.
+* **[2025-03-25 13:10:50 CDT]** [linux] Added the en_US.UTF-8 locale so more apps will work.
+* **[2025-03-25 13:08:48 CDT]** Added steps to download ext-uuid source code.
+* **[2025-03-25 13:04:45 CDT]** Ignore all .build-assets/ directories.
+* **[2025-03-24 13:34:41 CDT]** [fixed] Ensured proper command execution in the entrypoint.
+* **[2025-03-24 13:33:11 CDT]** [bin/php] Sets the working directory of the CLI to the current project directory.
+* **[2025-03-24 13:32:15 CDT]** [bin/php] Default to host network if no project network exists
+* **[2025-03-24 13:31:12 CDT]** [bin/php] Propagate the exit code from native php execution.
+
 #### v12.2.1
 * **[2025-03-24 13:20:03 CDT]** [bin/php] Complete fixed native PHP dispatching.
 
@@ -180,27 +199,6 @@ supported by your project via the power of Docker.
 
 #### v9.1.2
 * **[2024-05-21 06:27:48 CDT]** Fixes docker logs being truncated. origin/v9.
-
-#### v9.1.1
-* **[2024-01-16 03:15:49 CST]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in projects with a defined network.
-* **[2024-01-14 14:22:31 CST]** Fixed the Docker installer.
-* **[2024-01-14 14:13:58 CST]** Renamed the installer.
-* **[2024-01-14 14:12:02 CST]** Switched the installer from wget to curl.
-
-#### v9.1.0: New zero-dependency Bash Installer
-* **[2024-01-14 07:06:07 CST]** Added a zero-PHP-dependency Bash installer.
-* **[2024-01-14 07:04:47 CST]** Added support for Linux ACLs in the base Linux image.
-* **[2024-01-14 07:03:35 CST]** Fixed docker building bugs in base-oracle.
-
-#### v9.0.1:
-* **[2024-01-14 06:40:56 CDT]** [major] Fixed a critical bug that prevented the dockerized php CLI from running in new projects.
-
-#### v9.0.0: Version 9.0.0: New full PHP image, Oracle ext-oci8, and a new build system.
-* **[2024-01-13 23:04:49 CST]** Added the Oracle ext-oci8 binaries, built against Ubuntu 22.04.
-* **[2024-01-13 22:51:39 CST]** Added a  docker build that contains the Oracle DB's ext-oci8 extension.
-* **[2024-01-13 22:50:16 CST]** Added wget to the base PHP image.
-* **[2024-01-12 17:30:47 CST]** Refactored IonCube builds so that the extension is only downloaded once.
-* **[2024-01-12 14:49:27 CST]** Added a `full` docker build that contains every bundled PHP extension, and then some.
 
 ## Manage with docker-compose
 
