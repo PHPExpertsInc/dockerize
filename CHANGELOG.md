@@ -1,3 +1,20 @@
+## v13.0.0
+* **[2025-04-17 05:08:34 CDT]** Completely reimplemented the PHP version parser.
+* **[2025-03-26 11:15:21 CDT]** [m] Renamed test/ to tests/.
+* **[2025-03-26 10:45:57 CDT]** Removed unnecessary distributables from composer install.
+* **[2025-03-26 10:35:51 CDT]** Moved the web root to public/.
+* **[2025-03-26 09:51:14 CDT]** Added ext-uuid to the extension builder system.
+* **[2025-03-26 09:40:29 CDT]** Completely reimplemented the PHP extension builder to use only 1 image for all PHP versions.
+* **[2025-03-26 08:21:47 CDT]** [bin/php] Optimized further when running natively and inside docker.
+* **[2025-03-25 13:21:46 CDT]** Added the PHP Extension Builder system.
+* **[2025-03-25 13:10:50 CDT]** [linux] Added the en_US.UTF-8 locale so more apps will work.
+* **[2025-03-25 13:08:48 CDT]** Added steps to download ext-uuid source code.
+* **[2025-03-25 13:04:45 CDT]** Ignore all .build-assets/ directories.
+* **[2025-03-24 13:34:41 CDT]** [fixed] Ensured proper command execution in the entrypoint.
+* **[2025-03-24 13:33:11 CDT]** [bin/php] Sets the working directory of the CLI to the current project directory.
+* **[2025-03-24 13:32:15 CDT]** [bin/php] Default to host network if no project network exists
+* **[2025-03-24 13:31:12 CDT]** [bin/php] Propagate the exit code from native php execution.
+
 ## v12.2.1
 * **[2025-03-24 13:20:03 CDT]** [bin/php] Complete fixed native PHP dispatching.
 
