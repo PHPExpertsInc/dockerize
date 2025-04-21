@@ -49,10 +49,10 @@ time for PHPV in ${SUPPORTED_PHP_VERSIONS}-debug; do
     fi
 
     if [ -f phpunit.v${PHPUNIT_V}.xml ]; then
-        echo PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml "$DISPLAY_WARNINGS"
-        PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml "$DISPLAY_WARNINGS"
+        echo PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml $DISPLAY_WARNINGS
+        PHP_VERSION=$PHPV phpunit -c phpunit.v${PHPUNIT_V}.xml $DISPLAY_WARNINGS
     else
-        PHP_VERSION=$PHPV phpunit "$DISPLAY_WARNINGS"
+        PHP_VERSION=$PHPV phpunit $DISPLAY_WARNINGS
     fi
 
     echo "Tested: PHP v$PHPV via PHPUnit v$PHPUNIT_V"

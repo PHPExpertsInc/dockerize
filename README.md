@@ -111,6 +111,9 @@ supported by your project via the power of Docker.
 
 ## Latest Changes
 
+#### v13.0.1
+* **[2025-04-21 00:04:11 CDT]** [php-ci] Fixed a bug.
+
 #### v13.0.0
 * **[2025-04-17 06:21:56 CDT]** Downverted the composer version constraints system to PHP 7.0.0 compatibility, with polyfills.
 * **[2025-04-17 05:56:47 CDT]** [m] Version bumped the PHP versions.
