@@ -111,6 +111,9 @@ supported by your project via the power of Docker.
 
 ## Latest Changes
 
+#### v13.0.2
+* **[2025-05-01 19:09:42 CDT]** Version 13.0.2: Fixed the .gitattributes.
+
 #### v13.0.1
 * **[2025-04-21 00:04:11 CDT]** [php-ci] Fixed a bug.
 

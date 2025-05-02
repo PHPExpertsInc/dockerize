@@ -1,8 +1,20 @@
 /tests              export-ignore
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
-/docker             export-ignore
-/docker/images/web  export-ignore=false
-/FAQ.md             export-ignore
 /release.php        export-ignore
 /test-versions.sh   export-ignore
+
+# === Rules for /docker directory ===
+
+# Ignore all .sh files directly under /docker for export
+/docker/*.sh export-ignore
+
+# Ignore other specific files/dirs within /docker for export
+/docker/images/ export-ignore
+/docker/mods.8.1 export-ignore
+/docker/mods.8.1-full export-ignore
+/docker/php-8.1-full.mods export-ignore
+
+# By NOT listing /docker/web/ or /docker/docker-compose.base.yml with export-ignore,
+# they will be included in the archive by default.
+
