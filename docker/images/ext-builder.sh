@@ -41,7 +41,7 @@ rm -f "$DEST_PATH"
 
 # 4) Run the container and "cat" out the built tarball to the host.
 #    Save as: build-assets.<extension>.<PHP_VERSION>.tar.xz
-IMAGE="phpexperts/ext-builder:$PHP_VERSION"
+IMAGE="phpexperts/ext-builder:latest"
 docker run --rm -v ./base-full/exts:/exts "$IMAGE" $EXTENSION "$DEST_PATH"
 
 echo ""

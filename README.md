@@ -15,17 +15,18 @@ Includes:
  * MariaDB v10.11
 
 Current PHP versions: 
- * 5.6.40-81+ubuntu24.04.1+deb.sury.org+1
- * 7.0.33-79+ubuntu24.04.1+deb.sury.org+1
- * 7.1.33-67+ubuntu24.04.1+deb.sury.org+1
- * 7.2.34-54+ubuntu24.04.1+deb.sury.org+1
- * 7.3.33-24+ubuntu24.04.1+deb.sury.org+1
- * 7.4.33
- * 8.0.30
- * 8.1.32
- * 8.2.28
- * 8.3.20
- * 8.4.6
+
+* PHP 5.6.40-81+ubuntu24.04.1+deb.sury.org+1 (cli) 
+* PHP 7.0.33-79+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:43:22) ( NTS )
+* PHP 7.1.33-67+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:50:54) ( NTS )
+* PHP 7.2.34-54+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:58:15) ( NTS )
+* PHP 7.3.33-24+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 07:05:25) ( NTS )
+* PHP 7.4.33 (cli) (built: May  9 2025 06:45:02) ( NTS )
+* PHP 8.0.30 (cli) (built: Mar 13 2025 18:34:50) ( NTS )
+* PHP 8.1.32 (cli) (built: Mar 13 2025 18:27:44) (NTS)
+* PHP 8.2.28 (cli) (built: Mar 13 2025 18:13:49) (NTS)
+* PHP 8.3.22 (cli) (built: Jun  9 2025 14:03:36) (NTS)
+* PHP 8.4.8 (cli) (built: Jun  9 2025 13:50:18) (NTS)
 
 The `phpexperts/php:VESION-full` images contain every bundled PHP extension, and Redis.
 
@@ -110,6 +111,9 @@ It will then automagically update composer and run the appropriate version of PH
 supported by your project via the power of Docker.
 
 ## Latest Changes
+
+#### v13.0.3
+* **[2025-07-03 02:54:38 CDT]** Fixed the ext-builder.
 
 #### v13.0.2
 * **[2025-05-01 19:09:42 CDT]** Version 13.0.2: Fixed the .gitattributes.
@@ -232,20 +236,6 @@ To set the UID for the PHP-FPM process, you should set the `PHP_FPM_USER_ID` env
 
     docker run -e PHP_FPM_USER_ID=1000 phpexperts/php:7 php-fpm5.6
 
-# Exact PHP Versions 
-
-PHP 5.6.40-81+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:43:22) ( NTS )
-PHP 7.0.33-79+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:43:22) ( NTS )
-PHP 7.1.33-67+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:50:54) ( NTS )
-PHP 7.2.34-54+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:58:15) ( NTS )
-PHP 7.3.33-24+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 07:05:25) ( NTS )
-PHP 7.4.33 (cli) (built: Dec 24 2024 07:12:16) ( NTS )
-PHP 8.0.30 (cli) (built: Dec 24 2024 07:19:59) ( NTS )
-PHP 8.1.31 (cli) (built: Nov 21 2024 13:10:45) (NTS)
-PHP 8.2.27 (cli) (built: Dec 24 2024 06:29:37) (NTS)
-PHP 8.3.17 (cli) (built: Feb 15 2025 09:09:25) (NTS)
-PHP 8.4.4 (cli) (built: Feb 15 2025 08:59:26) (NTS)
-
 # Distribution
 
 Docker Hub:
@@ -259,6 +249,6 @@ highly skilled Full Stack PHP devs, including myself, whom I place at 1099 posit
 long-term positions and, for crazy devs like me, short-term. If you ever wanted to work on a different project/company 
 every few months or even weeks, anywhere in the continental U.S., Europe, or South East Asia, it's fantastic.  
 
-Since 2015, I have set up branches in Las Vegas, Houston, the UK, Dublin, Costa Rica, Colombia, India, and the Philippines. 
+Since 2015, I have set up branches in Las Vegas, Houston, the UK, Dubai, Costa Rica, Colombia, India, and the Philippines. 
 If someone has a work auth in any of those places, we can place you almost anywhere you want. I travel 50% of the time 
 out of choice. All over the world.
