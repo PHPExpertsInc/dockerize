@@ -1,3 +1,6 @@
+## v13.0.3
+* **[2025-07-03 02:54:38 CDT]** Fixed the ext-builder.
+
 ## v13.0.2
 * **[2025-05-01 19:09:42 CDT]** Version 13.0.2: Fixed the .gitattributes.
 
