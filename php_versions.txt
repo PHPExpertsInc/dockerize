@@ -1,0 +1,45 @@
+^C^CPHP 5.6.40-86+ubuntu24.04.1+deb.sury.org+1 (cli) 
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
+    with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies
+PHP 7.0.33-79+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:43:22) ( NTS )
+Copyright (c) 1997-2017 The PHP Group
+Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies
+    with Zend OPcache v7.0.33-79+ubuntu24.04.1+deb.sury.org+1, Copyright (c) 1999-2017, by Zend Technologies
+PHP 7.1.33-67+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:50:54) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.1.0, Copyright (c) 1998-2018 Zend Technologies
+    with Zend OPcache v7.1.33-67+ubuntu24.04.1+deb.sury.org+1, Copyright (c) 1999-2018, by Zend Technologies
+PHP 7.2.34-54+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:58:15) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.2.0, Copyright (c) 1998-2018 Zend Technologies
+    with Zend OPcache v7.2.34-54+ubuntu24.04.1+deb.sury.org+1, Copyright (c) 1999-2018, by Zend Technologies
+PHP 7.3.33-24+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 07:05:25) ( NTS )
+Copyright (c) 1997-2018 The PHP Group
+Zend Engine v3.3.33, Copyright (c) 1998-2018 Zend Technologies
+    with Zend OPcache v7.3.33-24+ubuntu24.04.1+deb.sury.org+1, Copyright (c) 1999-2018, by Zend Technologies
+PHP 7.4.33 (cli) (built: Jul  3 2025 16:41:49) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v3.4.0, Copyright (c) Zend Technologies
+    with Zend OPcache v7.4.33, Copyright (c), by Zend Technologies
+PHP 8.0.30 (cli) (built: Jul  3 2025 16:39:43) ( NTS )
+Copyright (c) The PHP Group
+Zend Engine v4.0.30, Copyright (c) Zend Technologies
+    with Zend OPcache v8.0.30, Copyright (c), by Zend Technologies
+PHP 8.1.33 (cli) (built: Jul  3 2025 16:16:18) (NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.1.33, Copyright (c) Zend Technologies
+    with Zend OPcache v8.1.33, Copyright (c), by Zend Technologies
+PHP 8.2.29 (cli) (built: Jul  3 2025 13:08:18) (NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.2.29, Copyright (c) Zend Technologies
+    with Zend OPcache v8.2.29, Copyright (c), by Zend Technologies
+PHP 8.3.24 (cli) (built: Aug  3 2025 08:58:02) (NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.3.24, Copyright (c) Zend Technologies
+    with Zend OPcache v8.3.24, Copyright (c), by Zend Technologies
+PHP 8.4.11 (cli) (built: Aug  3 2025 08:42:27) (NTS)
+Copyright (c) The PHP Group
+Built by Debian
+Zend Engine v4.4.11, Copyright (c) Zend Technologies
+    with Zend OPcache v8.4.11, Copyright (c), by Zend Technologies

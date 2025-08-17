@@ -21,12 +21,12 @@ Current PHP versions:
 * PHP 7.1.33-67+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:50:54) ( NTS )
 * PHP 7.2.34-54+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:58:15) ( NTS )
 * PHP 7.3.33-24+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 07:05:25) ( NTS )
-* PHP 7.4.33 (cli) (built: May  9 2025 06:45:02) ( NTS )
-* PHP 8.0.30 (cli) (built: Mar 13 2025 18:34:50) ( NTS )
-* PHP 8.1.32 (cli) (built: Mar 13 2025 18:27:44) (NTS)
-* PHP 8.2.28 (cli) (built: Mar 13 2025 18:13:49) (NTS)
-* PHP 8.3.22 (cli) (built: Jun  9 2025 14:03:36) (NTS)
-* PHP 8.4.8 (cli) (built: Jun  9 2025 13:50:18) (NTS)
+* PHP 7.4.33 (cli) (built: Jul  3 2025 16:41:49) ( NTS )
+* PHP 8.0.30 (cli) (built: Jul  3 2025 16:39:43) ( NTS )
+* PHP 8.1.33 (cli) (built: Jul  3 2025 16:16:18) (NTS)
+* PHP 8.2.29 (cli) (built: Jul  3 2025 13:08:18) (NTS)
+* PHP 8.3.24 (cli) (built: Aug  3 2025 08:58:02) (NTS)
+* PHP 8.4.11 (cli) (built: Aug  3 2025 08:42:27) (NTS)
 
 The `phpexperts/php:VESION-full` images contain every bundled PHP extension, and Redis.
 
