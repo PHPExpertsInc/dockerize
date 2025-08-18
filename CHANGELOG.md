@@ -1,3 +1,8 @@
+## v14.0.0
+
+* **[2025-08-16 19:07:33 CDT]** Upgraded to the latest PHP.
+* **[2025-08-17 19:11:13 CDT]** [major] Converted all of the PHP base images to distroless, saving 500 MB per image.
+
 ## v13.0.3
 * **[2025-07-03 02:54:38 CDT]** Fixed the ext-builder.
 
