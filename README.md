@@ -28,7 +28,7 @@ Current PHP versions:
 * PHP 8.3.22 (cli) (built: Jun  9 2025 14:03:36) (NTS)
 * PHP 8.4.8 (cli) (built: Jun  9 2025 13:50:18) (NTS)
 
-The `phpexperts/php:VESION-full` images contain every bundled PHP extension, and Redis.
+The `phpexperts/php:VERSION-full` images contain every bundled PHP extension, and Redis.
 
 * imap
 * ldap
@@ -64,7 +64,7 @@ Then edit credentials in .env.
     composer require --dev phpexperts/dockerize
     vendor/bin/php dockerize
     # Edit credentials in .env.
-    docker-compose up -d
+    docker compose up -d
 
 Don't forget to edit your docker-compose.yml!
 
