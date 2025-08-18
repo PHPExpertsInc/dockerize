@@ -28,7 +28,7 @@ Current PHP versions:
 * PHP 8.3.24 (cli) (built: Aug  3 2025 08:58:02) (NTS)
 * PHP 8.4.11 (cli) (built: Aug  3 2025 08:42:27) (NTS)
 
-The `phpexperts/php:VESION-full` images contain every bundled PHP extension, and Redis.
+The `phpexperts/php:${PHP_VERSION}-full` images contain every bundled PHP extension, and Redis.
 
 * imap
 * ldap
@@ -64,9 +64,9 @@ Then edit credentials in .env.
     composer require --dev phpexperts/dockerize
     vendor/bin/php dockerize
     # Edit credentials in .env.
-    docker-compose up -d
+    docker compose up -d
 
-Don't forget to edit your docker-compose.yml!
+Don't forget to edit your docker compose.yml!
 
 ### Configure your PATH
 
@@ -111,6 +111,11 @@ It will then automagically update composer and run the appropriate version of PH
 supported by your project via the power of Docker.
 
 ## Latest Changes
+
+#### v14.0.0: Distroless Images
+
+* **[2025-08-16 19:07:33 CDT]** Upgraded to the latest PHP.
+* **[2025-08-17 19:11:13 CDT]** [major] Converted all of the PHP base images to distroless, saving 500 MB per image.
 
 #### v13.0.3
 * **[2025-07-03 02:54:38 CDT]** Fixed the ext-builder.
@@ -187,39 +192,16 @@ supported by your project via the power of Docker.
 * **[2024-08-05 03:46:54 CDT]** Added support for PHP 8.4 Alpha 4.
 * **[2024-08-05 04:33:33 CDT]** Added a bash installation script to the composer package.
 
-#### v10.0.3
-* **[2024-06-29 10:13:12 CDT]** [php-ci] Dynamically fetch and compute the supported PHP versions from the composer.json.
-* **[2024-06-29 10:20:39 CDT]** [php-ci] Use phpunit's default config if there aren't version-specific xmls.
-* **[2024-06-29 10:20:48 CDT]** [php-ci] Added support for PHPUnit v11.
-* **[2024-06-29 10:31:50 CDT]** Create a Packagist alias to phpexperts/dockerise for SEO.
+## Manage with docker compose
 
-#### v10.0.2
-* **[2024-06-26 00:57:05 CDT]** Added my php-ci.sh script.
-
-#### v10.0.0
-* **[2024-05-24 07:40:15 CDT]** Added a comprehensive zero-dependency Bash-via-curl installer.
-* **[2024-05-24 07:31:26 CDT]** Added a mechanism for finding the first open HTTP port for nginx. master
-* **[2024-05-24 07:30:16 CDT]** Redis removed v7.3 from docker; switched to v7.2.
-
-#### v9.2.1
-* **[2024-05-23 08:17:00 CDT]** Upgraded to MariaDB 10.11, Redis 7.3, and Postgres 16.
-
-#### v9.2.0
-* **[2024-05-21 21:31:26 CDT]** Configured it so that composer will run the install script. 
-
-#### v9.1.2
-* **[2024-05-21 06:27:48 CDT]** Fixes docker logs being truncated. origin/v9.
-
-## Manage with docker-compose
-
-To control the containers, use `docker-compose`.
+To control the containers, use `docker compose`.
   
     # Downloads the images, creates and launches the containers.
-    docker-compose up -d
+    docker compose up -d
     # View the logs
-    docker-compose logs -ft
+    docker compose logs -ft
     # Stop the containers
-    docker-compose stop
+    docker compose stop
 
 That's it! You now have the latest LEPP (Linux, Nginx, PostgreSQL, PHP) stack or
 the latest LEMP (Linux, Nginx, MariaDB, PHP) stack.
