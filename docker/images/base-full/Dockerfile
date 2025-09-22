@@ -8,7 +8,7 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 ARG PHP_VERSION=8.1
-FROM phpexperts/php:$PHP_VERSION
+FROM phpexperts/php-ubuntu:$PHP_VERSION
 ARG PHP_VERSION
 
 # Fix add-apt-repository is broken with non-UTF-8 locales, see https://github.com/oerdnj/deb.sury.org/issues/56

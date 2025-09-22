@@ -45,9 +45,12 @@ for VERSION in ${PHP_VERSIONS}; do
     # Build the distroless image
     if docker build distroless --tag="phpexperts/php:${VERSION}-distroless" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain; then
         echo "Successfully built distroless image for PHP ${VERSION}"
-        
-        # Remove the existing image (force)
-        docker rmi -f "phpexperts/php:${VERSION}"
+
+        # Retag the existing image.
+        docker tag "phpexperts/php:${VERSION}" "phpexperts/php-full:${VERSION}"
+
+        # Remove the existing image.
+        docker rmi "phpexperts/php:${VERSION}"
         
         # Tag the distroless image as the main version
         docker tag "phpexperts/php:${VERSION}-distroless" "phpexperts/php:${VERSION}"

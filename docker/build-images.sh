@@ -9,9 +9,10 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 
-PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4"
+#PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4"
 #PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4"
 #PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4"
+PHP_VERSIONS="8.4"
 cd images
 
 # Create the apt cache volume
@@ -57,20 +58,22 @@ for VERSION in ${PHP_VERSIONS}; do
   docker rmi --force phpexperts/web:nginx-php${VERSION}-debug 2> /dev/null
   docker rmi --force phpexperts/web:nginx-php${VERSION}-ioncube 2> /dev/null
 
-  docker build base       --tag="phpexperts/php:latest"                    --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker tag phpexperts/php:latest "phpexperts/php:${MAJOR_VERSION}"
-  docker tag phpexperts/php:latest "phpexperts/php:${VERSION}"
+  docker build base       --tag="phpexperts/php-ubuntu:${VERSION}"                    --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build distroless --tag="phpexperts/php:${VERSION}"                    --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
-  cp ~/.ssh/id_ed25519 base-oracle/.build-assets/
-  docker rmi --force phpexperts/php:${VERSION}-oracle
-  docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  rm -f base-oracle/.build-assets/id_ed25519
+  docker tag phpexperts/php:${VERSION} "phpexperts/php:latest"
+  docker tag phpexperts/php:${VERSION} "phpexperts/php:${MAJOR_VERSION}"
+
+  # cp ~/.ssh/id_ed25519 base-oracle/.build-assets/
+  # docker rmi --force phpexperts/php:${VERSION}-oracle
+  # docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  # rm -f base-oracle/.build-assets/id_ed25519
 
   docker build base-debug --tag="phpexperts/php:latest-debug"              --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   docker tag phpexperts/php:latest-debug "phpexperts/php:${MAJOR_VERSION}-debug"
   docker tag phpexperts/php:latest-debug "phpexperts/php:${VERSION}-debug"
 
-  docker tag "phpexperts/php:${VERSION}" phpexperts/php:latest
+  # docker tag "phpexperts/php:${VERSION}" phpexperts/php:latest
   docker build web        --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   docker build web-debug  --tag="phpexperts/web:nginx-php${VERSION}-debug" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
@@ -83,7 +86,9 @@ for VERSION in ${PHP_VERSIONS}; do
   fi
 done
 
-source ./build-full-images.sh
+./build-distroless.sh
+
+#source ./build-full-images.sh
 
 docker volume rm apt-cache
 

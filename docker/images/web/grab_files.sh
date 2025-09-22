@@ -47,7 +47,7 @@ if [ ! -d /tmp/distroless ]; then
     mkdir -p /tmp/distroless
     cd /tmp/distroless
     mkdir -p dev etc home/user media mnt opt proc root run sys tmp usr var/{cache,lib,log,spool,tmp}
-    mkdir -p /tmp/distroless/usr/{bin,lib,local/bin,sbin}
+    mkdir -p /tmp/distroless/usr/{bin,lib,local/bin,sbin,lib64}
 
     chmod 0777 tmp var/{cache,log,tmp}
     chmod 0750 root
@@ -58,6 +58,12 @@ if [ ! -d /tmp/distroless ]; then
     ln -s usr/lib lib64
 
     cp /usr/bin/sh /tmp/distroless/usr/bin
+
+    # (
+    #     cd usr
+    #     ln -sv bin sbin
+    #     ln -sv lib lib64
+    # )
 fi
 
 if [ -d "$1" ]; then

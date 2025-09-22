@@ -7,12 +7,19 @@
 #         Set the CMD to /usr/bin/php and the ENTRYPOINT to /usr/local/bin/entrypoint-php.sh.
 ARG PHP_VERSION
 
-FROM phpexperts/php:$PHP_VERSION AS intermediate
+FROM phpexperts/php-ubuntu:$PHP_VERSION AS intermediate
 
 COPY grab_files.sh /grab_files.sh
 
 RUN /grab_files.sh "/usr/bin/bash" || true
 RUN /grab_files.sh "/usr/bin/env"; \
+    /grab_files.sh "/usr/bin/cat"; \
+    /grab_files.sh "/usr/bin/cp"; \
+    /grab_files.sh "/usr/bin/mkdir"; \
+    /grab_files.sh "/usr/bin/mv"; \
+    /grab_files.sh "/usr/bin/ps"; \
+    /grab_files.sh "/usr/bin/rm"; \
+    /grab_files.sh "/usr/bin/sed"; \
     /grab_files.sh "/usr/bin/ldd"; \
     /grab_files.sh "/usr/bin/php"; \
     /grab_files.sh "/usr/local/bin/composer"; \

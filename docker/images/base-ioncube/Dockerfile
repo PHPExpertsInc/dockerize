@@ -10,7 +10,7 @@
 # phpexperts/php:7-base-debug
 
 ARG PHP_VERSION=8.0
-FROM phpexperts/php:${PHP_VERSION}
+FROM phpexperts/php-ubuntu:${PHP_VERSION}
 
 ARG PHP_VERSION
 ENV PHP_VERSION=$PHP_VERSION
