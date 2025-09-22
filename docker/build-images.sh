@@ -91,8 +91,6 @@ for VERSION in ${PHP_VERSIONS}; do
   fi
 done
 
-./build-distroless.sh
-
 #source ./build-full-images.sh
 
 docker volume rm apt-cache
