@@ -59,11 +59,6 @@ COPY grab_files.sh /grab_files.sh
 
 
 RUN mkdir -p /tmp/distroless/run/php /tmp/distroless/usr/sbin; \
-    /grab_files.sh "/dev"; \
-    /grab_files.sh "/usr/bin/ls"; \
-    /grab_files.sh "/usr/bin/cat"; \
-    /grab_files.sh "/usr/bin/mkdir"; \
-    /grab_files.sh "/usr/bin/ps"; \
     /grab_files.sh "/usr/sbin/nginx"; \
     /grab_files.sh "/etc/nginx"; \
     /grab_files.sh "/var/lib/nginx"; \

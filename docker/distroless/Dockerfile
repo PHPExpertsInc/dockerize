@@ -12,7 +12,10 @@ FROM phpexperts/php-ubuntu:$PHP_VERSION AS intermediate
 COPY grab_files.sh /grab_files.sh
 
 RUN /grab_files.sh "/usr/bin/bash" || true
-RUN /grab_files.sh "/usr/bin/env"; \
+RUN /grab_files.sh "/dev"; \
+    /grab_files.sh "/etc/php"; \
+    /grab_files.sh "/usr/bin/env"; \
+    /grab_files.sh "/usr/bin/awk"; \
     /grab_files.sh "/usr/bin/cat"; \
     /grab_files.sh "/usr/bin/cp"; \
     /grab_files.sh "/usr/bin/mkdir"; \
@@ -20,6 +23,7 @@ RUN /grab_files.sh "/usr/bin/env"; \
     /grab_files.sh "/usr/bin/ps"; \
     /grab_files.sh "/usr/bin/rm"; \
     /grab_files.sh "/usr/bin/sed"; \
+    /grab_files.sh "/usr/bin/sh"; \
     /grab_files.sh "/usr/bin/ldd"; \
     /grab_files.sh "/usr/bin/php"; \
     /grab_files.sh "/usr/local/bin/composer"; \

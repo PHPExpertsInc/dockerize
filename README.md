@@ -25,8 +25,8 @@ Current PHP versions:
 * PHP 8.0.30 (cli) (built: Jul  3 2025 16:39:43) ( NTS )
 * PHP 8.1.33 (cli) (built: Jul  3 2025 16:16:18) (NTS)
 * PHP 8.2.29 (cli) (built: Jul  3 2025 13:08:18) (NTS)
-* PHP 8.3.24 (cli) (built: Aug  3 2025 08:58:02) (NTS)
-* PHP 8.4.11 (cli) (built: Aug  3 2025 08:42:27) (NTS)
+* PHP 8.3.25 (cli) (built: Aug 29 2025 12:01:53) (NTS)
+* PHP 8.4.11 (cli) (built: Aug 29 2025 06:48:12) (NTS)
 
 The `phpexperts/php:${PHP_VERSION}-full` images contain every bundled PHP extension, and Redis.
 
