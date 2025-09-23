@@ -12,8 +12,8 @@ ARG PHP_VERSION=8.4
 FROM phpexperts/linux:latest as intermediate
 ARG PHP_VERSION
 
-RUN apt-get update && \
-    apt-get install --no-install-recommends --no-install-suggests -y \
+RUN apt update && \
+    apt install --no-install-recommends --no-install-suggests -y \
         ca-certificates \
         nginx \
         php${PHP_VERSION}-fpm && \
@@ -47,7 +47,7 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    mkdir /etc/nginx/custom
+    mkdir -p /etc/nginx/custom
 
 # ARG PHP_VERSION=8.4
 # FROM phpexperts/web:nginx-php8.4-temp as builder
@@ -59,13 +59,13 @@ COPY grab_files.sh /grab_files.sh
 
 
 RUN mkdir -p /tmp/distroless/run/php /tmp/distroless/usr/sbin; \
+    mkdir -p /tmp/distroless/usr/lib/x86_64-linux-gnu; \
     /grab_files.sh "/usr/sbin/nginx"; \
     /grab_files.sh "/etc/nginx"; \
     /grab_files.sh "/var/lib/nginx"; \
     /grab_files.sh "/etc/php"; \
     /grab_files.sh "/etc/passwd"; \
     /grab_files.sh "/etc/group"; \
-    mkdir -p /tmp/distroless/usr/lib/x86_64-linux-gnu; \
     cp -L /usr/lib/x86_64-linux-gnu/{libcrypt.so.1,libsystemd.so.0} /tmp/distroless/usr/lib/x86_64-linux-gnu; \
     /grab_files.sh "/usr/sbin/php-fpm$PHP_VERSION"; \ 
     ln -sv /usr/sbin/php-fpm$PHP_VERSION /tmp/distroless/usr/sbin/php-fpm

@@ -85,7 +85,7 @@ function installPHP(): string
     $newDockerCompose = '';
     foreach ($dockerImages as $index => $PHP_IMAGE) {
         $PHP_VERSION = $index > 0 ? str_replace(['-debug', '.'], '', $PHP_IMAGE) : '';
-        $PORT = $index === 0 ? findFirstAvailablePort(80) : "80{$PHP_VERSION}";
+        $PORT = $index === 0 ? findFirstAvailablePort(8000) : "80{$PHP_VERSION}";
         AvailablePort::$PORT = $PORT;
 
         $versionStub = <<<YAML
