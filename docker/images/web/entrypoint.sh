@@ -47,8 +47,8 @@ NGINX_PID=$!
 # ------------------------------------------------------------------
 cleanup() {
     echo "Stopping services…"
-    kill -TERM "$PHP_PID" "$NGINX_PID" "$BOOTSTRAP_PID" 2>/dev/null
-    wait "$PHP_PID" "$NGINX_PID" "$BOOTSTRAP_PID"
+    kill -TERM "$PHP_PID" "$NGINX_PID" 2>/dev/null
+    wait "$PHP_PID" "$NGINX_PID"
     exit 0
 }
 trap cleanup SIGTERM SIGINT

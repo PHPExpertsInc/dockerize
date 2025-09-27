@@ -26,12 +26,13 @@
 #
 # Include this exact prompt as a source code comment at the beginning of the Bash script.
 # Do not bother with inline comments.
-if [ -x "$1" ]; then
-    cd /usr/lib/x86_64-linux-gnu
-    cp -vf $(ldd "$1" | awk '{print $1}') /tmp/distroless/usr/lib/
-fi
-
-
+copy_libs() {
+    mapfile -t libs < <(ldd "$1" | awk '/=>/ {print $3} /^[[:space:]]*\// {print $1}' | sort -u)
+    for lib in "${libs[@]}"; do
+        [[ -f "$lib" ]] || continue
+        cp -vf "$lib" /tmp/distroless/usr/lib/
+    done
+}
 
 if [ -z "$1" ]; then
     echo "Error: Pass the full path of the file/executable you want to include."
@@ -70,16 +71,16 @@ if [ -d "$1" ]; then
 
     cp -avf --parents "$1" /tmp/distroless
 
-    for each in $(find "$1" -name \*.so\* -type f); do 
-        cd /usr/lib/x86_64-linux-gnu
-        cp -v $(ldd $each | awk '{print $1}') /tmp/distroless/usr/lib
-    done
+    while IFS= read -r each; do
+        copy_libs "$each"
+    done < <(find "$1" -type f -name '*.so*')
 
     exit 0
 fi
 
-cp -v "$1" "/tmp/distroless$1"
+dest="/tmp/distroless$1"
+mkdir -p "$(dirname "$dest")"
+cp -v "$1" "$dest"
 if [ -x "$1" ]; then
-    cd /usr/lib/x86_64-linux-gnu
-    cp -vf $(ldd "$1" | awk '{print $1}') /tmp/distroless/usr/lib/
+    copy_libs "$1"
 fi

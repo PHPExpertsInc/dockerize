@@ -78,7 +78,7 @@ ARG PHP_VERSION=8.4
 # COPY --from=intermediate /usr/bin/cat /usr/bin
 # COPY --from=intermediate /usr/sbin/php-fpm /usr/sbin/php-fpm
 COPY --from=intermediate /usr/local/bin/entrypoint-web.sh /usr/local/bin/entrypoint-web.sh
-COPY --from=intermediate /tmp/distroless /
+COPY --from=intermediate /tmp/distroless/ /
 COPY .build-assets/001_default.conf /etc/nginx/custom/
 
 
