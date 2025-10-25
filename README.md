@@ -112,6 +112,14 @@ supported by your project via the power of Docker.
 
 ## Latest Changes
 
+#### v14.1.0
+
+* **[2025-09-23 05:07:25 CDT]** Changed the default nginx listening port to 8000.
+* **[2025-09-21 22:47:18 CDT]** [major] Added a distroless nginx web image.
+* **[2025-09-21 22:35:18 CDT]** Embedded the default nginx virtualhost directly into the image.
+* **[2025-09-21 22:11:07 CDT]** Added base POSIX utilities to the distroless image.
+* **[2025-09-21 22:04:18 CDT]** [major] Made distroless the main form factor for containers.
+
 #### v14.0.0: Distroless Images
 
 * **[2025-08-16 19:07:33 CDT]** Upgraded to the latest PHP.
