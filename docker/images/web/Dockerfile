@@ -49,6 +49,19 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /etc/nginx/custom
 
+RUN echo "Setting up php.ini"; \
+    # php.ini - PHP errors
+    sed -i 's/^;*error_log = .*/error_log = \/proc\/self\/fd\/2/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    sed -i 's/^;*log_errors = .*/log_errors = On/' /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    #
+    # php-fpm.conf - FPM master process errors
+    sed -i 's/^;*error_log = .*/error_log = \/proc\/self\/fd\/2/' /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
+    #
+    # pool.d/www.conf - FPM pool errors (THIS IS OFTEN MISSED!)
+    sed -i 's/^;*catch_workers_output = .*/catch_workers_output = yes/' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
+    sed -i 's/^;*php_admin_flag\[log_errors\] = .*/php_admin_flag[log_errors] = on/' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
+    sed -i 's/^;*php_admin_value\[error_log\] = .*/php_admin_value[error_log] = \/proc\/self\/fd\/2/' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
+
 # ARG PHP_VERSION=8.4
 # FROM phpexperts/web:nginx-php8.4-temp as builder
 
@@ -70,6 +83,12 @@ RUN mkdir -p /tmp/distroless/run/php /tmp/distroless/usr/sbin; \
     /grab_files.sh "/usr/sbin/php-fpm$PHP_VERSION"; \ 
     ln -sv /usr/sbin/php-fpm$PHP_VERSION /tmp/distroless/usr/sbin/php-fpm
 
+RUN echo "=== php.ini error_log settings ===" && \
+    grep -n "error_log" /etc/php/${PHP_VERSION}/fpm/php.ini && \
+    echo "=== php-fpm.conf error_log settings ===" && \
+    grep -n "error_log" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf && \
+    echo "=== pool.d/www.conf error_log settings ===" && \
+    grep -n "error_log" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 
 FROM phpexperts/php:$PHP_VERSION
 ARG PHP_VERSION=8.4
