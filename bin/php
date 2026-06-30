@@ -34,7 +34,7 @@ if [ "$PHP_VERSION" == "native" ] || [ -f "/.dockerenv" ]; then
 fi
 
 if [ -z "$PHP_VERSION" ]; then
-    PHP_VERSION="8.1"
+    PHP_VERSION="8.4"
 fi
 
 if [ -z "$PROJECT_NAME" ]; then
