@@ -14,6 +14,9 @@ COPY grab_files.sh /grab_files.sh
 RUN /grab_files.sh "/usr/bin/bash" || true
 RUN /grab_files.sh "/dev"; \
     /grab_files.sh "/etc/php"; \
+    /grab_files.sh "/usr/bin/tput"; \
+    /grab_files.sh "/usr/bin/tty"; \
+    /grab_files.sh "/usr/bin/dirname"; \
     /grab_files.sh "/usr/bin/env"; \
     /grab_files.sh "/usr/bin/awk"; \
     /grab_files.sh "/usr/bin/cat"; \
@@ -31,6 +34,7 @@ RUN /grab_files.sh "/dev"; \
     /grab_files.sh "/usr/lib/php"; \
     /grab_files.sh "/etc/php/$PHP_VERSION"; \
     /grab_files.sh "/usr/share/zoneinfo"; \
+    /grab_files.sh "/usr/share/terminfo"; \
     /grab_files.sh "/etc/ca-certificates/" || true
 
 FROM scratch
