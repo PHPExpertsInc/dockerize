@@ -17,9 +17,9 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
         nginx \
         supervisor && \
 
-    # Route nginx logs to syslog socket (will show in Docker logs)
-    sed -i 's!/var/log/nginx/access.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
-    sed -i 's!/var/log/nginx/error.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
+    # Route nginx logs to stdout/stderr (will show in Docker logs)
+    sed -i 's!/var/log/nginx/access.log!/dev/stdout!g' /etc/nginx/nginx.conf && \
+    sed -i 's!/var/log/nginx/error.log!/dev/stderr!g' /etc/nginx/nginx.conf && \
 
     # Cleanup
     apt-get remove -y && \

@@ -33,9 +33,9 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
     #
     sed -i "s!;catch_workers_output = yes!catch_workers_output = yes!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
     sed -i "s!listen = /run/php/php${PHP_VERSION}-fpm.sock!listen = 0.0.0.0:9000!g" /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf && \
-    # Route nginx logs to syslog socket (will show in Docker logs)
-    sed -i 's!/var/log/nginx/access.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
-    sed -i 's!/var/log/nginx/error.log!syslog:server=unix:/dev/log!g' /etc/nginx/nginx.conf && \
+    # Route nginx logs to stdout/stderr (will show in Docker logs)
+    sed -i 's!/var/log/nginx/access.log!/dev/stdout!g' /etc/nginx/nginx.conf && \
+    sed -i 's!/var/log/nginx/error.log!/dev/stderr!g' /etc/nginx/nginx.conf && \
     ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
     cp /etc/php/${PHP_VERSION}/cli/conf.d/0-ioncube.ini /etc/php/${PHP_VERSION}/fpm/conf.d/ && \
 
