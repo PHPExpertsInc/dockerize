@@ -39,6 +39,21 @@ RUN /grab_files.sh "/dev"; \
     /grab_files.sh "/usr/share/terminfo"; \
     /grab_files.sh "/etc/ca-certificates/" || true
 
+# Extra entries that only exist in the -full fat base (imap, snmp, pspell, ldap).
+# Gated on a -full-only marker so the other variants' images stay unchanged
+# (/etc/ldap, for instance, already exists in the plain Ubuntu base).
+RUN if [ -e "/usr/lib/aspell" ] || [ -e "/usr/share/snmp" ]; then \
+        for path in \
+            "/usr/lib/libc-client.so.2007e" \
+            "/usr/lib/aspell" \
+            "/usr/share/snmp" \
+            "/etc/snmp" \
+            "/etc/ldap" \
+        ; do \
+            if [ -e "$path" ]; then /grab_files.sh "$path"; fi; \
+        done; \
+    fi || true
+
 FROM scratch
 
 COPY --from=intermediate /tmp/distroless /
