@@ -18,7 +18,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 #RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
 
 # Download oracle packages and install OCI8
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
+    apt-get update && apt-get install -y --no-install-recommends \
         php8.0-cli php8.1-cli php8.2-cli php8.3-cli php8.4-cli \
         php8.0-xml php8.1-xml php8.2-xml php8.3-xml php8.4-xml \
         php8.0-zip php8.1-zip php8.2-zip php8.3-zip php8.4-zip && \

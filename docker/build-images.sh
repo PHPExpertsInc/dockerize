@@ -14,16 +14,13 @@ PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4 8.5"
 #PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4 8.5"
 cd images
 
-# Create the apt cache volume
-docker volume create apt-cache
-
 export BUILDKIT_STEP_LOG_MAX_SIZE=104857600
 
 # Build the base linux image first.
 export DOCKER_BUILDKIT=1
 
 docker rmi --force phpexperts/linux:latest
-docker build linux --tag="phpexperts/linux:latest" --no-cache --build-arg VOLUME="apt-cache:/var/lib/apt"  --progress=plain
+docker build linux --tag="phpexperts/linux:latest" --no-cache  --progress=plain
 docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
 
 # Download build assets
@@ -59,20 +56,20 @@ for VERSION in ${PHP_VERSIONS}; do
   docker rmi --force phpexperts/web:nginx-php${VERSION}-debug 2> /dev/null
   docker rmi --force phpexperts/web:nginx-php${VERSION}-ioncube 2> /dev/null
 
-  docker build base       --tag="phpexperts/php-ubuntu:${VERSION}"                    --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker build distroless --tag="phpexperts/php:${VERSION}"                    --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build base       --tag="phpexperts/php-ubuntu:${VERSION}"                    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build distroless --tag="phpexperts/php:${VERSION}"                    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
   docker tag phpexperts/php:${VERSION} "phpexperts/php:latest"
   docker tag phpexperts/php:${VERSION} "phpexperts/php:${MAJOR_VERSION}"
 
   # cp ~/.ssh/id_ed25519 base-oracle/.build-assets/
   # docker rmi --force phpexperts/php:${VERSION}-oracle
-  # docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  # docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"       --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   # rm -f base-oracle/.build-assets/id_ed25519
 
   # Build the fat -debug builder, then derive the distroless -debug image from it.
-  docker build base-debug --tag="phpexperts/php-ubuntu:${VERSION}-debug"   --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker build distroless --tag="phpexperts/php:${VERSION}-debug"          --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-debug" --no-cache --progress=plain
+  docker build base-debug --tag="phpexperts/php-ubuntu:${VERSION}-debug"   --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build distroless --tag="phpexperts/php:${VERSION}-debug"          --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-debug" --no-cache --progress=plain
   docker tag phpexperts/php:${VERSION}-debug "phpexperts/php:latest-debug"
   docker tag phpexperts/php:${VERSION}-debug "phpexperts/php:${MAJOR_VERSION}-debug"
 
@@ -82,24 +79,22 @@ for VERSION in ${PHP_VERSIONS}; do
   cp ../web/sites/001_default.conf web/.build-assets
   cp ../web/sites/001_default.conf web-debug/.build-assets
 
-  docker build web        --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker build web-debug  --tag="phpexperts/web:nginx-php${VERSION}-debug" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build web        --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build web-debug  --tag="phpexperts/web:nginx-php${VERSION}-debug" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
   rm -r web/.build-assets web-debug/.build-assets
 
   # IonCube doesn't support PHP v8.0 or v8.3.
   if [[ "$VERSION" != "8.0" && "$VERSION" != "8.3" && "$VERSION" != "8.4" && "$VERSION" != "8.5" ]]; then
     echo "Building IonCube for PHP v${VERSION}"
-    docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-    docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+    docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+    docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   fi
 
   docker rmi --force "phpexperts/php-ubuntu:${VERSION}" "phpexperts/php-ubuntu:${VERSION}-debug" 2> /dev/null
 done
 
 #source ./build-full-images.sh
-
-docker volume rm apt-cache
 
 # PHP-Next builds...
 #docker rmi --force phpexperts/php:8.2 phpexperts/web:nginx-php8.2

@@ -15,9 +15,6 @@ PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4"
 #PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4"
 #PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4"
 
-# Create the apt cache volume
-docker volume create apt-cache
-
 export BUILDKIT_STEP_LOG_MAX_SIZE=104857600
 
 # Build the base linux image first.
@@ -43,7 +40,7 @@ for VERSION in ${PHP_VERSIONS}; do
     echo "Building distroless image for PHP ${VERSION} (base image size: ${IMAGE_SIZE_MB}MB)..."
     
     # Build the distroless image
-    if docker build distroless --tag="phpexperts/php:${VERSION}-distroless" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain; then
+    if docker build distroless --tag="phpexperts/php:${VERSION}-distroless" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain; then
         echo "Successfully built distroless image for PHP ${VERSION}"
 
         # Retag the existing image.

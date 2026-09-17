@@ -12,7 +12,8 @@ ARG PHP_VERSION=8.4
 FROM phpexperts/linux:latest as intermediate
 ARG PHP_VERSION
 
-RUN apt update && \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
+    apt update && \
     apt install --no-install-recommends --no-install-suggests -y \
         ca-certificates \
         nginx \
@@ -49,7 +50,6 @@ RUN apt update && \
     apt-get remove -y && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
     mkdir -p /etc/nginx/custom
 
 ADD entrypoint.sh /usr/local/bin/entrypoint-web.sh

@@ -15,7 +15,8 @@ ENV LANG=C.UTF-8 \ LC_ALL=C.UTF-8 \ DEBIAN_FRONTEND=noninteractive
 # Change the mirror to Turkey, because I'm in UAE right now and it's damn slow.
 RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
 
-RUN echo "Building base Linux..." && \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
+    echo "Building base Linux..." && \
     apt-get update -y && \
     # Configure ondrej PPA
     apt-get install -y software-properties-common locales && \
@@ -30,7 +31,5 @@ RUN echo "Building base Linux..." && \
         less vim inetutils-ping zip unzip net-tools
 
 WORKDIR /workdir
-
-VOLUME /var/lib/apt
 
 ENTRYPOINT ["bash", "-l"]

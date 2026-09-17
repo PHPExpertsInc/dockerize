@@ -46,7 +46,8 @@ ENV LD_LIBRARY_PATH=/opt/oracle/instantclient
 
 COPY .build-assets/id_ed25519 /root/.ssh/id_ed25519
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
+    apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-ldap \
         php${PHP_VERSION}-pspell \
         php${PHP_VERSION}-snmp \
@@ -72,7 +73,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt remove -y build-essential php${PHP_VERSION}-dev php-pear && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/debconf/* && \
     #
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"

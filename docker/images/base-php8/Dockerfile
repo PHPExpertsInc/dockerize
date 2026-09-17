@@ -18,7 +18,8 @@ ENV LC_ALL=C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Compile PHP 8.x manually
-RUN apt-get update && \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
+    apt-get update && \
     apt-get install -y --no-install-recommends gcc g++ make file && \
     apt-get install -y libxml2-dev libcurl4-openssl-dev libjpeg-dev libpng-dev \
                        libmysqlclient-dev libpq-dev libicu-dev libfreetype6-dev \
@@ -121,7 +122,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 COPY --from=intermediate /workdir/php-${PHP_VERSION}-ubuntu.tar /php-${PHP_VERSION}-ubuntu.tar
 
-RUN apt-get update && \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
+    apt-get update && \
     # Configure ondrej PPA
     apt-get install -y software-properties-common && \
     apt-get upgrade -y && \

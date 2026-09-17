@@ -20,7 +20,8 @@ COPY install.sh /usr/local/bin
 ## Change the mirror to Turkey, because I'm in UAE right now and it's damn slow.
 #RUN sed -i -e 's#http://archive.ubuntu.com/ubuntu/#https://mirror.alastyr.com/ubuntu/ubuntu-archive/#' /etc/apt/sources.list
 
-RUN apt-get install -y --no-install-recommends \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
+    apt-get update && apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-cli \
         php${PHP_VERSION}-bcmath \
         php${PHP_VERSION}-curl \
@@ -49,7 +50,6 @@ RUN apt-get install -y --no-install-recommends \
     # Cleanup
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/cache/debconfig/* && \
     #
     # Fix "Unable to create the PID file (/run/php/php5.6-fpm.pid).: No such file or directory (2)"

@@ -12,7 +12,8 @@ ARG PHP_VERSION=8.0
 FROM phpexperts/php:${PHP_VERSION}-ioncube
 ARG PHP_VERSION
 
-RUN apt-get update && \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
+    apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y \
         ca-certificates \
         nginx \
@@ -41,8 +42,7 @@ RUN apt-get update && \
     # Cleanup
     apt-get remove -y && \
     apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get clean
 
 ADD supervisor/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
 ADD supervisor/nginx.conf /etc/supervisor/conf.d/nginx.conf
