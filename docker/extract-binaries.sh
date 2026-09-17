@@ -19,12 +19,6 @@ ldd_deps() {
     '
 }
 
-# Check if the provided argument is an executable file
-if [ -x "$1" ]; then
-    # Copy the shared libraries required by the executable to the destination
-    cp -v --force $(ldd_deps "$1") /tmp/distroless/usr/lib/
-fi
-
 # If no argument is provided
 if [ -z "$1" ]; then
     echo "Error: Please specify the complete path to the file or executable."

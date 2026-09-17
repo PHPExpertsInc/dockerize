@@ -33,12 +33,6 @@ ldd_deps() {
     '
 }
 
-if [ -x "$1" ]; then
-    cp -vf $(ldd_deps "$1") /tmp/distroless/usr/lib/
-fi
-
-
-
 if [ -z "$1" ]; then
     echo "Error: Pass the full path of the file/executable you want to include."
     exit 1;
