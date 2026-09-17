@@ -9,6 +9,8 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 
+set -e
+
 #PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4"
 #PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4"
 PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4"
@@ -40,9 +42,9 @@ done
 for VERSION in ${PHP_VERSIONS}; do
     MAJOR_VERSION=${VERSION%.*}
 
-    docker rmi --force phpexperts/php:${VERSION}-full
-    docker rmi --force phpexperts/php-ubuntu:${VERSION}-full
-    docker rmi --force phpexperts/web:nginx-php${VERSION}-full 2> /dev/null
+    docker rmi --force phpexperts/php:${VERSION}-full 2> /dev/null || true
+    docker rmi --force phpexperts/php-ubuntu:${VERSION}-full 2> /dev/null || true
+    docker rmi --force phpexperts/web:nginx-php${VERSION}-full 2> /dev/null || true
     # Build the fat -full builder, then derive the distroless -full image from it.
     docker build base-full  --tag="phpexperts/php-ubuntu:${VERSION}-full"    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     docker build distroless --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-full" --no-cache --progress=plain
