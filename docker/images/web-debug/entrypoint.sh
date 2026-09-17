@@ -45,14 +45,17 @@ NGINX_PID=$!
 #    receives SIGTERM or SIGINT.
 # ------------------------------------------------------------------
 cleanup() {
+    local status="${1:-0}"
     echo "Stopping services…"
     kill -TERM "$PHP_PID" "$NGINX_PID" 2>/dev/null || true
-    wait "$PHP_PID" "$NGINX_PID" || true
-    exit 0
+    wait "$PHP_PID" "$NGINX_PID" 2>/dev/null || true
+    exit "$status"
 }
-trap cleanup SIGTERM SIGINT
+trap 'cleanup' SIGTERM SIGINT
 
 # ------------------------------------------------------------------
 # 4. Wait for the first child to exit; then exit this script
 # ------------------------------------------------------------------
-wait -n "$PHP_PID" "$NGINX_PID"
+status=0
+wait -n "$PHP_PID" "$NGINX_PID" || status=$?
+cleanup "$status"
