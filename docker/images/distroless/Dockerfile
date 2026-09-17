@@ -6,8 +6,10 @@
 #         Also COPY /usr/local/bin/entrypoint-php.sh to the final image.
 #         Set the CMD to /usr/bin/php and the ENTRYPOINT to /usr/local/bin/entrypoint-php.sh.
 ARG PHP_VERSION
+ARG BASE_IMAGE=phpexperts/php-ubuntu:${PHP_VERSION}
 
-FROM phpexperts/php-ubuntu:$PHP_VERSION AS intermediate
+FROM ${BASE_IMAGE} AS intermediate
+ARG PHP_VERSION
 
 COPY grab_files.sh /grab_files.sh
 
