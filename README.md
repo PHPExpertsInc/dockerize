@@ -2,21 +2,21 @@
 
 A utility for rapidly deploying [Docker](https://www.docker.com) for PHP apps.
 
-Watch the zero-dependency installation video: https://youtu.be/d8o9p2DimME  
+Watch the zero-dependency installation video: https://youtu.be/d8o9p2DimME
 Installing on a legacy PHP 5.6 app in 2 minutes: https://youtu.be/xZxaJcsbrWU
 
 **This project has been tested against over 350,000 open-sourced Packagist packages (via the Bettergist Archiver project) and is compatible with 99.999% of them.**
 
-Includes: 
+Includes:
  * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, 8.3, and 8.4.
  * Nginx
  * Redis v7.2
  * PostgreSQL v16
  * MariaDB v10.11
 
-Current PHP versions: 
+Current PHP versions:
 
-* PHP 5.6.40-81+ubuntu24.04.1+deb.sury.org+1 (cli) 
+* PHP 5.6.40-81+ubuntu24.04.1+deb.sury.org+1 (cli)
 * PHP 7.0.33-79+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:43:22) ( NTS )
 * PHP 7.1.33-67+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:50:54) ( NTS )
 * PHP 7.2.34-54+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:58:15) ( NTS )
@@ -112,6 +112,12 @@ supported by your project via the power of Docker.
 
 ## Latest Changes
 
+#### v14.2.0
+
+* **[2026-09-17 17:57:25 EEST]** Added better PHP 8.5 support.
+* **[2026-07-01 01:40:24 EEST]** Added some more essential terminal programs to the distroless image.
+* **[2026-07-01 01:33:33 EEST]** Upped the default PHP CLI version to v8.4 if no other config.
+
 #### v14.1.0
 
 * **[2025-09-23 05:07:25 CDT]** Changed the default nginx listening port to 8000.
@@ -183,27 +189,12 @@ supported by your project via the power of Docker.
 * **[2024-12-12 16:19:40 CST]** Added support for PHP 8.4.
 * **[2024-12-12 23:55:18 CST]** Majorly overhauled the dockerize installer.
 
-#### v11.1.0
-* **[2024-09-26 07:37:40 CDT]** Add composer to the PHP 8.4 image. HEAD -> v11.0
-* **[2024-09-26 07:36:44 CDT]** Fixed the PHP 8.4 entrypoint to use the standard entrypoint.
-* **[2024-09-13 03:48:00 CDT]** Added support for PHP 8.4 beta5.
-* **[2024-09-12 05:30:37 CDT]** [m] Updated the README.
-* **[2024-09-12 01:58:49 CDT]** [m] Use the new ENV format in the Dockerfiles.
-* **[2024-09-12 01:44:09 CDT]** Fixes for PHP 8.4 beta4 builds.
-* **[2024-09-09 12:55:33 CDT]** [m] Prioritized the installation instructions in the README.md.
-
-#### v11.0.0
-* **[2024-09-07 18:55:07 CDT]** [major] Upgraded to Ubuntu 24.04 Noble Numbat.
-* **[2024-09-07 18:55:45 CDT]** Fixed a major reversion in web-debug by readding php-fpm.
-* **[2024-09-07 17:20:24 CDT]** Added initial steps for creating a distroless PHP image. origin/v11.0
-* **[2024-09-07 19:00:42 CDT]** Use a docker volume to store apt metadata.
-* **[2024-08-05 03:46:54 CDT]** Added support for PHP 8.4 Alpha 4.
-* **[2024-08-05 04:33:33 CDT]** Added a bash installation script to the composer package.
+For the full list, see the [[CHANGELOG.md]].
 
 ## Manage with docker compose
 
 To control the containers, use `docker compose`.
-  
+
     # Downloads the images, creates and launches the containers.
     docker compose up -d
     # View the logs
@@ -234,11 +225,11 @@ Docker Hub:
 
 # About PHP Experts, Inc.
 
-[PHP Experts, Inc.](https://www.phpexperts.pro/), is my consultation company. It's a small company of a half dozen 
-highly skilled Full Stack PHP devs, including myself, whom I place at 1099 positions at other corporations. We fill both 
-long-term positions and, for crazy devs like me, short-term. If you ever wanted to work on a different project/company 
-every few months or even weeks, anywhere in the continental U.S., Europe, or South East Asia, it's fantastic.  
+[PHP Experts, Inc.](https://www.phpexperts.pro/), is my consultation company. It's a small company of a half dozen
+highly skilled Full Stack PHP devs, including myself, whom I place at 1099 positions at other corporations. We fill both
+long-term positions and, for crazy devs like me, short-term. If you ever wanted to work on a different project/company
+every few months or even weeks, anywhere in the continental U.S., Europe, or South East Asia, it's fantastic.
 
-Since 2015, I have set up branches in Las Vegas, Houston, the UK, Dubai, Costa Rica, Colombia, India, and the Philippines. 
-If someone has a work auth in any of those places, we can place you almost anywhere you want. I travel 50% of the time 
+Since 2015, I have set up branches in Las Vegas, Houston, the UK, Dubai, Costa Rica, Colombia, India, and the Philippines.
+If someone has a work auth in any of those places, we can place you almost anywhere you want. I travel 50% of the time
 out of choice. All over the world.

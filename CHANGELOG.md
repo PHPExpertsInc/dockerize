@@ -1,3 +1,9 @@
+## v14.2.0
+
+* **[2026-09-17 17:57:25 EEST]** Added better PHP 8.5 support.
+* **[2026-07-01 01:40:24 EEST]** Added some more essential terminal programs to the distroless image.
+* **[2026-07-01 01:33:33 EEST]** Upped the default PHP CLI version to v8.4 if no other config.
+
 ## v14.1.0
 
 * **[2025-09-23 05:07:25 CDT]** Changed the default nginx listening port to 8000.
@@ -106,7 +112,7 @@
 * **[2024-05-23 08:17:00 CDT]** Upgraded to MariaDB 10.11, Redis 7.3, and Postgres 16. 2.0, ]
 
 ## v9.2.0
-* **[2024-05-21 21:31:26 CDT]** Configured it so that composer will run the install script. 
+* **[2024-05-21 21:31:26 CDT]** Configured it so that composer will run the install script.
 
 ## v9.1.2
 * **[2024-05-21 06:27:48 CDT]** Fixes docker logs being truncated. origin/v9.
@@ -217,7 +223,7 @@
 * [2020-10-04] Stripped out the debug symbols for massive space savings.
 * [2020-09-19] Upgraded to PHP v8.0 Beta 4.
 
-## v6.1.0: 
+## v6.1.0:
 
  * [2020-09-10] Added the ability to dynamically pick what PHP version is run via $PHP_VERSION.
  * [2020-09-10] Run the system's native PHP via $PHP_VERSION="native".
@@ -230,7 +236,7 @@
 
 ## v5.0.2: 2020-07-17
  * [2020-07-17] Fixed the .env.stub for Laravel DB engines.
- 
+
 ## v5.0.1: 2020-05-02
  * [2020-05-02] - Fixed a bug that prevented accessing Postgres DBs via psql.
 
@@ -249,7 +255,7 @@
  * Added unzip and net-tools.
 
 ## v3.0: 2020-02-26
- * Majorly refactored the build process to build all of the latest PHP versions 
+ * Majorly refactored the build process to build all of the latest PHP versions
    at the same time.
  * Added the ability to dynamically pick what PHP version is run via $PHP_VERSION.
  * Added a utility to delete the web images.
@@ -274,7 +280,7 @@
   * MariaDB 10.3.4 [unchanged]
 
 * **[2018-02-21]** Added support for multiple nginx vhosts.
-* **[2018-02-21]** Added support for SSL certificates and unlimited custom 
+* **[2018-02-21]** Added support for SSL certificates and unlimited custom
                    nginx configuration.
 * **[2018-02-21]** Added the bcmath PHP extension.
 * **[2018-02-21]** [internal] Created a Makefile for the creation of release files.
