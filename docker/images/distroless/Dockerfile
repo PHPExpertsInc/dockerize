@@ -52,7 +52,7 @@ RUN if [ -e "/usr/lib/aspell" ] || [ -e "/usr/share/snmp" ]; then \
         ; do \
             if [ -e "$path" ]; then /grab_files.sh "$path"; fi; \
         done; \
-    fi || true
+    fi
 
 FROM scratch
 
