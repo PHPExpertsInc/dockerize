@@ -19,8 +19,7 @@ if [ -f "/etc/nginx/custom/hosts" ]; then
 fi
 
 if [ ! -z "$1" ]; then
-    "$@"
-    exit
+    exec "$@"
 fi
 
 # call the parent images entry point so it can configure PHP etc

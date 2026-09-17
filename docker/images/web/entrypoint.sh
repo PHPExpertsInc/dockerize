@@ -23,8 +23,7 @@ if [ -f "/etc/nginx/custom/hosts" ]; then
 fi
 
 if [ ! -z "$1" ]; then
-    "$@"
-    exit
+    exec "$@"
 fi
 
 set -euo pipefail
