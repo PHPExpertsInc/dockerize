@@ -32,9 +32,7 @@ RUN apt-get install -y --no-install-recommends \
         php${PHP_VERSION}-memcached \
         php${PHP_VERSION}-mysql \
         php${PHP_VERSION}-pgsql \
-        php${PHP_VERSION}-opcache \
         php${PHP_VERSION}-redis \
-        php${PHP_VERSION}-ssh2 \
         php${PHP_VERSION}-soap \
         php${PHP_VERSION}-sqlite3 \
         php${PHP_VERSION}-xml \
@@ -44,7 +42,10 @@ RUN apt-get install -y --no-install-recommends \
         apt-get install -y --no-install-recommends \
             php${PHP_VERSION}-sodium; \
     fi && \
-    #
+    # Skip opcache for PHP 8.5
+    if [ "${PHP_VERSION}" != "8.5" ]; then \
+        apt-get install -y php${PHP_VERSION}-opcache php${PHP_VERSION}-ssh2; \
+    fi && \
     # Cleanup
     apt-get autoremove -y && \
     apt-get clean && \

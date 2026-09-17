@@ -9,10 +9,9 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 
-#PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4"
-#PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4"
-#PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4"
-PHP_VERSIONS="8.4"
+PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4 8.5"
+#PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4 8.5"
+#PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4 8.5"
 cd images
 
 # Create the apt cache volume
@@ -84,7 +83,7 @@ for VERSION in ${PHP_VERSIONS}; do
   rm -r web/.build-assets
 
   # IonCube doesn't support PHP v8.0 or v8.3.
-  if [[ "$VERSION" != "8.0" && "$VERSION" != "8.3" && "$VERSION" != "8.4" ]]; then
+  if [[ "$VERSION" != "8.0" && "$VERSION" != "8.3" && "$VERSION" != "8.4" && "$VERSION" != "8.5" ]]; then
     echo "Building IonCube for PHP v${VERSION}"
     docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
