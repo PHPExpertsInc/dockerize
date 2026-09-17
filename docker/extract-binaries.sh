@@ -12,12 +12,17 @@
 # Extracts binaries and libraries, and their library and file dependencies
 # into a new distroless root.
 
+ldd_deps() {
+    ldd "$1" 2>/dev/null | awk '
+        /=>/ { if ($3 ~ /^\//) print $3; next }
+        $1 ~ /^\// { print $1 }
+    '
+}
+
 # Check if the provided argument is an executable file
 if [ -x "$1" ]; then
-    # Change directory to the 64-bit library path
-    cd /usr/lib/x86_64-linux-gnu || exit
     # Copy the shared libraries required by the executable to the destination
-    cp -v --force $(ldd "$1" | awk '{print $1}') /tmp/distroless/usr/lib/
+    cp -v --force $(ldd_deps "$1") /tmp/distroless/usr/lib/
 fi
 
 # If no argument is provided
@@ -55,9 +60,8 @@ if [ -d "$1" ]; then
 
     # Iterate over each .so file found in the directory
     for lib in $(find "$1" -name '*.so*' -type f); do 
-        cd /usr/lib/x86_64-linux-gnu || exit
         # Copy the shared libraries needed by each .so file to the destination
-        cp -v $(ldd "$lib" | awk '{print $1}') /tmp/distroless/usr/lib
+        cp -v $(ldd_deps "$lib") /tmp/distroless/usr/lib
     done
 
     exit 0
@@ -66,6 +70,5 @@ fi
 # Otherwise, treat the argument as a file to copy
 cp -v "$1" "/tmp/distroless$1"
 if [ -x "$1" ]; then
-    cd /usr/lib/x86_64-linux-gnu || exit
-    cp -v --force $(ldd "$1" | awk '{print $1}') /tmp/distroless/usr/lib/
+    cp -v --force $(ldd_deps "$1") /tmp/distroless/usr/lib/
 fi
