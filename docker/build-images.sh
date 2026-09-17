@@ -52,6 +52,7 @@ for VERSION in ${PHP_VERSIONS}; do
   docker rmi --force phpexperts/php:${MAJOR_VERSION} 2> /dev/null
   docker rmi --force phpexperts/php:${VERSION} 2> /dev/null
   docker rmi --force phpexperts/php:${VERSION}-debug 2> /dev/null
+  docker rmi --force phpexperts/php-ubuntu:${VERSION}-debug 2> /dev/null
 
   docker rmi --force phpexperts/web:nginx-php${VERSION} 2> /dev/null
   docker rmi --force phpexperts/web:nginx-php${VERSION}-debug 2> /dev/null
@@ -68,9 +69,11 @@ for VERSION in ${PHP_VERSIONS}; do
   # docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   # rm -f base-oracle/.build-assets/id_ed25519
 
-  docker build base-debug --tag="phpexperts/php:latest-debug"              --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker tag phpexperts/php:latest-debug "phpexperts/php:${MAJOR_VERSION}-debug"
-  docker tag phpexperts/php:latest-debug "phpexperts/php:${VERSION}-debug"
+  # Build the fat -debug builder, then publish the current (fat) -debug tags.
+  docker build base-debug --tag="phpexperts/php-ubuntu:${VERSION}-debug"   --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker tag phpexperts/php-ubuntu:${VERSION}-debug "phpexperts/php:latest-debug"
+  docker tag phpexperts/php-ubuntu:${VERSION}-debug "phpexperts/php:${MAJOR_VERSION}-debug"
+  docker tag phpexperts/php-ubuntu:${VERSION}-debug "phpexperts/php:${VERSION}-debug"
 
   # docker tag "phpexperts/php:${VERSION}" phpexperts/php:latest
 

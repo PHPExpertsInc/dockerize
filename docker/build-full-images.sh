@@ -42,7 +42,10 @@ done
 
 for VERSION in ${PHP_VERSIONS}; do
     docker rmi --force phpexperts/php:${VERSION}-full
-    docker build base-full  --tag="phpexperts/php:${VERSION}-full"           --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+    docker rmi --force phpexperts/php-ubuntu:${VERSION}-full
+    # Build the fat -full builder, then publish the current (fat) -full tag.
+    docker build base-full  --tag="phpexperts/php-ubuntu:${VERSION}-full"    --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+    docker tag phpexperts/php-ubuntu:${VERSION}-full "phpexperts/php:${VERSION}-full"
 done
 
 docker volume rm apt-cache
