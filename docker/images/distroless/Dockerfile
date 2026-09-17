@@ -42,7 +42,7 @@ RUN /grab_files.sh "/dev"; \
 # Extra entries that only exist in the -full fat base (imap, snmp, pspell, ldap).
 # Gated on a -full-only marker so the other variants' images stay unchanged
 # (/etc/ldap, for instance, already exists in the plain Ubuntu base).
-RUN if [ -e "/usr/lib/aspell" ] || [ -e "/usr/share/snmp" ]; then \
+RUN set -e; if [ -e "/usr/lib/aspell" ] || [ -e "/usr/share/snmp" ]; then \
         for path in \
             "/usr/lib/libc-client.so.2007e" \
             "/usr/lib/aspell" \
