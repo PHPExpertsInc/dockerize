@@ -69,11 +69,11 @@ for VERSION in ${PHP_VERSIONS}; do
   # docker build base-oracle  --tag="phpexperts/php:${VERSION}-oracle"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   # rm -f base-oracle/.build-assets/id_ed25519
 
-  # Build the fat -debug builder, then publish the current (fat) -debug tags.
+  # Build the fat -debug builder, then derive the distroless -debug image from it.
   docker build base-debug --tag="phpexperts/php-ubuntu:${VERSION}-debug"   --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker tag phpexperts/php-ubuntu:${VERSION}-debug "phpexperts/php:latest-debug"
-  docker tag phpexperts/php-ubuntu:${VERSION}-debug "phpexperts/php:${MAJOR_VERSION}-debug"
-  docker tag phpexperts/php-ubuntu:${VERSION}-debug "phpexperts/php:${VERSION}-debug"
+  docker build distroless --tag="phpexperts/php:${VERSION}-debug"          --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-debug" --no-cache --progress=plain
+  docker tag phpexperts/php:${VERSION}-debug "phpexperts/php:latest-debug"
+  docker tag phpexperts/php:${VERSION}-debug "phpexperts/php:${MAJOR_VERSION}-debug"
 
   # docker tag "phpexperts/php:${VERSION}" phpexperts/php:latest
 
