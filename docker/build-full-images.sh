@@ -45,6 +45,8 @@ for VERSION in ${PHP_VERSIONS}; do
     docker rmi --force phpexperts/php:${VERSION}-full 2> /dev/null || true
     docker rmi --force phpexperts/php-ubuntu:${VERSION}-full 2> /dev/null || true
     docker rmi --force phpexperts/web:nginx-php${VERSION}-full 2> /dev/null || true
+    docker image inspect "phpexperts/php-ubuntu:${VERSION}" > /dev/null 2>&1 || \
+        docker build base --tag="phpexperts/php-ubuntu:${VERSION}" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     # Build the fat -full builder, then derive the distroless -full image from it.
     docker build base-full  --tag="phpexperts/php-ubuntu:${VERSION}-full"    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     docker build distroless --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-full" --no-cache --progress=plain
