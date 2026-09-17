@@ -52,6 +52,7 @@ for VERSION in ${PHP_VERSIONS}; do
   docker rmi --force phpexperts/php:${MAJOR_VERSION} 2> /dev/null
   docker rmi --force phpexperts/php:${VERSION} 2> /dev/null
   docker rmi --force phpexperts/php:${VERSION}-debug 2> /dev/null
+  docker rmi --force phpexperts/php-ubuntu:${VERSION} 2> /dev/null
   docker rmi --force phpexperts/php-ubuntu:${VERSION}-debug 2> /dev/null
 
   docker rmi --force phpexperts/web:nginx-php${VERSION} 2> /dev/null
@@ -92,6 +93,8 @@ for VERSION in ${PHP_VERSIONS}; do
     docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   fi
+
+  docker rmi --force "phpexperts/php-ubuntu:${VERSION}" "phpexperts/php-ubuntu:${VERSION}-debug" 2> /dev/null
 done
 
 #source ./build-full-images.sh
