@@ -8,16 +8,15 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 # phpexperts/web-debug
-ARG PHP_VERSION=8.0
-FROM phpexperts/php:${PHP_VERSION}-debug
+ARG PHP_VERSION=8.4
+FROM phpexperts/linux:latest as intermediate
 ARG PHP_VERSION
 
-RUN apt-get update && \
-    apt-get install --no-install-recommends --no-install-suggests -y \
+RUN apt update && \
+    apt install --no-install-recommends --no-install-suggests -y \
         ca-certificates \
         nginx \
-        php${PHP_VERSION}-fpm \
-        supervisor && \
+        php${PHP_VERSION}-fpm && \
     echo "${PHP_VERSION}-debug" | tee > /VERSION && \
     #
     ## Configure PHP-FPM
@@ -43,16 +42,41 @@ RUN apt-get update && \
     #
     ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
     #
+    # Enable the debug base image's xdebug for the FPM SAPI.
+    ln -sv /etc/php/${PHP_VERSION}/mods-available/xdebug.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini && \
+    #
     # Cleanup
     apt-get remove -y && \
     apt-get autoremove -y && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-ADD supervisor/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
-ADD supervisor/nginx.conf /etc/supervisor/conf.d/nginx.conf
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir -p /etc/nginx/custom
 
 ADD entrypoint.sh /usr/local/bin/entrypoint-web.sh
+
+COPY grab_files.sh /grab_files.sh
+
+
+RUN mkdir -p /tmp/distroless/run/php /tmp/distroless/usr/sbin; \
+    mkdir -p /tmp/distroless/usr/lib/x86_64-linux-gnu; \
+    /grab_files.sh "/usr/sbin/nginx"; \
+    /grab_files.sh "/etc/nginx"; \
+    /grab_files.sh "/var/lib/nginx"; \
+    /grab_files.sh "/etc/php"; \
+    /grab_files.sh "/etc/passwd"; \
+    /grab_files.sh "/etc/group"; \
+    cp -L /usr/lib/x86_64-linux-gnu/{libcrypt.so.1,libsystemd.so.0} /tmp/distroless/usr/lib/x86_64-linux-gnu; \
+    /grab_files.sh "/usr/sbin/php-fpm$PHP_VERSION"; \
+    ln -sv /usr/sbin/php-fpm$PHP_VERSION /tmp/distroless/usr/sbin/php-fpm
+
+
+FROM phpexperts/php:${PHP_VERSION}-debug
+ARG PHP_VERSION=8.4
+
+COPY --from=intermediate /usr/local/bin/entrypoint-web.sh /usr/local/bin/entrypoint-web.sh
+COPY --from=intermediate /tmp/distroless /
+COPY .build-assets/001_default.conf /etc/nginx/custom/
+
 
 WORKDIR /var/www
 

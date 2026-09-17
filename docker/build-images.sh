@@ -77,13 +77,14 @@ for VERSION in ${PHP_VERSIONS}; do
 
   # docker tag "phpexperts/php:${VERSION}" phpexperts/php:latest
 
-  mkdir -p web/.build-assets
+  mkdir -p web/.build-assets web-debug/.build-assets
   cp ../web/sites/001_default.conf web/.build-assets
+  cp ../web/sites/001_default.conf web-debug/.build-assets
 
   docker build web        --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   docker build web-debug  --tag="phpexperts/web:nginx-php${VERSION}-debug" --build-arg VOLUME="apt-cache:/var/lib/apt" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
-  rm -r web/.build-assets
+  rm -r web/.build-assets web-debug/.build-assets
 
   # IonCube doesn't support PHP v8.0 or v8.3.
   if [[ "$VERSION" != "8.0" && "$VERSION" != "8.3" && "$VERSION" != "8.4" && "$VERSION" != "8.5" ]]; then
