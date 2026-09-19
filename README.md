@@ -8,7 +8,7 @@ Installing on a legacy PHP 5.6 app in 2 minutes: https://youtu.be/xZxaJcsbrWU
 **This project has been tested against over 350,000 open-sourced Packagist packages (via the Bettergist Archiver project) and is compatible with 99.999% of them.**
 
 Includes:
- * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, 8.3, and 8.4.
+ * PHP 5.6, 7.0-7.4 + 8.0, 8.1, 8.2, 8.3, 8.4, and 8.5.
  * Nginx
  * Redis v7.2
  * PostgreSQL v16
@@ -28,17 +28,27 @@ Current PHP versions:
 * PHP 8.3.25 (cli) (built: Aug 29 2025 12:01:53) (NTS)
 * PHP 8.4.11 (cli) (built: Aug 29 2025 06:48:12) (NTS)
 
-The `phpexperts/php:${PHP_VERSION}-full` images contain every bundled PHP extension, and Redis.
+## Image variants
 
-* imap
-* ldap
-* pspell
-* redis
-* snmp
-* xmlrpc
-* Oracle ext-oci
+Every shipped image is **distroless**: the published tags are `FROM scratch`
+images containing only PHP, the selected extensions, their native dependencies
+and a minimal set of POSIX utilities. The full Ubuntu images are never
+published; they exist only during the build as intermediate "fat builders"
+(`phpexperts/php-ubuntu:${PHP_VERSION}`, `-debug` and `-full`).
 
-The `phpexperts/php:VERSION-full` images contain everything in the full image plus drivers for Oracle (ext-oci8),
+CLI images:
+
+* `phpexperts/php:${PHP_VERSION}` — the standard distroless CLI.
+* `phpexperts/php:${PHP_VERSION}-debug` — adds Xdebug.
+* `phpexperts/php:${PHP_VERSION}-full` — adds every bundled PHP extension:
+  imap, ldap, pspell, redis, snmp, xmlrpc, uuid, gd, imagick, memcached,
+  msgpack, ssh2 and the rest of the Debian set.
+
+The web images mirror the CLI variants:
+
+* `phpexperts/web:nginx-php${PHP_VERSION}`
+* `phpexperts/web:nginx-php${PHP_VERSION}-debug`
+* `phpexperts/web:nginx-php${PHP_VERSION}-full`
 
 If you need an extension that is not available in the `full` build, please create an Issue at GitHub.
 
@@ -111,6 +121,22 @@ It will then automagically update composer and run the appropriate version of PH
 supported by your project via the power of Docker.
 
 ## Latest Changes
+
+#### v15.0.0: Distroless -debug and -full images
+
+* **[2026-09-19 17:22:00 EEST]** Added smoke tests for the distroless -debug and -full variants.
+* **[2026-09-19 17:00:00 EEST]** Added PHP 8.5 to the -full images.
+* **[2026-09-19 16:28:01 EEST]** Fixed -full version and port handling in install.php.
+* **[2026-09-19 16:24:33 EEST]** Retired build-distroless.sh and unified the -full image naming.
+* **[2026-09-19 16:24:04 EEST]** Reworked the image build pipeline into one ordered, variant-aware flow.
+* **[2026-09-19 14:34:50 EEST]** Projected the CLI SAPI's PHP extensions onto PHP-FPM in the web images.
+* **[2026-09-19 13:59:52 EEST]** Consolidated the grab_files.sh copies into one canonical, hardened script.
+* **[2026-09-18 00:15:22 EEST]** Copied the /VERSION marker into the distroless web images.
+* **[2026-09-17 19:20:00 EEST]** Added a distroless nginx web image for -full PHP.
+* **[2026-09-17 19:16:41 EEST]** Converted the web-debug image to distroless.
+* **[2026-09-17 19:03:06 EEST]** [major] Added distroless build targets for the -full PHP images, with the native libraries and data files their extensions need.
+* **[2026-09-17 18:50:30 EEST]** Added distroless build targets for the -debug PHP images.
+* **[2026-09-17 18:36:17 EEST]** [major] Parameterized the distroless Dockerfile by base image and turned the -debug/-full bases into fat builders.
 
 #### v14.2.0
 

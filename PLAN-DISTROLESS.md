@@ -36,8 +36,8 @@ implementation groups below.
 25. [x] Rework the build pipeline into one ordered, variant-aware flow — `1d7da4d`
 26. [x] Fold/retire `docker/build-distroless.sh` (and resolve the `phpexperts/php-full` vs `phpexperts/php:*-full` naming split)
 27. [x] Fix the `-full` handling in `install.php` (`8.4-full` → `84-full` version/port bug) — `install.php:87-88`, `4ec31a7`
-28. [ ] Add per-variant smoke tests to `tests/`
-29. [ ] Update `README.md` and `CHANGELOG.md`
+28. [x] Add per-variant smoke tests to `tests/` — `tests/test-distroless-variants.sh`
+29. [x] Update `README.md` and `CHANGELOG.md` — v15.0.0
 
 ## Work Groups
 
@@ -140,11 +140,19 @@ Depends on IG-1 through IG-6 existing.
   keeps its suffix. Guarded by `tests/test-4ec31a7.sh`.
   *Commit:* `4ec31a7` — `Fixed -full version and port handling in install.php.`
 
-#### IG-9 — Tests & docs (items 28, 29)
+#### IG-9 — Tests & docs (items 28, 29) — ✅ complete
 
 - **CG-9.1** — Add per-variant smoke tests to `tests/`.
+  *Done:* `tests/test-distroless-variants.sh` starts the real images and
+  checks the things static tests cannot: xdebug loads in `-debug` (CLI and
+  FPM), every `-full` extension is present and the module list matches the
+  fat builder, and the web variants serve PHP and run nginx + php-fpm.
+  Missing images are skipped, so the suite still runs on hosts without
+  Docker or without locally built variants.
   *Commit:* `Added smoke tests for distroless debug/full variants.`
 - **CG-9.2** — Update `README.md` and `CHANGELOG.md`.
+  *Done:* documented the distroless mechanism and the `-debug`/`-full` CLI
+  and web variants, added the v15.0.0 changelog/README entries.
   *Commit:* `Documented the distroless debug/full images.`
 
 ### Ordering summary
