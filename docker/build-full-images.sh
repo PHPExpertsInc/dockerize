@@ -49,14 +49,14 @@ for VERSION in ${PHP_VERSIONS}; do
         docker build base --tag="phpexperts/php-ubuntu:${VERSION}" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     # Build the fat -full builder, then derive the distroless -full image from it.
     docker build base-full  --tag="phpexperts/php-ubuntu:${VERSION}-full"    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-    docker build distroless --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-full" --no-cache --progress=plain
+    docker build distroless --build-context common=. --tag="phpexperts/php:${VERSION}-full"           --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-full" --no-cache --progress=plain
     docker tag phpexperts/php:${VERSION}-full "phpexperts/php:latest-full"
     docker tag phpexperts/php:${VERSION}-full "phpexperts/php:${MAJOR_VERSION}-full"
 
     # Build the distroless nginx web image on top of the -full PHP image.
     mkdir -p web-full/.build-assets
     cp ../web/sites/001_default.conf web-full/.build-assets
-    docker build web-full   --tag="phpexperts/web:nginx-php${VERSION}-full"  --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+    docker build web-full   --build-context common=. --tag="phpexperts/web:nginx-php${VERSION}-full"  --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     rm -r web-full/.build-assets
 done
 

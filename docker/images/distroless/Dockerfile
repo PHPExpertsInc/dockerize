@@ -11,7 +11,7 @@ ARG BASE_IMAGE=phpexperts/php-ubuntu:${PHP_VERSION}
 FROM ${BASE_IMAGE} AS intermediate
 ARG PHP_VERSION
 
-COPY grab_files.sh /grab_files.sh
+COPY --from=common grab_files.sh /grab_files.sh
 
 RUN /grab_files.sh "/usr/bin/bash" || true
 RUN /grab_files.sh "/dev"; \

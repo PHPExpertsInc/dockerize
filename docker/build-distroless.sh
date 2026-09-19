@@ -40,7 +40,7 @@ for VERSION in ${PHP_VERSIONS}; do
     echo "Building distroless image for PHP ${VERSION} (base image size: ${IMAGE_SIZE_MB}MB)..."
     
     # Build the distroless image
-    if docker build distroless --tag="phpexperts/php:${VERSION}-distroless" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain; then
+    if docker build distroless --build-context common=. --tag="phpexperts/php:${VERSION}-distroless" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain; then
         echo "Successfully built distroless image for PHP ${VERSION}"
 
         # Retag the existing image.

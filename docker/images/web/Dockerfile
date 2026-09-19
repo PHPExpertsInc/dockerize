@@ -55,7 +55,7 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
 
 ADD entrypoint.sh /usr/local/bin/entrypoint-web.sh
 
-COPY grab_files.sh /grab_files.sh
+COPY --from=common grab_files.sh /grab_files.sh
 
 
 RUN mkdir -p /tmp/distroless/run/php /tmp/distroless/usr/sbin; \

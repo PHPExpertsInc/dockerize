@@ -57,7 +57,7 @@ for VERSION in ${PHP_VERSIONS}; do
   docker rmi --force phpexperts/web:nginx-php${VERSION}-ioncube 2> /dev/null
 
   docker build base       --tag="phpexperts/php-ubuntu:${VERSION}"                    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker build distroless --tag="phpexperts/php:${VERSION}"                    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build distroless --build-context common=. --tag="phpexperts/php:${VERSION}"                    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
   docker tag phpexperts/php:${VERSION} "phpexperts/php:latest"
   docker tag phpexperts/php:${VERSION} "phpexperts/php:${MAJOR_VERSION}"
@@ -69,7 +69,7 @@ for VERSION in ${PHP_VERSIONS}; do
 
   # Build the fat -debug builder, then derive the distroless -debug image from it.
   docker build base-debug --tag="phpexperts/php-ubuntu:${VERSION}-debug"   --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker build distroless --tag="phpexperts/php:${VERSION}-debug"          --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-debug" --no-cache --progress=plain
+  docker build distroless --build-context common=. --tag="phpexperts/php:${VERSION}-debug"          --build-arg PHP_VERSION=$VERSION --build-arg BASE_IMAGE="phpexperts/php-ubuntu:${VERSION}-debug" --no-cache --progress=plain
   docker tag phpexperts/php:${VERSION}-debug "phpexperts/php:latest-debug"
   docker tag phpexperts/php:${VERSION}-debug "phpexperts/php:${MAJOR_VERSION}-debug"
 
@@ -79,8 +79,8 @@ for VERSION in ${PHP_VERSIONS}; do
   cp ../web/sites/001_default.conf web/.build-assets
   cp ../web/sites/001_default.conf web-debug/.build-assets
 
-  docker build web        --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-  docker build web-debug  --tag="phpexperts/web:nginx-php${VERSION}-debug" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build web        --build-context common=. --tag="phpexperts/web:nginx-php${VERSION}"       --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+  docker build web-debug  --build-context common=. --tag="phpexperts/web:nginx-php${VERSION}-debug" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
 
   rm -r web/.build-assets web-debug/.build-assets
 
