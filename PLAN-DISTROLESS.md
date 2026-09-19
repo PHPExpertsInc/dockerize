@@ -37,7 +37,7 @@ implementation groups below.
 26. [x] Fold/retire `docker/build-distroless.sh` (and resolve the `phpexperts/php-full` vs `phpexperts/php:*-full` naming split)
 27. [x] Fix the `-full` handling in `install.php` (`8.4-full` → `84-full` version/port bug) — `install.php:87-88`, `4ec31a7`
 28. [x] Add per-variant smoke tests to `tests/` — `tests/test-distroless-variants.sh`
-29. [x] Update `README.md` and `CHANGELOG.md` — v15.0.0
+29. [x] Update `README.md` — the maintainer owns `CHANGELOG.md`
 
 ## Work Groups
 
@@ -150,9 +150,9 @@ Depends on IG-1 through IG-6 existing.
   Missing images are skipped, so the suite still runs on hosts without
   Docker or without locally built variants.
   *Commit:* `Added smoke tests for distroless debug/full variants.`
-- **CG-9.2** — Update `README.md` and `CHANGELOG.md`.
+- **CG-9.2** — Update `README.md` (the maintainer maintains `CHANGELOG.md`).
   *Done:* documented the distroless mechanism and the `-debug`/`-full` CLI
-  and web variants, added the v15.0.0 changelog/README entries.
+  and web variants in the README.
   *Commit:* `Documented the distroless debug/full images.`
 
 ### Ordering summary
