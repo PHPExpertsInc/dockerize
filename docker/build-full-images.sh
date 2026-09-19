@@ -14,33 +14,56 @@ set -e
 #PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4"
 #PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4"
 PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4"
-cd images
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR/images"
 
 export BUILDKIT_STEP_LOG_MAX_SIZE=104857600
 
 # Build the base linux image first.
 export DOCKER_BUILDKIT=1
 
-docker build ext-builder --tag="phpexperts/ext-builder:latest" --progress=plain
+# Build the extension builder and every custom extension tarball once, so
+# the per-version -full builds can reuse them.
+prepare_ext_builder() {
+    docker build ext-builder --tag="phpexperts/ext-builder:latest" --progress=plain
 
-# @TODO: Investigate whether it's really best to download all of these extensions in ./build.images.
-if [ ! -f ./base-full/.build-assets/uuid-1.2.1.tar.gz ]; then
-    curl -fsSLO https://pecl.php.net/get/uuid-1.2.1.tgz
-    mkdir -p ./base-full/.build-assets
-    mv uuid-1.2.1.tgz ./base-full/.build-assets/uuid-1.2.1.tar.gz
-fi
+    # @TODO: Investigate whether it's really best to download all of these extensions in ./build.images.
+    if [ ! -f ./base-full/.build-assets/uuid-1.2.1.tar.gz ]; then
+        curl -fsSLO https://pecl.php.net/get/uuid-1.2.1.tgz
+        mkdir -p ./base-full/.build-assets
+        mv uuid-1.2.1.tgz ./base-full/.build-assets/uuid-1.2.1.tar.gz
+    fi
 
-# Install extra extensions. These are built for PHP v8.*.
-for dep in ext-builder/deps/*.deps; do
-    EXTENSION=$(basename $dep .deps)
-    echo "===== BUILDING $EXTENSION for PHP ${PHP_VERSIONS} ====="
-    sleep 2
-    ./ext-builder.sh $EXTENSION
-done
+    # Install extra extensions. These are built for PHP v8.*.
+    for dep in ext-builder/deps/*.deps; do
+        EXTENSION=$(basename $dep .deps)
+        echo "===== BUILDING $EXTENSION for PHP ${PHP_VERSIONS} ====="
+        sleep 2
+        ./ext-builder.sh $EXTENSION
+    done
+}
 
+# base-full/Dockerfile copies one tarball per extension for the version
+# being built. A standalone single-version run must prepare them first, or
+# the COPY fails on a clean checkout. In the unified pipeline --prepare has
+# already run, so this is a no-op.
+ensure_extensions() {
+    local version="$1" dep extension
+    for dep in ext-builder/deps/*.deps; do
+        extension=$(basename "$dep" .deps)
+        if [ ! -f "./base-full/exts/ext-${extension}.${version}.tar.xz" ]; then
+            prepare_ext_builder
+            return 0
+        fi
+    done
+}
 
-for VERSION in ${PHP_VERSIONS}; do
-    MAJOR_VERSION=${VERSION%.*}
+# Build the fat -full builder, then derive the distroless -full CLI image
+# and the distroless web-full image from it, for one PHP version.
+build_full_version() {
+    local VERSION="$1"
+    local MAJOR_VERSION=${VERSION%.*}
 
     docker rmi --force phpexperts/php:${VERSION}-full 2> /dev/null || true
     docker rmi --force phpexperts/php-ubuntu:${VERSION}-full 2> /dev/null || true
@@ -58,7 +81,26 @@ for VERSION in ${PHP_VERSIONS}; do
     cp ../web/sites/001_default.conf web-full/.build-assets
     docker build web-full   --build-context common=. --tag="phpexperts/web:nginx-php${VERSION}-full"  --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
     rm -r web-full/.build-assets
-done
+}
+
+# --prepare builds the shared extension toolchain and exits; a bare run
+# builds every -full version; a version argument builds just that one
+# (used by build-images.sh to keep the whole pipeline in one flow).
+case "${1:-}" in
+    --prepare)
+        prepare_ext_builder
+        ;;
+    "")
+        prepare_ext_builder
+        for VERSION in ${PHP_VERSIONS}; do
+            build_full_version "$VERSION"
+        done
+        ;;
+    *)
+        ensure_extensions "$1"
+        build_full_version "$1"
+        ;;
+esac
 
 # PHP-Next builds...
 #docker rmi --force phpexperts/php:8.2 phpexperts/web:nginx-php8.2

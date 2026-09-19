@@ -9,17 +9,31 @@
 #      PGP Sig: 4BF826131C3487ACD28F2AD8EB24A91DD6125690            #
 #####################################################################
 
+set -e
+
 PHP_VERSIONS="5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4 8.5"
 #PHP_VERSIONS="7.4 8.0 8.1 8.2 8.3 8.4 8.5"
 #PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4 8.5"
-cd images
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR/images"
 
 export BUILDKIT_STEP_LOG_MAX_SIZE=104857600
 
 # Build the base linux image first.
 export DOCKER_BUILDKIT=1
 
-docker rmi --force phpexperts/linux:latest
+# The -full variants exist only for the PHP versions the extension builder
+# targets (its deps are built for PHP 8.0-8.4).
+FULL_PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4"
+supports_full() {
+    case " ${FULL_PHP_VERSIONS} " in
+        *" $1 "*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+docker rmi --force phpexperts/linux:latest 2> /dev/null || true
 docker build linux --tag="phpexperts/linux:latest" --no-cache  --progress=plain
 docker tag phpexperts/linux:latest phpexperts/linux:$(date '+%Y-%m-%d')
 
@@ -40,21 +54,29 @@ if [ ! -f ./base-oracle/.build-assets/instantclient-sdk-linux.x64-21.12.0.0.0dbr
     mv instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip ./base-oracle/.build-assets/
 fi
 
+# Prepare the shared extension builder once; the per-version -full builds
+# below reuse the tarballs it produces.
+"$SCRIPT_DIR/build-full-images.sh" --prepare
+
+# One ordered, variant-aware flow per PHP version:
+#   base -> distroless -> fat debug -> distroless debug
+#        -> fat full -> distroless full -> web-full
+#        -> web -> web-debug -> ioncube
 for VERSION in ${PHP_VERSIONS}; do
   MAJOR_VERSION=${VERSION%.*}
 
-  docker rmi --force phpexperts/php:latest 2> /dev/null
-  docker rmi --force phpexperts/php:latest-debug 2> /dev/null
-  docker rmi --force phpexperts/php:${MAJOR_VERSION}-debug 2> /dev/null
-  docker rmi --force phpexperts/php:${MAJOR_VERSION} 2> /dev/null
-  docker rmi --force phpexperts/php:${VERSION} 2> /dev/null
-  docker rmi --force phpexperts/php:${VERSION}-debug 2> /dev/null
-  docker rmi --force phpexperts/php-ubuntu:${VERSION} 2> /dev/null
-  docker rmi --force phpexperts/php-ubuntu:${VERSION}-debug 2> /dev/null
+  docker rmi --force phpexperts/php:latest 2> /dev/null || true
+  docker rmi --force phpexperts/php:latest-debug 2> /dev/null || true
+  docker rmi --force phpexperts/php:${MAJOR_VERSION}-debug 2> /dev/null || true
+  docker rmi --force phpexperts/php:${MAJOR_VERSION} 2> /dev/null || true
+  docker rmi --force phpexperts/php:${VERSION} 2> /dev/null || true
+  docker rmi --force phpexperts/php:${VERSION}-debug 2> /dev/null || true
+  docker rmi --force phpexperts/php-ubuntu:${VERSION} 2> /dev/null || true
+  docker rmi --force phpexperts/php-ubuntu:${VERSION}-debug 2> /dev/null || true
 
-  docker rmi --force phpexperts/web:nginx-php${VERSION} 2> /dev/null
-  docker rmi --force phpexperts/web:nginx-php${VERSION}-debug 2> /dev/null
-  docker rmi --force phpexperts/web:nginx-php${VERSION}-ioncube 2> /dev/null
+  docker rmi --force phpexperts/web:nginx-php${VERSION} 2> /dev/null || true
+  docker rmi --force phpexperts/web:nginx-php${VERSION}-debug 2> /dev/null || true
+  docker rmi --force phpexperts/web:nginx-php${VERSION}-ioncube 2> /dev/null || true
 
   docker build base       --tag="phpexperts/php-ubuntu:${VERSION}"                    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   docker build distroless --build-context common=. --tag="phpexperts/php:${VERSION}"                    --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
@@ -73,7 +95,11 @@ for VERSION in ${PHP_VERSIONS}; do
   docker tag phpexperts/php:${VERSION}-debug "phpexperts/php:latest-debug"
   docker tag phpexperts/php:${VERSION}-debug "phpexperts/php:${MAJOR_VERSION}-debug"
 
-  # docker tag "phpexperts/php:${VERSION}" phpexperts/php:latest
+  # Build the fat -full builder, the distroless -full image and the
+  # distroless web-full image in one step.
+  if supports_full "$VERSION"; then
+    "$SCRIPT_DIR/build-full-images.sh" "$VERSION"
+  fi
 
   mkdir -p web/.build-assets web-debug/.build-assets
   cp ../web/sites/001_default.conf web/.build-assets
@@ -91,10 +117,8 @@ for VERSION in ${PHP_VERSIONS}; do
     docker build web-ioncube  --build-context common=. --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   fi
 
-  docker rmi --force "phpexperts/php-ubuntu:${VERSION}" "phpexperts/php-ubuntu:${VERSION}-debug" 2> /dev/null
+  docker rmi --force "phpexperts/php-ubuntu:${VERSION}" "phpexperts/php-ubuntu:${VERSION}-debug" "phpexperts/php-ubuntu:${VERSION}-full" 2> /dev/null || true
 done
-
-#source ./build-full-images.sh
 
 # PHP-Next builds...
 #docker rmi --force phpexperts/php:8.2 phpexperts/web:nginx-php8.2
