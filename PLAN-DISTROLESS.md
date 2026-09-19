@@ -35,7 +35,7 @@ implementation groups below.
 24. [x] Reject `ldd` "not found" entries before `cp` (the build aborts instead of copying pseudo-deps) — `0cd0c77`, `b1f6af4`, `529e45e`
 25. [x] Rework the build pipeline into one ordered, variant-aware flow — `1d7da4d`
 26. [x] Fold/retire `docker/build-distroless.sh` (and resolve the `phpexperts/php-full` vs `phpexperts/php:*-full` naming split)
-27. [ ] Fix the `-full` handling in `install.php` (`8.4-full` → `84-full` version/port bug) — `install.php:87-88`
+27. [x] Fix the `-full` handling in `install.php` (`8.4-full` → `84-full` version/port bug) — `install.php:87-88`, `4ec31a7`
 28. [ ] Add per-variant smoke tests to `tests/`
 29. [ ] Update `README.md` and `CHANGELOG.md`
 30. [ ] (Follow-up) Extend the same mechanism to `-ioncube` and `-oracle`
@@ -132,10 +132,14 @@ Depends on IG-1 through IG-6 existing.
   no longer references the retired script.
   *Commit:* `Retired build-distroless.sh and unified -full image naming.`
 
-#### IG-8 — install.php `-full` fix (item 27)
+#### IG-8 — install.php `-full` fix (item 27) — ✅ complete
 
 - **CG-8.1** — Fix the `8.4-full` → `84-full` version/port derivation.
-  *Commit:* `Fixed -full version and port handling in install.php.`
+  *Done:* added `imageVersion()`, which strips any variant suffix
+  (`-debug`/`-full`/`-ioncube`) before the dots. `8.4-full` now yields `84`,
+  so the service name and `80` + version port stay numeric while the image tag
+  keeps its suffix. Guarded by `tests/test-4ec31a7.sh`.
+  *Commit:* `4ec31a7` — `Fixed -full version and port handling in install.php.`
 
 #### IG-9 — Tests & docs (items 28, 29)
 
