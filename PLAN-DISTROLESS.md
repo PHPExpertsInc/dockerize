@@ -38,7 +38,6 @@ implementation groups below.
 27. [x] Fix the `-full` handling in `install.php` (`8.4-full` → `84-full` version/port bug) — `install.php:87-88`, `4ec31a7`
 28. [ ] Add per-variant smoke tests to `tests/`
 29. [ ] Update `README.md` and `CHANGELOG.md`
-30. [ ] (Follow-up) Extend the same mechanism to `-ioncube` and `-oracle`
 
 ## Work Groups
 
@@ -148,11 +147,6 @@ Depends on IG-1 through IG-6 existing.
 - **CG-9.2** — Update `README.md` and `CHANGELOG.md`.
   *Commit:* `Documented the distroless debug/full images.`
 
-#### IG-10 — Follow-up variants (item 30)
-
-- **CG-10.1** — Apply the same parameterization to `-ioncube` and `-oracle`.
-  *Commit:* `Converted ioncube/oracle images to distroless.`
-
 ### Ordering summary
 
 ```
@@ -161,7 +155,6 @@ IG-1 ──┬─> IG-3 ─┐
        └─> IG-2 ─┘
 IG-1 ──> IG-5 ──> IG-6 ──> IG-7
 IG-8 (independent) ──> IG-9
-IG-10 (after IG-7)
 ```
 
 ### Pull request plan
@@ -175,7 +168,7 @@ iterative one because it contains the `-full` trimming.
 | PR-1 | IG-1 + IG-2   | v15.x-distroless.foundation           | Parameterized the distroless Dockerfile and consolidated grab_files.sh      |
 | PR-2 | IG-3 – IG-6   | v15.x-distroless.debug-full-web       | Added distroless -debug/-full and web variants                              |
 | PR-3 | IG-7 + IG-8   | v15.x-distroless.pipeline             | Reworked the image build pipeline and fixed -full install handling          |
-| PR-4 | IG-9 + IG-10  | v15.x-distroless.tests-docs-followups | Added smoke tests, documentation, and ioncube/oracle variants                |
+| PR-4 | IG-9          | v15.x-distroless.tests-docs           | Added smoke tests and documentation                                         |
 
 
 If the project prefers the current branch convention (linear commits on the
@@ -213,7 +206,6 @@ variant support into a build-arg swap rather than new Dockerfile logic.
 | `base/` | `phpexperts/php-ubuntu:${VERSION}` | `phpexperts/php:${VERSION}` |
 | `base-debug/` | `phpexperts/php-ubuntu:${VERSION}-debug` | `phpexperts/php:${VERSION}-debug` |
 | `base-full/` | `phpexperts/php-ubuntu:${VERSION}-full` | `phpexperts/php:${VERSION}-full` |
-| `base-ioncube/` | `phpexperts/php-ubuntu:${VERSION}-ioncube` | `phpexperts/php:${VERSION}-ioncube` (follow-up) |
 
 ### Parameterized `docker/images/distroless/Dockerfile`
 
@@ -336,9 +328,6 @@ variant).
   Switching removes Python/supervisor from the gathered set.
 - **Pipeline style:** minimal parameterized Dockerfile (fast to land) vs
   BuildKit multi-target / `bake` (cleaner, less rebuild).
-- **Scope:** include `-ioncube` / `-oracle` in the same parameterization now, or
-  leave as follow-up? They use the identical mechanism, so parameterizing makes
-  them nearly free.
 
 ## Confidence
 
