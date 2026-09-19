@@ -33,8 +33,8 @@ implementation groups below.
 22. [x] Create `docker/images/web-full/Dockerfile` (final base `phpexperts/php:${VERSION}-full`) — currently missing despite `install.php:93` expecting `nginx-php${VERSION}-full`
 23. [x] Consolidate the divergent copies of `grab_files.sh` (`distroless/`, `web/`, `web-debug/`, `web-full/`, `extract-binaries.sh`) into one canonical script — `04b443b`
 24. [x] Reject `ldd` "not found" entries before `cp` (the build aborts instead of copying pseudo-deps) — `0cd0c77`, `b1f6af4`, `529e45e`
-25. [ ] Rework the build pipeline into one ordered, variant-aware flow
-26. [ ] Fold/retire `docker/build-distroless.sh` (and resolve the `phpexperts/php-full` vs `phpexperts/php:*-full` naming split)
+25. [x] Rework the build pipeline into one ordered, variant-aware flow — `1d7da4d`
+26. [x] Fold/retire `docker/build-distroless.sh` (and resolve the `phpexperts/php-full` vs `phpexperts/php:*-full` naming split)
 27. [ ] Fix the `-full` handling in `install.php` (`8.4-full` → `84-full` version/port bug) — `install.php:87-88`
 28. [ ] Add per-variant smoke tests to `tests/`
 29. [ ] Update `README.md` and `CHANGELOG.md`
@@ -112,16 +112,24 @@ Highest-risk group; run as a spike first, then commit.
   `phpexperts/php:${VERSION}-full`) and add it to the build.
   *Commit:* `Added a distroless nginx web image for -full PHP.`
 
-#### IG-7 — Build pipeline rework (items 25, 26)
+#### IG-7 — Build pipeline rework (items 25, 26) — ✅ complete
 
 Depends on IG-1 through IG-6 existing.
 
 - **CG-7.1** — Reorder the pipeline into one variant-aware flow (linux → base →
   distroless → fat debug → distroless debug → fat full → distroless full →
   web / web-debug / web-full).
-  *Commit:* `Reworked the image build pipeline for all distroless variants.`
+  *Done:* `build-images.sh` is now the single entry point. It prepares the
+  linux base and the shared extension toolchain once, then per PHP version runs
+  base → distroless → fat debug → distroless debug → fat full → distroless full
+  → web-full → web → web-debug → ioncube. `build-full-images.sh` exposes
+  `--prepare` and single-version modes so the ordered flow can drive it.
+  *Commit:* `1d7da4d` — `Reworked the image build pipeline for all distroless variants.`
 - **CG-7.2** — Fold/retire `docker/build-distroless.sh` and resolve the
   `phpexperts/php-full` vs `phpexperts/php:*-full` naming split.
+  *Done:* the one-off upgrader (and its `phpexperts/php-full:${VERSION}` tag) is
+  removed; only `phpexperts/php:${VERSION}-full` remains. `tests/test-5e5923e.sh`
+  no longer references the retired script.
   *Commit:* `Retired build-distroless.sh and unified -full image naming.`
 
 #### IG-8 — install.php `-full` fix (item 27)
@@ -179,7 +187,7 @@ one commit per commit-group on a single `distroless_debug_full` branch.
 | Full CLI | `phpexperts/php:${VERSION}-full` | `php-ubuntu:${VERSION}-full` fat builder via `distroless/Dockerfile` | Yes (`FROM scratch`) |
 | Standard web | `phpexperts/web:nginx-php${VERSION}` | `web/Dockerfile` builder + final `FROM phpexperts/php:${VERSION}` | Yes |
 | Debug web | `phpexperts/web:nginx-php${VERSION}-debug` | `web-debug/Dockerfile` builder + final `FROM phpexperts/php:${VERSION}-debug` | Yes |
-| Full web | `phpexperts/web:nginx-php${VERSION}-full` | `web-full/Dockerfile` builder + final `FROM phpexperts/php:${VERSION}-full` | Yes (built by `build-full-images.sh`) |
+| Full web | `phpexperts/web:nginx-php${VERSION}-full` | `web-full/Dockerfile` builder + final `FROM phpexperts/php:${VERSION}-full` | Yes (driven by `build-images.sh` via `build-full-images.sh`) |
 
 The distroless mechanism is a two-stage build: a fat Ubuntu stage provides the
 files, `grab_files.sh` copies a curated set (binary + transitive `ldd` deps)

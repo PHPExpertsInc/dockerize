@@ -89,7 +89,6 @@ check_build "$ROOT/docker/build-images.sh"      '--tag="phpexperts/web:nginx-php
 check_build "$ROOT/docker/build-images.sh"      '--tag="phpexperts/web:nginx-php${VERSION}-debug"'
 check_build "$ROOT/docker/build-full-images.sh" '--tag="phpexperts/php:${VERSION}-full"'
 check_build "$ROOT/docker/build-full-images.sh" '--tag="phpexperts/web:nginx-php${VERSION}-full"'
-check_build "$ROOT/docker/build-distroless.sh"  '--tag="phpexperts/php:${VERSION}-distroless"'
 
 # 5. The canonical script must still abort on unresolvable dependencies
 #    and tolerate empty ldd output (the behaviours the consolidation
