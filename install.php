@@ -54,10 +54,14 @@ TEXT;
 
 echo $funding;
 
-function findFirstAvailablePort(int $initialPort): int
+function findFirstAvailablePort(int $initialPort, array $excludedPorts = []): int
 {
     $ip = '0.0.0.0';
     for ($port = $initialPort; $port <= 65535; $port++) {
+        if (in_array($port, $excludedPorts, true)) {
+            continue;
+        }
+
         //echo "Attempting Port $port...\n";
         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if ($socket === false) {
@@ -78,14 +82,49 @@ function findFirstAvailablePort(int $initialPort): int
     return $port;
 }
 
+/**
+ * Reduce a tagged image name (e.g. "8.4-full", "8.4-debug",
+ * "8.4-ioncube") to the numeric version ("84") used for compose service
+ * names and host ports. The variant suffix stays part of the image tag.
+ *
+ * @param string $image
+ * @return string
+ */
+function imageVersion(string $image): string
+{
+    return str_replace('.', '', (string) preg_replace('/-(?:debug|full|ioncube)$/', '', $image));
+}
+
+/**
+ * The PHP versions that ship a -full image (matching the pipeline's
+ * FULL_PHP_VERSIONS). The extension builder targets only PHP 8.0-8.4, so
+ * the installer must not offer 8.5-full.
+ *
+ * @return string[]
+ */
+function fullImageVersions(): array
+{
+    return ['8.0', '8.1', '8.2', '8.3', '8.4'];
+}
+
 function installPHP(): string
 {
     $dockerStub = file_get_contents(__DIR__ . '/docker/docker-compose.base.yml');
     $dockerImages = choosePHPVersions();
     $newDockerCompose = '';
+
+    // Every version after the first uses a fixed 80xx port. Reserve those so
+    // the dynamically chosen first port cannot collide with one of them.
+    $reservedPorts = [];
     foreach ($dockerImages as $index => $PHP_IMAGE) {
-        $PHP_VERSION = $index > 0 ? str_replace(['-debug', '.'], '', $PHP_IMAGE) : '';
-        $PORT = $index === 0 ? findFirstAvailablePort(8000) : "80{$PHP_VERSION}";
+        if ($index > 0) {
+            $reservedPorts[] = (int) ("80" . imageVersion($PHP_IMAGE));
+        }
+    }
+
+    foreach ($dockerImages as $index => $PHP_IMAGE) {
+        $PHP_VERSION = $index > 0 ? imageVersion($PHP_IMAGE) : '';
+        $PORT = $index === 0 ? findFirstAvailablePort(8000, $reservedPorts) : (int) "80{$PHP_VERSION}";
         AvailablePort::$PORT = $PORT;
 
         $versionStub = <<<YAML
@@ -151,8 +190,20 @@ function choosePHPVersions()
 
     if ($yesNo === 'y') {
         $isFullBuild = true;
-        foreach ($selectedVersions as &$version) {
-            $version .= '-full';
+        $fullVersions = fullImageVersions();
+        foreach ($selectedVersions as $key => $version) {
+            if (!in_array($version, $fullVersions, true)) {
+                alert("The -full image is not available for PHP $version; skipping it.");
+                unset($selectedVersions[$key]);
+                continue;
+            }
+            $selectedVersions[$key] .= '-full';
+        }
+        $selectedVersions = array_values($selectedVersions);
+
+        if (empty($selectedVersions)) {
+            alert('Error: None of the selected PHP versions have a -full image. Installation aborted.');
+            exit(5);
         }
 
         return $selectedVersions;
