@@ -16,17 +16,18 @@ Includes:
 
 Current PHP versions:
 
-* PHP 5.6.40-81+ubuntu24.04.1+deb.sury.org+1 (cli)
-* PHP 7.0.33-79+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:43:22) ( NTS )
-* PHP 7.1.33-67+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:50:54) ( NTS )
-* PHP 7.2.34-54+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 06:58:15) ( NTS )
-* PHP 7.3.33-24+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Dec 24 2024 07:05:25) ( NTS )
-* PHP 7.4.33 (cli) (built: Jul  3 2025 16:41:49) ( NTS )
-* PHP 8.0.30 (cli) (built: Jul  3 2025 16:39:43) ( NTS )
-* PHP 8.1.33 (cli) (built: Jul  3 2025 16:16:18) (NTS)
-* PHP 8.2.29 (cli) (built: Jul  3 2025 13:08:18) (NTS)
-* PHP 8.3.25 (cli) (built: Aug 29 2025 12:01:53) (NTS)
-* PHP 8.4.11 (cli) (built: Aug 29 2025 06:48:12) (NTS)
+* PHP 5.6.40-103+ubuntu24.04.1+deb.sury.org+1 (cli)
+* PHP 7.0.33-91+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Jul  3 2026 07:18:41) ( NTS )
+* PHP 7.1.33-79+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Jul  3 2026 07:03:03) ( NTS )
+* PHP 7.2.34-65+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Jul  3 2026 06:43:24) ( NTS )
+* PHP 7.3.33-34+ubuntu24.04.1+deb.sury.org+1 (cli) (built: Jul  3 2026 06:35:16) ( NTS )
+* PHP 7.4.33 (cli) (built: Jul  3 2026 06:09:47) ( NTS )
+* PHP 8.0.30 (cli) (built: Jul  3 2026 05:51:50) ( NTS )
+* PHP 8.1.34 (cli) (built: Jul  3 2026 05:36:20) (NTS)
+* PHP 8.2.33 (cli) (built: Jul 30 2026 15:54:06) (NTS)
+* PHP 8.3.33 (cli) (built: Jul 30 2026 15:39:15) (NTS)
+* PHP 8.4.25 (cli) (built: Aug 28 2026 06:55:33) (NTS)
+* PHP 8.5.10 (cli) (built: Aug 28 2026 06:46:18) (NTS)
 
 ## Image variants
 
@@ -76,7 +77,10 @@ Then edit credentials in .env.
     # Edit credentials in .env.
     docker compose up -d
 
-Don't forget to edit your docker compose.yml!
+`vendor/bin/php` runs the PHP version selected by `PHP_VERSION` in `.env`, and
+defaults to PHP 8.4 when that variable is not set.
+
+Don't forget to edit your docker-compose.yml!
 
 ### Configure your PATH
 
@@ -124,19 +128,41 @@ supported by your project via the power of Docker.
 
 #### v15.0.0: Distroless -debug and -full images
 
-* **[2026-09-19 17:22:00 EEST]** Added smoke tests for the distroless -debug and -full variants.
+* **[2026-09-19 17:56:34 EEST]** Refreshed the apt index in the extension builder before installing deps.
+* **[2026-09-19 17:18:48 EEST]** Noted that the maintainer maintains the changelog.
+* **[2026-09-19 17:17:17 EEST]** Documented the distroless debug/full images.
+* **[2026-09-19 17:17:11 EEST]** Added smoke tests for distroless debug/full variants.
 * **[2026-09-19 17:00:00 EEST]** Added PHP 8.5 to the -full images.
 * **[2026-09-19 16:28:01 EEST]** Fixed -full version and port handling in install.php.
-* **[2026-09-19 16:24:33 EEST]** Retired build-distroless.sh and unified the -full image naming.
-* **[2026-09-19 16:24:04 EEST]** Reworked the image build pipeline into one ordered, variant-aware flow.
+* **[2026-09-19 16:24:33 EEST]** Retired build-distroless.sh and unified -full image naming.
+* **[2026-09-19 16:24:04 EEST]** Reworked the image build pipeline for all distroless variants.
 * **[2026-09-19 14:34:50 EEST]** Projected the CLI SAPI's PHP extensions onto PHP-FPM in the web images.
-* **[2026-09-19 13:59:52 EEST]** Consolidated the grab_files.sh copies into one canonical, hardened script.
+* **[2026-09-19 14:22:38 EEST]** Propagated /grab_files.sh failures for /usr/bin/bash in the distroless build.
+* **[2026-09-19 14:06:04 EEST]** Propagated ldd failures with diagnostics in grab_files.sh.
+* **[2026-09-19 14:01:12 EEST]** Marked the grab_files consolidation and hardening (IG-2) done.
+* **[2026-09-19 13:59:52 EEST]** Consolidated the three grab_files.sh copies into one canonical script.
 * **[2026-09-18 00:15:22 EEST]** Copied the /VERSION marker into the distroless web images.
+* **[2026-09-17 23:57:32 EEST]** Guarded the web grab_files.sh scripts against empty ldd dependencies.
+* **[2026-09-17 23:37:24 EEST]** Added per-commit tests and made the distroless -full build abort on grab failures.
+* **[2026-09-17 23:33:16 EEST]** Added an AGENTS.md
+* **[2026-09-17 20:23:07 EEST]** Preserved child exit status and cleaned up survivors on web entrypoints
+* **[2026-09-17 20:21:26 EEST]** Propagated grab_files.sh failures in the full-image collection loop
+* **[2026-09-17 20:20:37 EEST]** Detected missing ldd dependencies and aborted incomplete image builds
+* **[2026-09-17 20:19:27 EEST]** Exec'd passthrough commands in the entrypoints for signal handling.
+* **[2026-09-17 20:15:46 EEST]** Guarded the cleanup trap against set -e aborts.
+* **[2026-09-17 20:15:01 EEST]** Removed the premature library copy from the distroless scripts.
+* **[2026-09-17 20:07:19 EEST]** Rebuilt the php-ubuntu base in build-full-images.sh when missing.
+* **[2026-09-17 20:01:03 EEST]** Stopped build-full-images.sh on Docker build failures.
+* **[2026-09-17 19:59:22 EEST]** Routed nginx logs to stdout/stderr.
+* **[2026-09-17 19:36:15 EEST]** Shared apt metadata via BuildKit cache mounts.
 * **[2026-09-17 19:20:00 EEST]** Added a distroless nginx web image for -full PHP.
-* **[2026-09-17 19:16:41 EEST]** Converted the web-debug image to distroless.
-* **[2026-09-17 19:03:06 EEST]** [major] Added distroless build targets for the -full PHP images, with the native libraries and data files their extensions need.
-* **[2026-09-17 18:50:30 EEST]** Added distroless build targets for the -debug PHP images.
-* **[2026-09-17 18:36:17 EEST]** [major] Parameterized the distroless Dockerfile by base image and turned the -debug/-full bases into fat builders.
+* **[2026-09-17 19:16:41 EEST]** Converted web-debug to a distroless image.
+* **[2026-09-17 19:08:14 EEST]** Copied resolved ldd paths instead of basenames in grab_files.sh.
+* **[2026-09-17 19:03:06 EEST]** Added missing libraries and data files to the distroless -full image.
+* **[2026-09-17 19:03:06 EEST]** Added distroless build target for -full PHP images.
+* **[2026-09-17 18:50:30 EEST]** Added distroless build target for -debug PHP images.
+* **[2026-09-17 18:36:19 EEST]** Refactored base-debug/base-full into fat builder images.
+* **[2026-09-17 18:36:17 EEST]** Parameterized the distroless Dockerfile by base image.
 
 #### v14.2.0
 
@@ -227,6 +253,10 @@ To control the containers, use `docker compose`.
     docker compose logs -ft
     # Stop the containers
     docker compose stop
+
+The first web service is published on <http://localhost:8000/>. The installer
+starts from port 8000 and assigns `80xx` to each additional PHP version, so
+it prints the exact URL when it finishes.
 
 That's it! You now have the latest LEPP (Linux, Nginx, PostgreSQL, PHP) stack or
 the latest LEMP (Linux, Nginx, MariaDB, PHP) stack.

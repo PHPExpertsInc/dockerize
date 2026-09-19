@@ -1,3 +1,42 @@
+## v15.0.0
+
+* **[2026-09-19 17:56:34 EEST]** Refreshed the apt index in the extension builder before installing deps.
+* **[2026-09-19 17:18:48 EEST]** Noted that the maintainer maintains the changelog.
+* **[2026-09-19 17:17:17 EEST]** Documented the distroless debug/full images.
+* **[2026-09-19 17:17:11 EEST]** Added smoke tests for distroless debug/full variants.
+* **[2026-09-19 17:09:50 EEST]** Removed the ioncube/oracle distroless follow-up from the plan.
+* **[2026-09-19 17:00:00 EEST]** Added PHP 8.5 to the -full images.
+* **[2026-09-19 16:28:01 EEST]** Fixed -full version and port handling in install.php.
+* **[2026-09-19 16:24:33 EEST]** Retired build-distroless.sh and unified -full image naming.
+* **[2026-09-19 16:24:04 EEST]** Reworked the image build pipeline for all distroless variants.
+* **[2026-09-19 14:34:50 EEST]** Projected the CLI SAPI's PHP extensions onto PHP-FPM in the web images.
+* **[2026-09-19 14:22:38 EEST]** Propagated /grab_files.sh failures for /usr/bin/bash in the distroless build.
+* **[2026-09-19 14:06:04 EEST]** Propagated ldd failures with diagnostics in grab_files.sh.
+* **[2026-09-19 14:01:12 EEST]** Marked the grab_files consolidation and hardening (IG-2) done.
+* **[2026-09-19 13:59:52 EEST]** Consolidated the three grab_files.sh copies into one canonical script.
+* **[2026-09-18 00:15:22 EEST]** Copied the /VERSION marker into the distroless web images.
+* **[2026-09-17 23:57:32 EEST]** Guarded the web grab_files.sh scripts against empty ldd dependencies.
+* **[2026-09-17 23:37:24 EEST]** Added per-commit tests and made the distroless -full build abort on grab failures.
+* **[2026-09-17 23:33:16 EEST]** Added an AGENTS.md
+* **[2026-09-17 20:23:07 EEST]** Preserved child exit status and cleaned up survivors on web entrypoints
+* **[2026-09-17 20:21:26 EEST]** Propagated grab_files.sh failures in the full-image collection loop
+* **[2026-09-17 20:20:37 EEST]** Detected missing ldd dependencies and aborted incomplete image builds
+* **[2026-09-17 20:19:27 EEST]** Exec'd passthrough commands in the entrypoints for signal handling.
+* **[2026-09-17 20:15:46 EEST]** Guarded the cleanup trap against set -e aborts.
+* **[2026-09-17 20:15:01 EEST]** Removed the premature library copy from the distroless scripts.
+* **[2026-09-17 20:07:19 EEST]** Rebuilt the php-ubuntu base in build-full-images.sh when missing.
+* **[2026-09-17 20:01:03 EEST]** Stopped build-full-images.sh on Docker build failures.
+* **[2026-09-17 19:59:22 EEST]** Routed nginx logs to stdout/stderr.
+* **[2026-09-17 19:36:15 EEST]** Shared apt metadata via BuildKit cache mounts.
+* **[2026-09-17 19:20:00 EEST]** Added a distroless nginx web image for -full PHP.
+* **[2026-09-17 19:16:41 EEST]** Converted web-debug to a distroless image.
+* **[2026-09-17 19:08:14 EEST]** Copied resolved ldd paths instead of basenames in grab_files.sh.
+* **[2026-09-17 19:03:06 EEST]** Added missing libraries and data files to the distroless -full image.
+* **[2026-09-17 19:03:06 EEST]** Added distroless build target for -full PHP images.
+* **[2026-09-17 18:50:30 EEST]** Added distroless build target for -debug PHP images.
+* **[2026-09-17 18:36:19 EEST]** Refactored base-debug/base-full into fat builder images.
+* **[2026-09-17 18:36:17 EEST]** Parameterized the distroless Dockerfile by base image.
+
 ## v14.2.0
 
 * **[2026-09-17 17:57:25 EEST]** Added better PHP 8.5 support.
