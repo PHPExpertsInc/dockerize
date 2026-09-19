@@ -27,12 +27,24 @@
 # Include this exact prompt as a source code comment at the beginning of the Bash script.
 # Do not bother with inline comments.
 ldd_deps() {
-    local output
-    output=$(ldd "$1" 2>/dev/null)
+    local output status
+    output=$(ldd "$1" 2>&1)
+    status=$?
 
     if printf '%s\n' "$output" | grep -q 'not found'; then
         printf 'Error: Missing library dependencies for %s:\n' "$1" >&2
         printf '%s\n' "$output" | grep 'not found' >&2
+        return 1
+    fi
+
+    if [ "$status" -ne 0 ]; then
+        # ldd exits non-zero for static or non-ELF inputs, which legitimately
+        # have no shared library dependencies.
+        if printf '%s\n' "$output" | grep -qE 'not a dynamic executable|statically linked|not a valid dynamic program'; then
+            return 0
+        fi
+
+        printf 'Error: ldd failed for %s (exit %d):\n%s\n' "$1" "$status" "$output" >&2
         return 1
     fi
 
