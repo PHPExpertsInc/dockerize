@@ -39,6 +39,10 @@ fi
 
 mkdir -p /build-assets
 
+# The image's apt indexes are kept in a BuildKit cache mount and are not
+# committed to any layer, so refresh them before installing the deps that
+# this extension needs (e.g. uuid-dev).
+apt-get update
 apt-get install -y $PACKAGES
 
 echo "Successfully installed packages for $EXTENSION: $PACKAGES"
