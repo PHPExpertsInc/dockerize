@@ -24,8 +24,8 @@ export BUILDKIT_STEP_LOG_MAX_SIZE=104857600
 export DOCKER_BUILDKIT=1
 
 # The -full variants exist only for the PHP versions the extension builder
-# targets (its deps are built for PHP 8.0-8.4).
-FULL_PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4"
+# targets (its deps are built for PHP 8.0-8.5).
+FULL_PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4 8.5"
 supports_full() {
     case " ${FULL_PHP_VERSIONS} " in
         *" $1 "*) return 0 ;;

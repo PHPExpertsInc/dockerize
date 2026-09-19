@@ -5,8 +5,8 @@
 #
 # 1. findFirstAvailablePort() must honour excluded (reserved) ports so
 #    the dynamic first port cannot collide with a later fixed 80xx port.
-# 2. choosePHPVersions() must not emit a -full image reference for PHP
-#    8.5 (no such image is built) and must abort when nothing remains.
+# 2. choosePHPVersions() must only append -full for versions the pipeline
+#    actually builds (PHP 8.0-8.5), and skip the rest.
 #####################################################################
 set -uo pipefail
 
@@ -28,7 +28,7 @@ if [ ! -x "$PHP_BIN" ]; then
 fi
 if [ -z "$PHP_BIN" ] || [ ! -x "$PHP_BIN" ]; then
     bad "could not find a native PHP interpreter (set PHP_BIN)"
-    printf '%sFAILED%s: be8e311 installer port reservation / 8.5 -full guard\n' "$RED" "$RESET"
+    printf '%sFAILED%s: be8e311 installer port reservation / -full guard\n' "$RED" "$RESET"
     exit 1
 fi
 
@@ -51,7 +51,22 @@ else
     fi
 fi
 
-# --- 3. End-to-end: the 8.5 -full guard.
+# --- 3. Static: every 8.0-8.5 -full image must actually be built.
+CI="$ROOT/docker/build-images.sh"
+CF="$ROOT/docker/build-full-images.sh"
+EB="$ROOT/docker/images/ext-builder/Dockerfile"
+grep -q 'FULL_PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4 8.5"' "$CI" \
+    || bad "build-images.sh FULL_PHP_VERSIONS does not include 8.5"
+grep -q 'PHP_VERSIONS="8.0 8.1 8.2 8.3 8.4 8.5"' "$CF" \
+    || bad "build-full-images.sh PHP_VERSIONS does not include 8.5"
+grep -q 'php8.5-cli' "$EB" \
+    || bad "ext-builder does not install php8.5-cli"
+grep -q 'php8.5-dev' "$EB" \
+    || bad "ext-builder does not install php8.5-dev"
+grep -qE "\\['8\\.0', '8\\.1', '8\\.2', '8\\.3', '8\\.4', '8\\.5'\\]" "$SCRIPT" \
+    || bad "install.php fullImageVersions() does not include 8.5"
+
+# --- 4. End-to-end: -full selections.
 run_install() {
     local label="$1" input="$2" sandbox rc
     sandbox="$(mktemp -d)"
@@ -64,33 +79,46 @@ run_install() {
     LAST_RC="$rc"
 }
 
-# 8.5 (1) + 8.4 (2), full: 8.5 is skipped, 8.4-full remains.
+# 8.5 (1) + 8.4 (2), full: both full images must be requested.
 run_install "mixed" '1 2\ny\n0\n'
 if [ "$LAST_RC" -ne 0 ]; then
     bad "mixed 8.5/8.4 full install exited $LAST_RC"
     sed 's/^/    /' "$LAST_SANDBOX/install.out" >&2
 else
-    if grep -q 'nginx-php8.5-full' "$LAST_SANDBOX/docker-compose.yml"; then
-        bad "installer still references the non-existent nginx-php8.5-full"
-    fi
+    grep -q 'nginx-php8.5-full' "$LAST_SANDBOX/docker-compose.yml" \
+        || bad "installer did not request the (now supported) nginx-php8.5-full"
     grep -q 'nginx-php8.4-full' "$LAST_SANDBOX/docker-compose.yml" \
         || bad "installer dropped the valid nginx-php8.4-full reference"
 fi
 rm -rf "$LAST_SANDBOX"
 
-# 8.5 alone, full: must abort instead of writing an invalid compose file.
+# 8.5 alone, full: must succeed now that the image is built.
 run_install "only85" '1\ny\n0\n'
-if [ "$LAST_RC" -eq 0 ]; then
-    bad "installer accepted an 8.5-only -full selection"
+if [ "$LAST_RC" -ne 0 ]; then
+    bad "8.5-only -full selection was rejected (exit $LAST_RC)"
+    sed 's/^/    /' "$LAST_SANDBOX/install.out" >&2
+elif ! grep -q 'nginx-php8.5-full' "$LAST_SANDBOX/docker-compose.yml"; then
+    bad "8.5-only -full selection did not request nginx-php8.5-full"
 fi
-if [ -f "$LAST_SANDBOX/docker-compose.yml" ]; then
-    bad "installer wrote a compose file for an unsupported 8.5-only -full selection"
+rm -rf "$LAST_SANDBOX"
+
+# Pre-8.0 versions still have no -full image: the guard must skip them.
+run_install "legacy" '7 2\ny\n0\n'
+if [ "$LAST_RC" -ne 0 ]; then
+    bad "7.4/8.4 full install exited $LAST_RC"
+    sed 's/^/    /' "$LAST_SANDBOX/install.out" >&2
+else
+    if grep -q 'nginx-php7.4-full' "$LAST_SANDBOX/docker-compose.yml"; then
+        bad "installer requested an unsupported nginx-php7.4-full"
+    fi
+    grep -q 'nginx-php8.4-full' "$LAST_SANDBOX/docker-compose.yml" \
+        || bad "installer dropped nginx-php8.4-full when 7.4 was skipped"
 fi
 rm -rf "$LAST_SANDBOX"
 
 if [ "$FAILED" -eq 0 ]; then
-    printf '%sPASSED%s: be8e311 installer reserves ports and guards unsupported -full versions\n' "$GREEN" "$RESET"
+    printf '%sPASSED%s: be8e311 installer reserves ports and builds 8.0-8.5 -full\n' "$GREEN" "$RESET"
 else
-    printf '%sFAILED%s: be8e311 installer port reservation / 8.5 -full guard\n' "$RED" "$RESET"
+    printf '%sFAILED%s: be8e311 installer port reservation / -full guard\n' "$RED" "$RESET"
     exit 1
 fi

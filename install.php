@@ -97,14 +97,14 @@ function imageVersion(string $image): string
 
 /**
  * The PHP versions that ship a -full image (matching the pipeline's
- * FULL_PHP_VERSIONS). The extension builder targets only PHP 8.0-8.4, so
- * the installer must not offer 8.5-full.
+ * FULL_PHP_VERSIONS). The extension builder targets PHP 8.0-8.5; earlier
+ * versions have no -full image, so the installer skips them.
  *
  * @return string[]
  */
 function fullImageVersions(): array
 {
-    return ['8.0', '8.1', '8.2', '8.3', '8.4'];
+    return ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5'];
 }
 
 function installPHP(): string

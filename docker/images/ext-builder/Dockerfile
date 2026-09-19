@@ -20,12 +20,12 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Download oracle packages and install OCI8
 RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
     apt-get update && apt-get install -y --no-install-recommends \
-        php8.0-cli php8.1-cli php8.2-cli php8.3-cli php8.4-cli \
-        php8.0-xml php8.1-xml php8.2-xml php8.3-xml php8.4-xml \
-        php8.0-zip php8.1-zip php8.2-zip php8.3-zip php8.4-zip && \
+        php8.0-cli php8.1-cli php8.2-cli php8.3-cli php8.4-cli php8.5-cli \
+        php8.0-xml php8.1-xml php8.2-xml php8.3-xml php8.4-xml php8.5-xml \
+        php8.0-zip php8.1-zip php8.2-zip php8.3-zip php8.4-zip php8.5-zip && \
     # Compile ext-uuid \
     apt-get install -y build-essential \
-        php8.0-dev php8.1-dev php8.2-dev php8.3-dev php8.4-dev \
+        php8.0-dev php8.1-dev php8.2-dev php8.3-dev php8.4-dev php8.5-dev \
         php-pear && \
     pecl channel-update pecl.php.net
 #    echo "instantclient,/opt/oracle/instantclient" | pecl install pecl install $(cat /tmp/oci8.target) && \
