@@ -13,7 +13,7 @@ ARG PHP_VERSION
 
 COPY --from=common grab_files.sh /grab_files.sh
 
-RUN /grab_files.sh "/usr/bin/bash" || true
+RUN /grab_files.sh "/usr/bin/bash"
 RUN /grab_files.sh "/dev"; \
     /grab_files.sh "/etc/php"; \
     /grab_files.sh "/usr/bin/tput"; \
