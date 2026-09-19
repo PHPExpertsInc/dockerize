@@ -43,14 +43,6 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
     #
     ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
     #
-    # Enable the full base image's extra extensions for the FPM SAPI. These
-    # symlinks dangle in the intermediate stage and resolve once /etc/php is
-    # merged onto the phpexperts/php:${PHP_VERSION}-full base below.
-    for ini in ldap pspell snmp imap xmlrpc uuid; do \
-        ln -sv /etc/php/${PHP_VERSION}/mods-available/${ini}.ini \
-            /etc/php/${PHP_VERSION}/fpm/conf.d/20-${ini}.ini; \
-    done && \
-    #
     # Cleanup
     apt-get remove -y && \
     apt-get autoremove -y && \
@@ -82,6 +74,13 @@ COPY --from=intermediate /usr/local/bin/entrypoint-web.sh /usr/local/bin/entrypo
 COPY --from=intermediate /tmp/distroless /
 COPY --from=intermediate /VERSION /VERSION
 COPY .build-assets/001_default.conf /etc/nginx/custom/
+
+# The distroless base only enables its extensions for the CLI SAPI; mirror
+# them onto PHP-FPM. The full base's extra modules (ldap, pspell, snmp, imap,
+# xmlrpc, uuid) are covered by the same step.
+COPY --from=common link-fpm-extensions.sh /link-fpm-extensions.sh
+RUN PHP_VERSION="${PHP_VERSION}" bash /link-fpm-extensions.sh && \
+    rm -f /link-fpm-extensions.sh
 
 
 WORKDIR /var/www

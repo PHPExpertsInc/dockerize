@@ -37,12 +37,17 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
     sed -i 's!/var/log/nginx/access.log!/dev/stdout!g' /etc/nginx/nginx.conf && \
     sed -i 's!/var/log/nginx/error.log!/dev/stderr!g' /etc/nginx/nginx.conf && \
     ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
-    cp /etc/php/${PHP_VERSION}/cli/conf.d/0-ioncube.ini /etc/php/${PHP_VERSION}/fpm/conf.d/ && \
 
     # Cleanup
     apt-get remove -y && \
     apt-get autoremove -y && \
     apt-get clean
+
+# The base only enables its extensions for the CLI SAPI; mirror them (and
+# ioncube) onto PHP-FPM.
+COPY --from=common link-fpm-extensions.sh /link-fpm-extensions.sh
+RUN PHP_VERSION="${PHP_VERSION}" bash /link-fpm-extensions.sh && \
+    rm -f /link-fpm-extensions.sh
 
 ADD supervisor/php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf
 ADD supervisor/nginx.conf /etc/supervisor/conf.d/nginx.conf

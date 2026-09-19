@@ -43,9 +43,6 @@ RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked,id=apt-lists \
     #
     ln -s /usr/sbin/php-fpm* /usr/sbin/php-fpm && \
     #
-    # Enable the debug base image's xdebug for the FPM SAPI.
-    ln -sv /etc/php/${PHP_VERSION}/mods-available/xdebug.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini && \
-    #
     # Cleanup
     apt-get remove -y && \
     apt-get autoremove -y && \
@@ -77,6 +74,12 @@ COPY --from=intermediate /usr/local/bin/entrypoint-web.sh /usr/local/bin/entrypo
 COPY --from=intermediate /tmp/distroless /
 COPY --from=intermediate /VERSION /VERSION
 COPY .build-assets/001_default.conf /etc/nginx/custom/
+
+# The distroless base only enables its extensions for the CLI SAPI; mirror
+# them onto PHP-FPM (this includes the base's xdebug).
+COPY --from=common link-fpm-extensions.sh /link-fpm-extensions.sh
+RUN PHP_VERSION="${PHP_VERSION}" bash /link-fpm-extensions.sh && \
+    rm -f /link-fpm-extensions.sh
 
 
 WORKDIR /var/www

@@ -88,7 +88,7 @@ for VERSION in ${PHP_VERSIONS}; do
   if [[ "$VERSION" != "8.0" && "$VERSION" != "8.3" && "$VERSION" != "8.4" && "$VERSION" != "8.5" ]]; then
     echo "Building IonCube for PHP v${VERSION}"
     docker build base-ioncube --tag="phpexperts/php:${VERSION}-ioncube"          --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
-    docker build web-ioncube  --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
+    docker build web-ioncube  --build-context common=. --tag="phpexperts/web:nginx-php${VERSION}-ioncube" --build-arg PHP_VERSION=$VERSION --no-cache --progress=plain
   fi
 
   docker rmi --force "phpexperts/php-ubuntu:${VERSION}" "phpexperts/php-ubuntu:${VERSION}-debug" 2> /dev/null

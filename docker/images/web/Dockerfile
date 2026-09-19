@@ -82,6 +82,12 @@ COPY --from=intermediate /tmp/distroless /
 COPY --from=intermediate /VERSION /VERSION
 COPY .build-assets/001_default.conf /etc/nginx/custom/
 
+# The distroless base only enables its extensions for the CLI SAPI; mirror
+# them onto PHP-FPM.
+COPY --from=common link-fpm-extensions.sh /link-fpm-extensions.sh
+RUN PHP_VERSION="${PHP_VERSION}" bash /link-fpm-extensions.sh && \
+    rm -f /link-fpm-extensions.sh
+
 
 # # # Copy supervisor configs
 # # COPY --from=intermediate /usr/bin/supervisorctl /usr/bin
